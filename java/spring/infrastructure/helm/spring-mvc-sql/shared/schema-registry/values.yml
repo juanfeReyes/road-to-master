@@ -1,0 +1,11 @@
+kafka:
+  enabled: false
+
+externalKafka:
+  brokers: PLAINTEXT://kafka-release-headless:9092
+
+ingress:
+  enabled: true
+  hostname: schemaregistry
+  ingressClassName: nginx
+  

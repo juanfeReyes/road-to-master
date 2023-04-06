@@ -1,0 +1,54 @@
+server:
+  port: 8090
+
+spring:
+  data:
+    mongodb:
+      username: root
+      password: password
+      database: shelter
+      host: localhost
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8180/auth/realms/pets-api-realm
+  redis:
+    host: localhost
+    port: 6379
+  cloud:
+    function.definition: RequestResourcesListener
+    stream:
+      default:
+        consumer:
+          useNativeEncoding: true
+      kafka:
+        binder:
+          autoCreateTopics: true
+          consumerProperties:
+            key.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+            value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+            schema.registry.url: http://localhost:8085
+            specific.avro.reader: true
+      defaultBinder: kafka
+      binder:
+        brokers: localhost
+      bindings:
+        RequestResourcesListener-in-0:
+          destination: dev.donation.pet-resource-request
+          content-type: application/*+avro
+
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    oauth:
+      clientId: donation-client
+      clientSecret: ce9cc3d5-003a-4570-87b6-a2672018ee77
+      usePkceWithAuthorizationCodeGrant: true
+  api-docs:
+    path: /api-docs
+  oAuthFlow:
+    authorizationUrl: http://localhost:8180/auth/realms/pets-api-realm/protocol/openid-connect/auth
+    tokenUrl: http://localhost:8180/auth/realms/pets-api-realm/protocol/openid-connect/token
+

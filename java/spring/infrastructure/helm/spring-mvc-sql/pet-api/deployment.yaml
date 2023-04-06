@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pet-api-deployment
+  labels:
+    app: pet-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pet-api
+  template:
+    metadata:
+      labels:
+        app: pet-api
+    spec:
+      containers:
+      - name: pet-api
+        image: pets/pet-api
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mariadb://mariadb-release:3306/pets_db?createDatabaseIfNotExist=true"
+        - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI
+          value: "http://keycloak-release-http/auth/realms/pets-api-realm"
+        - name: SPRING_KAFKA_BOOTSTRAPSERVERS
+          value: "kafka-release:9092"
+        - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_PRODUCERPROPERTIES_SCHEMA_REGISTRY_URL
+          value: "http://schema-registry-release"
+        - name: SPRING_CLOUD_STREAM_BINDER_BROKERS
+          value: "kafka-release:9092"
+        - name: SPRINGDOC_OAUTHFLOW_AUTHORIZATIONURL
+          value: "http://keycloak-release-http/auth/realms/pets-api-realm/protocol/openid-connect/auth"
+        - name: SPRINGDOC_OAUTHFLOW_TOKENURL
+          value: "http://keycloak-release-http/auth/realms/pets-api-realm/protocol/openid-connect/token"
+        - name: ELASTIC_APM_SECRET_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: fleet-server-agent-envvars
+              key: FLEET_ENROLLMENT_TOKEN
+              optional: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pet-api-service
+spec:
+  selector:
+    app: pet-api
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pet-api-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: pet-api
+    http:  
+      paths:  
+      - path: / 
+        pathType: Prefix 
+        backend: 
+          service: 
+            name: pet-api-service
+            port:
+              number: 8080

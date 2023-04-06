@@ -1,0 +1,69 @@
+api-version: v1
+
+server:
+  servlet:
+    context-path: /api/${api-version}
+
+spring:
+  graphql:
+    graphiql:
+      enabled: true
+  datasource:
+    url: jdbc:mariadb://mariadb:3306/pets_db?createDatabaseIfNotExist=true
+    username: root
+    password: pets-admin-root
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    show-sql: false # To show SQL statement
+    properties:
+      hibernate:
+        format_sql: false # To show SQL statement
+        generate_statistics: false # To show SQL statistics
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    change-log: classpath:liquibase/master_changelog.json
+    enabled: true
+    drop-first: true
+    user: root
+    password: pets-admin-root
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak/auth/realms/pets-api-realm
+  kafka:
+    bootstrapServers: kafka:9094
+  cloud:
+    stream:
+      default:
+        producer:
+          useNativeEncoding: true
+      kafka:
+        binder:
+          autoCreateTopics: true
+          producerProperties:
+            key.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+            value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+            schema.registry.url: http://schemaregistry
+      defaultBinder: kafka
+      source: petResourceRequest
+      binder:
+        brokers: kafka:9094
+      bindings:
+        petResourceRequest-out-0:
+          destination: dev.donation.pet-resource-request
+          content-type: application/*+avro
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    oauth:
+      clientId: pets-client
+      clientSecret: 371ff349-a1d7-4fa6-8bf4-4294b3f97176
+      usePkceWithAuthorizationCodeGrant: true
+  api-docs:
+    path: /api-docs
+  oAuthFlow:
+    authorizationUrl: http://keycloak/auth/realms/pets-api-realm/protocol/openid-connect/auth
+    tokenUrl: http://keycloak/auth/realms/pets-api-realm/protocol/openid-connect/token

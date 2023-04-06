@@ -1,0 +1,8 @@
+{
+   getMedicalAppointments{
+     id,
+     description,
+     scheduleDate
+   }
+ }
+

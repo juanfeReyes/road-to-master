@@ -1,0 +1,61 @@
+postgresql:
+  enabled: false
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  rules:
+    - host: keycloak
+      paths:
+      - path: /
+        pathType: Prefix
+        
+  console:
+    enabled: false
+    ingressClassName: nginx
+    rules:
+      - host: keycloak
+        paths:
+        - path: /auth/admin
+          pathType: Prefix
+
+extraVolumes: |
+  - name: keycloak-realm-secret
+    secret:
+      secretName: keycloak-realm-secret
+
+extraVolumeMounts: |
+  - name: keycloak-realm-secret
+    mountPath: "/realm/"
+    readOnly: true
+
+# TODO: Configure env for admin user
+extraEnv: |
+  - name: KEYCLOAK_IMPORT
+    value: /realm/pet-realm.json -Dkeycloak.profile.feature.upload_scripts=enabled
+  - name: DB_VENDOR
+    value: mariadb
+  - name: DB_ADDR
+    value: mariadb-release
+  - name: DB_PORT
+    value: "3306"
+  - name: DB_DATABASE
+    value: keycloak
+  - name: DB_USER
+    value: keycloak_user
+  - name: DB_PASSWORD
+    value: password
+  - name: KEYCLOAK_USER
+    value: admin
+  - name: KEYCLOAK_PASSWORD
+    value: password
+
+# TODO: fix permissions of pod for K8 RBAC
+# extraInitContainers: |
+#   - name: "{{ .Chart.Name }}-init"
+#     image: "groundnuty/k8s-wait-for:1.3"
+#     args: 
+#     - "job"
+#     - "keycloak-db-provisioning"

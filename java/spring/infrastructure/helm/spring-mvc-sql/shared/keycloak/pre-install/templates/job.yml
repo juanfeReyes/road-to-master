@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.jobName }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: sqljobcontainer
+        image: mysql
+        command: ["mysql"]
+        args: [ "-h", "mariadb-release", "-P", "3306", "-D", "deploy-test", "-u", "root", "--password=pets-admin-root", "-e", "CREATE DATABASE IF NOT EXISTS `keycloak`;CREATE USER 'keycloak_user'@'%' IDENTIFIED BY 'password';GRANT ALL ON `keycloak`.* TO 'keycloak_user'@'%';FLUSH PRIVILEGES;" ]
+        imagePullPolicy: IfNotPresent
+      restartPolicy: Never
+  backoffLimit: 0

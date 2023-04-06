@@ -1,0 +1,36 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "seed-initial-data",
+        "author": "shelter",
+        "changes": [
+          {
+            "loadData": {
+              "tableName": "doctor",
+              "file": "/liquibase/data/initial-data/seed-doctor.csv"
+            }
+          },
+          {
+            "loadData": {
+              "tableName": "pet",
+              "file": "/liquibase/data/initial-data/seed-pet.csv"
+            }
+          },
+          {
+            "loadData": {
+              "tableName": "medical_appointment",
+              "file": "/liquibase/data/initial-data/seed-medicalAppointment.csv"
+            }
+          },
+          {
+            "loadData": {
+              "tableName": "treatment",
+              "file": "/liquibase/data/initial-data/seed-treatment.csv"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

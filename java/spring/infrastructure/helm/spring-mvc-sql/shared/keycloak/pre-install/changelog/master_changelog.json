@@ -1,0 +1,36 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "add-keycloak-users",
+        "author": "keycloak-change",
+        "changes": [
+          {
+            "sql": {
+              "dbms": "MariaDB",
+              "sql": "CREATE DATABASE IF NOT EXISTS `keycloak`;"
+            }
+          },
+          {
+            "sql": {
+              "dbms": "MariaDB",
+              "sql": "CREATE USER 'keycloak_user'@'%' IDENTIFIED BY 'password';"
+            }
+          },
+          {
+            "sql": {
+              "dbms": "MariaDB",
+              "sql": "GRANT ALL ON `keycloak`.* TO 'keycloak_user'@'%';"
+            }
+          },
+          {
+            "sql": {
+              "dbms": "MariaDB",
+              "sql": "FLUSH PRIVILEGES;"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

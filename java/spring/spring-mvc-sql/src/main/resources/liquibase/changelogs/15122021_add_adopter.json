@@ -1,0 +1,57 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "add_adopter",
+        "author": "shelter",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "adopter",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "type": "varchar(36)",
+                    "constraints": {
+                      "nullable": false,
+                      "primaryKey": true,
+                      "primaryKeyName": "pk_adopter"
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "name",
+                    "type": "varchar(100)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "lastname",
+                    "type": "varchar(100)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "address",
+                    "type": "varchar(100)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "add_treatment",
+        "author": "shelter",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "treatment",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "type": "varchar(36)",
+                    "constraints": {
+                      "nullable": false,
+                      "primaryKey": true,
+                      "primaryKeyName": "pk_treatment"
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "medical_appointment_id",
+                    "type": "varchar(36)",
+                    "constraints": {
+                      "nullable": true,
+                      "references": "medical_appointment(id)",
+                      "foreignKeyName": "fk_treatment_medical_appointment"
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "treatment_group",
+                    "type": "varchar(36)",
+                    "constraints": {
+                      "nullable": true,
+                      "references": "treatment(id)",
+                      "foreignKeyName": "fk_treatment_group"
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "dosis",
+                    "type": "double",
+                    "constraints": {
+                      "nullable": true
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "unit",
+                    "type": "varchar(50)",
+                    "constraints": {
+                      "nullable": true
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "description",
+                    "type": "varchar(500)",
+                    "constraints": {
+                      "nullable": true
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

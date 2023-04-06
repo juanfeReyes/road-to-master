@@ -1,0 +1,34 @@
+id,medical_appointment_id,treatment_group,dosis,unit,description
+36b769c3-dfa0-4a18-8f1d-38b373a8f65a,082e5f76-a4c1-4915-a486-935b29d18814,NULL,47,ml,NULL
+fe220864-acd0-47e7-813f-4905e884fb64,NULL,36b769c3-dfa0-4a18-8f1d-38b373a8f65a,99,paste,treatment description
+f65c08b7-9632-4770-a9ae-f1fd9076fb6e,NULL,36b769c3-dfa0-4a18-8f1d-38b373a8f65a,59,unit,NULL
+01504b2d-c538-4f54-88c8-7c646b273aea,NULL,fe220864-acd0-47e7-813f-4905e884fb64,56,ltr,treatment description
+e6bb8112-17ef-46bd-a84d-cb3506e342c4,NULL,fe220864-acd0-47e7-813f-4905e884fb64,13,,NULL
+59cdbde3-bca2-48a8-bd5d-0b17bfe7f608,NULL,fe220864-acd0-47e7-813f-4905e884fb64,97,unit,NULL
+2fadba2f-95ea-4b08-9a1a-278763ca036b,NULL,f65c08b7-9632-4770-a9ae-f1fd9076fb6e,8,,treatment description
+0bd2be48-2853-47af-9742-9feaa685e4d5,NULL,f65c08b7-9632-4770-a9ae-f1fd9076fb6e,45,paste,NULL
+0d44b5d8-792d-4100-850e-598dd568c13c,33bc481a-3fcd-45d8-a014-7160423172d4,NULL,87,,NULL
+9eccbd60-7717-498e-91c7-fc27dcd10f27,NULL,0d44b5d8-792d-4100-850e-598dd568c13c,95,,treatment description
+e0901bb5-12f1-4a17-ba1b-444d687271a0,NULL,0d44b5d8-792d-4100-850e-598dd568c13c,68,,NULL
+52b13b54-6c34-42bc-a860-98fe9952c0a3,NULL,0d44b5d8-792d-4100-850e-598dd568c13c,32,,NULL
+b65c81a6-5485-4880-860f-63ee01d465db,NULL,0d44b5d8-792d-4100-850e-598dd568c13c,32,,treatment description
+d337ee34-877b-4f5b-b6ca-fd8850e1d5c2,fc315a90-b9f4-4e5c-a02d-ad049341fc21,NULL,56,,treatment description
+12bbff12-d3de-40ef-9635-1d8d01fe70db,NULL,d337ee34-877b-4f5b-b6ca-fd8850e1d5c2,26,unit,treatment description
+304da122-db74-453d-89da-12e9273d6acb,NULL,d337ee34-877b-4f5b-b6ca-fd8850e1d5c2,79,unit,NULL
+64cc29da-1ec8-4b44-be78-19a18c6d2554,NULL,12bbff12-d3de-40ef-9635-1d8d01fe70db,99,unit,NULL
+7a241148-ce03-4730-8b97-30b32bea0bfb,NULL,12bbff12-d3de-40ef-9635-1d8d01fe70db,76,unit,treatment description
+87f9b59b-070a-434a-8bde-99071a28b464,NULL,7a241148-ce03-4730-8b97-30b32bea0bfb,11,unit,NULL
+b5e14a12-62fb-43a7-b314-e55e7271def7,NULL,7a241148-ce03-4730-8b97-30b32bea0bfb,6,unit,NULL
+85e5a987-7f7c-4590-9faa-5ba05be8ebce,NULL,87f9b59b-070a-434a-8bde-99071a28b464,51,ml,treatment description
+7856a897-040b-4c02-9d46-28052105a55f,NULL,87f9b59b-070a-434a-8bde-99071a28b464,83,ml,NULL
+e672f42b-3f5e-45de-aa5b-51dd1df72962,NULL,87f9b59b-070a-434a-8bde-99071a28b464,41,ml,treatment description
+dd5e982b-ab9b-48fc-8613-4708c7a9e9f8,a489a110-a6a3-400e-951a-8d37ebce1215,NULL,5,,NULL
+fb7a924a-c5f8-4228-abb5-f9e527f27adc,NULL,dd5e982b-ab9b-48fc-8613-4708c7a9e9f8,37,ml,NULL
+8996e1d8-f07f-4bb5-b9a1-b638005dee00,NULL,fb7a924a-c5f8-4228-abb5-f9e527f27adc,15,ml,treatment description
+551c3777-9946-4a23-a9bf-2d9a6c0667d4,NULL,8996e1d8-f07f-4bb5-b9a1-b638005dee00,68,ml,NULL
+2c9f54ce-7c6b-4a79-815d-5bc92a21e660,NULL,2c9f54ce-7c6b-4a79-815d-5bc92a21e660,94,ml,treatment description
+7a9ed43b-c9d9-435e-aa99-75bd42e212b9,bbf6f220-d323-426d-936d-399cfafb9b09,NULL,58,,treatment description
+4bbdef77-5eb2-4459-be32-fe6cd6e29d71,NULL,4bbdef77-5eb2-4459-be32-fe6cd6e29d71,27,ml,treatment description
+919c209e-f7f1-40c8-b06e-ab21510643f8,NULL,4bbdef77-5eb2-4459-be32-fe6cd6e29d71,58,ml,treatment description
+009ccbbe-6836-423f-84d2-b1a96a7e5733,NULL,4bbdef77-5eb2-4459-be32-fe6cd6e29d71,23,ml,NULL
+d27ebfe0-eb3a-448e-84e7-51c2d7ed8e4b,NULL,7a9ed43b-c9d9-435e-aa99-75bd42e212b9,100,ml,NULL
