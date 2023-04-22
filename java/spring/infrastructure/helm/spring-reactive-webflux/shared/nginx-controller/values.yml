@@ -1,0 +1,7 @@
+controller:
+  tcp:
+    configMapNamespace: "ingress-nginx"
+
+tcp:
+  3306: "default/mariadb-release:3306"
+  9094: "default/kafka-release-0-external:9094"
