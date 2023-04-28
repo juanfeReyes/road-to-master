@@ -27,18 +27,19 @@ public class TreatmentRequest {
       return Collections.emptyList();
     }
     return treatmentItems.stream().map(treatmentItem -> {
-          var t = new Treatment(
-              treatmentItem.getId() != null ? treatmentItem.getId() : UUID.randomUUID().toString(),
-              treatmentItem.getDosis(),
-              treatmentItem.getUnit(),
-              treatmentItem.getDescription(),
-              null,
-              treatmentGroup,
-              null);
-          t.setTreatments(treatmentItemsToDomain(treatmentItem.getTreatments(), t));
-          return t;
-        })
-        .collect(Collectors.toList());
+              var t = new Treatment(
+                      treatmentItem.getId() != null ? treatmentItem.getId() : UUID.randomUUID().toString(),
+                      treatmentItem.getDosis(),
+                      treatmentItem.getUnit(),
+                      treatmentItem.getDescription(),
+                      null,
+                      treatmentGroup,
+                      null,
+                      null);
+              t.setTreatments(treatmentItemsToDomain(treatmentItem.getTreatments(), t));
+              return t;
+            })
+            .collect(Collectors.toList());
   }
 }
 
