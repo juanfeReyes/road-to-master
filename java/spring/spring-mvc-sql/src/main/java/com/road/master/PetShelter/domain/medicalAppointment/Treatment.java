@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,5 +29,7 @@ public class Treatment {
 
   @JsonManagedReference
   private List<Treatment> treatments;
+
+  private Set<MedicalSupply> medicalSupplyEntities;
 
 }
