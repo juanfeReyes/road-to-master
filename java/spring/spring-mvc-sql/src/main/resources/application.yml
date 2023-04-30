@@ -19,6 +19,14 @@ spring:
       hibernate:
         format_sql: false # To show SQL statement
         generate_statistics: false # To show SQL statistics
+        cache:
+          use_second_level_cache: true
+          region:
+            factory_class: jcache
+        javax:
+          cache:
+            provider: org.ehcache.jsr107.EhcacheCachingProvider
+
     hibernate:
       ddl-auto: none
   liquibase:
