@@ -2,10 +2,7 @@ package com.road.master.PetShelter.infrastructure.persistence.medicalAppointment
 
 import com.road.master.PetShelter.infrastructure.persistence.medicalAppointment.TreatmentEntity;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,6 +24,7 @@ public class MedicalSupplyRepositoryImpl implements ICustomMedicalSupplyReposito
             """;
     return new HashSet<>(entityManager.createQuery(query, MedicalSupplyEntity.class)
             .setParameter("reference", reference)
+            .setLockMode(LockModeType.PESSIMISTIC_FORCE_INCREMENT)
             .getResultList());
   }
 

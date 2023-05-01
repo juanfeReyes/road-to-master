@@ -3,16 +3,16 @@ package com.road.master.PetShelter.infrastructure.persistence.user;
 import com.road.master.PetShelter.domain.user.Doctor;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "doctor")
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class DoctorEntity {
 
   @Id
