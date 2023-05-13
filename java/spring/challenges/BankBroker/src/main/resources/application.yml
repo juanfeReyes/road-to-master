@@ -4,6 +4,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/bank_broker?createDatabaseIfNotExist=true
     username: postgres
     password: pass
+    hikari:
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000
   jpa:
     hibernate:
       ddl-auto: update
