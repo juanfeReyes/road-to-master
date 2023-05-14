@@ -11,3 +11,14 @@ services:
       POSTGRES_USER: postgres
     volumes:
       - ./scripts/postgres:/docker-entrypoint-initdb.d
+
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./scripts/mariadb:/docker-entrypoint-initdb.d
