@@ -1,0 +1,9 @@
+{
+  "bankList": {
+    "header": "Bank List"
+  },
+  "labels": {
+    "name": "Name",
+    "address": "Address"
+  }
+}
