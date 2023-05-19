@@ -14,7 +14,7 @@ export const BankListItem = ({ bank }: BankListItemProps) => {
       <div>
         <h3 className="text-xl">{bank.name}</h3>
         <div className="flex items-center">
-          <div className="font-bold pr-3">{t("labels.name")}: </div>
+          <div className="font-bold pr-3">{t("labels.location")}: </div>
           <p>
             {bank.country}, {bank.city}
           </p>

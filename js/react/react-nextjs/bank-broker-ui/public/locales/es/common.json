@@ -1,5 +1,10 @@
 {
   "bankList": {
     "header": "Lista de Bancos"
+  },
+  "labels": {
+    "location": "Ubicacion",
+    "address": "Direccion",
+    "login": "Ingresa"
   }
 }

@@ -3,7 +3,9 @@
     "header": "Bank List"
   },
   "labels": {
-    "name": "Name",
-    "address": "Address"
+    "location": "Location",
+    "address": "Address",
+    "login": "Login"
   }
+
 }
