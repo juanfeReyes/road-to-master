@@ -1,7 +1,7 @@
 package com.roadtomaster.BankBroker.user.persistence;
 
 import com.roadtomaster.BankBroker.bank.persistence.BankTable;
-import com.roadtomaster.BankBroker.financialAsset.persistence.Register;
+import com.roadtomaster.BankBroker.financialAsset.persistence.RegisterEmbedded;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -30,5 +30,5 @@ public class UserTable {
   private BankTable bank;
 
   @Embedded
-  private Register register;
+  private RegisterEmbedded register;
 }
