@@ -1,0 +1,375 @@
+{ "databaseChangeLog": [
+  {
+    "changeSet": {
+      "id": "1684767313618-1",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true,
+                    "primaryKeyName": "account_table_pkey"
+                  },
+                  "name": "id",
+                  "type": "UUID"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "balance",
+                  "type": "FLOAT8"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "owner_id",
+                  "type": "VARCHAR(255)"
+                }
+              }]
+            ,
+            "tableName": "account_table"
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1684767313618-2",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true,
+                    "primaryKeyName": "bank_table_pkey"
+                  },
+                  "name": "id",
+                  "type": "UUID"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "name",
+                  "type": "VARCHAR(255)"
+                }
+              }]
+            ,
+            "tableName": "bank_table"
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1684767313618-3",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true,
+                    "primaryKeyName": "transactions_table_pkey"
+                  },
+                  "name": "id",
+                  "type": "UUID"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "amount",
+                  "type": "FLOAT8"
+                }
+              },
+              {
+                "column": {
+                  "name": "transaction_state",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "name": "fk_account_destination",
+                  "type": "UUID"
+                }
+              },
+              {
+                "column": {
+                  "name": "fk_account_origin",
+                  "type": "UUID"
+                }
+              }]
+            ,
+            "tableName": "transactions_table"
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1684767313618-4",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true,
+                    "primaryKeyName": "user_table_pkey"
+                  },
+                  "name": "id",
+                  "type": "UUID"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "email",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "last_name",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "name",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "phone",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "name": "fk_bank_id",
+                  "type": "UUID"
+                }
+              }]
+            ,
+            "tableName": "user_table"
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1684767313618-5",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true,
+                    "primaryKeyName": "user_table_accounts_pkey"
+                  },
+                  "name": "user_table_id",
+                  "type": "UUID"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true,
+                    "primaryKeyName": "user_table_accounts_pkey"
+                  },
+                  "name": "accounts_id",
+                  "type": "UUID"
+                }
+              }]
+            ,
+            "tableName": "user_table_accounts"
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1684767313618-6",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "addUniqueConstraint": {
+            "columnNames": "accounts_id",
+            "constraintName": "uk_sa4qorjv0tkvmi3adlbdv3iax",
+            "tableName": "user_table_accounts"
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1684767313618-7",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "fk_account_origin",
+            "baseTableName": "transactions_table",
+            "constraintName": "fk1s1fwia3p2tdhmnwi16k00bxm",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "id",
+            "referencedTableName": "account_table",
+            "validate": true
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1684767313618-8",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "user_table_id",
+            "baseTableName": "user_table_accounts",
+            "constraintName": "fkbe2k3h7w9mc3nxc8sysphy7h9",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "id",
+            "referencedTableName": "user_table",
+            "validate": true
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1684767313618-9",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "fk_bank_id",
+            "baseTableName": "user_table",
+            "constraintName": "fkgly4kfqs7truupn200pdx5s21",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "id",
+            "referencedTableName": "bank_table",
+            "validate": true
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1684767313618-10",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "accounts_id",
+            "baseTableName": "user_table_accounts",
+            "constraintName": "fklkn9yrfpu8oakm90rx0870mus",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "id",
+            "referencedTableName": "account_table",
+            "validate": true
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1684767313618-11",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "fk_account_destination",
+            "baseTableName": "transactions_table",
+            "constraintName": "fkptnv7taqcxfja58hxnykjgmxr",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "referencedColumnNames": "id",
+            "referencedTableName": "account_table",
+            "validate": true
+          }
+        }]
+      
+    }
+  }
+  
+]}
