@@ -8,7 +8,7 @@ import jakarta.persistence.OneToMany;
 import java.util.Set;
 
 @Embeddable
-public class Register {
+public class RegisterEmbedded {
 
   @OneToMany(mappedBy = "user")
   private Set<AccountTable> accounts;
