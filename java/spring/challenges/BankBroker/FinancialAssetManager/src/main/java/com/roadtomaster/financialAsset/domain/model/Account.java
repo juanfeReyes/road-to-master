@@ -3,11 +3,13 @@ package com.roadtomaster.financialAsset.domain.model;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.UUID;
 
 @Getter
+@Builder
 @AllArgsConstructor
 public class Account {
 
@@ -16,9 +18,13 @@ public class Account {
 
   private double balance;
 
-  public Account(){
+  @NotNull
+  private String ownerId;
+
+  public Account(String ownerId){
     this.id = UUID.randomUUID();
     this.balance = 0.0;
+    this.ownerId = ownerId;
   }
 
   public boolean isCloseable(){

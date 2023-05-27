@@ -8,7 +8,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class Register {
 
-
   private Set<Account> accounts;
 
   public Register(){
