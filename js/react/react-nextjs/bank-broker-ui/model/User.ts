@@ -4,4 +4,8 @@ export interface User{
   username: string
   email: string
   name: string
+  phone: string
+  location: string
+  state: string
+  avatar: string
 }

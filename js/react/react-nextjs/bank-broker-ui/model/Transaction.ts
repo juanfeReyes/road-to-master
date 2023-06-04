@@ -1,3 +1,4 @@
+import { User } from "./User"
 
 
 export interface Transaction {
@@ -6,4 +7,8 @@ export interface Transaction {
   destination: string
   date: Date
   amount: number
+  expand: {
+    origin: User
+    destination: User
+  }
 }

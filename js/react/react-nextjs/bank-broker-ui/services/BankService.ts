@@ -9,5 +9,5 @@ export const getBanks = async (): Promise<Bank[]> => {
 }
 
 export const getBankDetails = async (id: string): Promise<Bank> => {
-  return (await pb.collection('banks').getOne<Bank>(id, {expand: 'users'})) as Bank;
+  return (await pb.collection('banks').getOne<Bank>(id, {expand: 'users,manager_user'})) as Bank;
 }

@@ -15,7 +15,7 @@ export const BankList = ({ banks }: BankListProps) => {
       <h2 className="text-xl">{t("bankList.header")}</h2>
       <div className="">
         {banks.map((bank) => (
-          <Link href={`banks/${bank.id}`}>
+          <Link key={bank.id} href={`banks/${bank.id}`}>
             <BankListItem key={bank.id} bank={bank} />
           </Link>
         ))}

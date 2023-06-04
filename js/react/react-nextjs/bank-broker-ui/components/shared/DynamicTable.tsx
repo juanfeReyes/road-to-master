@@ -14,11 +14,11 @@ export const DynamicTable = ({
 }: DynamicTableProps) => {
   return (
     <>
-      <h2>{tableTitle}</h2>
-      <table className="table-auto">
-        <tr>
+      <h2 className="pt-3 pb-2 text-xl font-light">{tableTitle}</h2>
+      <table className="table-fixed rounded-xl shadow-md w-full text-center">
+        <tr className="bg-slate-600 text-white rounded-xl">
           {headers.map((header) => (
-            <th className="px-2 py-1">{header}</th>
+            <th key={header} className="px-2 py-1 first:rounded-tl-xl last:rounded-tr-xl">{header}</th>
           ))}
         </tr>
         {body.map((row) => (

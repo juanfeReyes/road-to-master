@@ -5,6 +5,9 @@ export interface Bank {
   name: string,
   country: string,
   city: string,
+  description: string
+  contact_information: string
+  manger_user: string
   address: string,
   imageUrl: string,
   updated: string,
@@ -12,5 +15,6 @@ export interface Bank {
   users: string[]
   expand: {
     users: User[]
+    manager_user: User;
   }
 }
