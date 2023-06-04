@@ -5,7 +5,12 @@
   "labels": {
     "location": "Location",
     "address": "Address",
-    "login": "Login"
+    "login": "Login",
+    "name": "Name",
+    "email": "Email",
+    "users": {
+      "title": "User List"
+    }
   }
 
 }

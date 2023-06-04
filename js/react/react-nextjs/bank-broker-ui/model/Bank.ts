@@ -1,3 +1,4 @@
+import { User } from "./User"
 
 export interface Bank {
   id: string,
@@ -5,5 +6,11 @@ export interface Bank {
   country: string,
   city: string,
   address: string,
-  imageUrl: string
+  imageUrl: string,
+  updated: string,
+  created: string
+  users: string[]
+  expand: {
+    users: User[]
+  }
 }

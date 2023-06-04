@@ -5,6 +5,7 @@ interface BankListItemProps {
   bank: Bank;
 }
 
+//TODO: change img for next js Image
 export const BankListItem = ({ bank }: BankListItemProps) => {
   const { t } = useTranslation("common");
 
