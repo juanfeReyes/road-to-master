@@ -2,13 +2,14 @@ package com.roadtomaster.financialAsset.application.service;
 
 import com.roadtomaster.financialAsset.application.adapter.AccountMapper;
 import com.roadtomaster.financialAsset.application.adapter.TransactionMapper;
-import com.roadtomaster.financialAsset.domain.model.Account;
 import com.roadtomaster.financialAsset.domain.model.Transaction;
 import com.roadtomaster.financialAsset.domain.service.WireTransferService;
-import com.roadtomaster.financialAsset.persistence.account.AccountRepository;
-import com.roadtomaster.financialAsset.persistence.transaction.TransactionRepository;
+import com.roadtomaster.financialAsset.infrastructure.persistence.account.AccountRepository;
+import com.roadtomaster.financialAsset.infrastructure.persistence.transaction.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class CreateTransaction {
@@ -32,16 +33,21 @@ public class CreateTransaction {
     this.wireTransferService = wireTransferService;
   }
 
-  public Transaction saveTransaction(Account origin, Account destination, double amount){
-    if(!accountRepository.existsById(origin.getId())){
+  public Transaction saveTransaction(UUID originId, UUID destinationId, double amount) {
+    var originOptional = accountRepository.findById(originId);
+    if (originOptional.isEmpty()) {
       throw new RuntimeException("Origin account does not exists");
     }
 
-    if(!accountRepository.existsById(destination.getId())){
+    var destinationOptional = accountRepository.findById(destinationId);
+    if (destinationOptional.isEmpty()) {
       throw new RuntimeException("Origin account does not exists");
     }
 
-   var transaction = wireTransferService.transferMoney(origin, destination, amount);
+    var origin = accountMapper.toDomain(originOptional.get());
+    var destination = accountMapper.toDomain(destinationOptional.get());
+
+    var transaction = wireTransferService.transferMoney(origin, destination, amount);
 
     accountRepository.save(accountMapper.toTable(origin));
     accountRepository.save(accountMapper.toTable(destination));

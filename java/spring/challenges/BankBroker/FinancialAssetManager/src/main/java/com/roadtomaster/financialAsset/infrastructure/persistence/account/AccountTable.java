@@ -1,4 +1,4 @@
-package com.roadtomaster.financialAsset.persistence.account;
+package com.roadtomaster.financialAsset.infrastructure.persistence.account;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,7 +1,7 @@
-package com.roadtomaster.financialAsset.persistence.transaction;
+package com.roadtomaster.financialAsset.infrastructure.persistence.transaction;
 
 import com.roadtomaster.financialAsset.domain.TransactionState;
-import com.roadtomaster.financialAsset.persistence.account.AccountTable;
+import com.roadtomaster.financialAsset.infrastructure.persistence.account.AccountTable;
 import jakarta.persistence.*;
 import lombok.Getter;
 

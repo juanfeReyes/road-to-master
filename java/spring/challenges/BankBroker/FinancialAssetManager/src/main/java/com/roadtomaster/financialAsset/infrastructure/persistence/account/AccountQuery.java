@@ -1,12 +1,15 @@
-package com.roadtomaster.financialAsset.persistence.account;
+package com.roadtomaster.financialAsset.infrastructure.persistence.account;
 
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.roadtomaster.financialAsset.persistence.account.QAccountTable;
+import lombok.Data;
 
 
 import java.util.UUID;
 
+@Data
 public class AccountQuery {
 
   private UUID id;

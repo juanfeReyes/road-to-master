@@ -2,7 +2,7 @@ package com.roadtomaster.user.application.service;
 
 import com.roadtomaster.user.application.adapter.UserMapper;
 import com.roadtomaster.user.domain.model.User;
-import com.roadtomaster.user.persistence.UserRepository;
+import com.roadtomaster.user.infrastructure.persistence.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

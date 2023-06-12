@@ -1,7 +1,7 @@
 package com.roadtomaster.user.application.adapter;
 
 import com.roadtomaster.user.domain.model.User;
-import com.roadtomaster.user.persistence.UserTable;
+import com.roadtomaster.user.infrastructure.persistence.UserTable;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

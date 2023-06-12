@@ -1,6 +1,6 @@
-package com.roadtomaster.bank.persistence;
+package com.roadtomaster.bank.infrastructure.persistence;
 
-import com.roadtomaster.user.persistence.UserTable;
+import com.roadtomaster.user.infrastructure.persistence.UserTable;
 import jakarta.persistence.*;
 import lombok.Getter;
 

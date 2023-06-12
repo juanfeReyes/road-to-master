@@ -1,7 +1,8 @@
-package com.roadtomaster.financialAsset.persistence.transaction;
+package com.roadtomaster.financialAsset.infrastructure.persistence.transaction;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.roadtomaster.financialAsset.persistence.transaction.QTransactionsTable;
 
 public class TransactionQuery {
 

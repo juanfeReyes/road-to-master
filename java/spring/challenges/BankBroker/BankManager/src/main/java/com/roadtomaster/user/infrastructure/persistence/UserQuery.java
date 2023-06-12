@@ -1,7 +1,8 @@
-package com.roadtomaster.user.persistence;
+package com.roadtomaster.user.infrastructure.persistence;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.roadtomaster.user.persistence.QUserTable;
 
 import java.util.UUID;
 

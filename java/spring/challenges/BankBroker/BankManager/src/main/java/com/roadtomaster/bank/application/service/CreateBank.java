@@ -2,7 +2,7 @@ package com.roadtomaster.bank.application.service;
 
 import com.roadtomaster.bank.application.adapter.BankMapper;
 import com.roadtomaster.bank.domain.model.Bank;
-import com.roadtomaster.bank.persistence.BankRepository;
+import com.roadtomaster.bank.infrastructure.persistence.BankRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

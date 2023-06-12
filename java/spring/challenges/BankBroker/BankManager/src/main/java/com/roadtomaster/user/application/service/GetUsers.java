@@ -1,9 +1,10 @@
 package com.roadtomaster.user.application.service;
 
-import com.roadtomaster.bank.persistence.BankQuery;
+import com.roadtomaster.bank.infrastructure.persistence.BankQuery;
 import com.roadtomaster.user.application.adapter.UserMapper;
 import com.roadtomaster.user.domain.model.User;
-import com.roadtomaster.user.persistence.UserRepository;
+import com.roadtomaster.user.infrastructure.persistence.UserQuery;
+import com.roadtomaster.user.infrastructure.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class GetUsers {
     this.userMapper = userMapper;
   }
 
-  public List<User> searchUsers(BankQuery searchFilters){
+  public List<User> searchUsers(UserQuery searchFilters){
     var users = userRepository.findAll(searchFilters.toPredicate());
 
     return StreamSupport.stream(users.spliterator(), false)

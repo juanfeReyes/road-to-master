@@ -1,7 +1,7 @@
 package com.roadtomaster.financialAsset.application.adapter;
 
 import com.roadtomaster.financialAsset.domain.model.Account;
-import com.roadtomaster.financialAsset.persistence.account.AccountTable;
+import com.roadtomaster.financialAsset.infrastructure.persistence.account.AccountTable;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

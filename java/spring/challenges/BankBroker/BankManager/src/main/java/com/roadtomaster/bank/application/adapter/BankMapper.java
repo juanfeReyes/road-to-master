@@ -1,10 +1,10 @@
 package com.roadtomaster.bank.application.adapter;
 
 import com.roadtomaster.bank.domain.model.Bank;
-import com.roadtomaster.bank.persistence.BankTable;
+import com.roadtomaster.bank.infrastructure.persistence.BankTable;
 import com.roadtomaster.user.application.adapter.UserMapper;
 import com.roadtomaster.user.domain.model.User;
-import com.roadtomaster.user.persistence.UserTable;
+import com.roadtomaster.user.infrastructure.persistence.UserTable;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

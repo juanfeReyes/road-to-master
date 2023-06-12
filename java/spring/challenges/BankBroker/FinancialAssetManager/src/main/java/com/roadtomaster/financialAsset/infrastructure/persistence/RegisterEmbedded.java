@@ -1,8 +1,8 @@
-package com.roadtomaster.financialAsset.persistence;
+package com.roadtomaster.financialAsset.infrastructure.persistence;
 
 
 
-import com.roadtomaster.financialAsset.persistence.account.AccountTable;
+import com.roadtomaster.financialAsset.infrastructure.persistence.account.AccountTable;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
 
