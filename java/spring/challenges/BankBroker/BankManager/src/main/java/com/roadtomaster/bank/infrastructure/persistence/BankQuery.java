@@ -3,7 +3,6 @@ package com.roadtomaster.bank.infrastructure.persistence;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
-import com.roadtomaster.bank.persistence.QBankTable;
 
 import java.util.UUID;
 

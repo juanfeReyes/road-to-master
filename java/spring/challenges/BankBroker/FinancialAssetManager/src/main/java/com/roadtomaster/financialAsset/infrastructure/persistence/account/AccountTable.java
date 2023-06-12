@@ -1,11 +1,13 @@
 package com.roadtomaster.financialAsset.infrastructure.persistence.account;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.UUID;
 
 @Getter
+@Builder
 @Entity
 public class AccountTable {
 

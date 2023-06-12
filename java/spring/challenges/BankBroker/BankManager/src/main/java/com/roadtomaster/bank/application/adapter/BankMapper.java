@@ -36,7 +36,7 @@ public abstract class BankMapper {
   }
 
   @Named("mapUsersTable")
-  public static Set<User> mapUsersTable(Set<UserTable> users){
-    return userMapper.toDomainList(users);
+  public static Set<UserTable> mapUsersTable(Set<User> users){
+    return userMapper.toTableList(users);
   }
 }

@@ -3,7 +3,6 @@ package com.roadtomaster.financialAsset.infrastructure.persistence.account;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
-import com.roadtomaster.financialAsset.persistence.account.QAccountTable;
 import lombok.Data;
 
 

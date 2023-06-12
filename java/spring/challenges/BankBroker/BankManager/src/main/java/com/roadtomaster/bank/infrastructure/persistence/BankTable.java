@@ -2,12 +2,14 @@ package com.roadtomaster.bank.infrastructure.persistence;
 
 import com.roadtomaster.user.infrastructure.persistence.UserTable;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
+@Builder
 @Getter
 public class BankTable {
 
