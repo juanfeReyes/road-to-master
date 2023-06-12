@@ -1,9 +1,11 @@
-package com.roadtomaster.financialAsset.persistence;
+package com.roadtomaster.financialAsset.persistence.account;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.util.UUID;
 
+@Getter
 @Entity
 public class AccountTable {
 

@@ -4,11 +4,13 @@ import com.roadtomaster.financialAsset.domain.TransactionState;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.UUID;
 
 @Getter
+@Builder
 @AllArgsConstructor
 public class Transaction {
 

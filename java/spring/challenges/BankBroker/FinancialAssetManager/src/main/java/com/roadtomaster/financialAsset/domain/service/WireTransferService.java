@@ -1,4 +1,4 @@
-package com.roadtomaster.financialAsset.service;
+package com.roadtomaster.financialAsset.domain.service;
 
 import com.roadtomaster.financialAsset.domain.model.Account;
 import com.roadtomaster.financialAsset.domain.model.Transaction;

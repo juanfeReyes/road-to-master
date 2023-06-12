@@ -5,7 +5,9 @@ import com.roadtomaster.user.domain.model.User;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +15,7 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
+@Builder
 public class Bank {
 
   @NotNull
@@ -21,6 +24,7 @@ public class Bank {
   @NotEmpty
   private String name;
 
+  @NotNull
   private Set<User> users;
 
   public Bank(String name){
@@ -32,6 +36,4 @@ public class Bank {
   public void addUser(User user){
     users.add(user);
   }
-
-
 }

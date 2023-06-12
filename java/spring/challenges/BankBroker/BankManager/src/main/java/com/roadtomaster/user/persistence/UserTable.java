@@ -4,9 +4,11 @@ package com.roadtomaster.user.persistence;
 import com.roadtomaster.bank.persistence.BankTable;
 import com.roadtomaster.financialAsset.persistence.RegisterEmbedded;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.util.UUID;
 
+@Getter
 @Entity
 public class UserTable {
 
