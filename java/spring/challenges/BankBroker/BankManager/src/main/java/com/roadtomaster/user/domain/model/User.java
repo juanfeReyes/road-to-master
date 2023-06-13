@@ -34,16 +34,15 @@ public class User {
   @NotNull
   private Register register;
 
-  public User(String name, String lastName, String email, String phone){
+  public User(String name, String lastName, String email, String phone) {
     this.name = name;
     this.lastName = lastName;
     this.email = email;
     this.phone = phone;
-    this.id = UUID.randomUUID();
     this.register = new Register();
   }
 
-  public void updateContactInformation(String email, String phone){
+  public void updateContactInformation(String email, String phone) {
     this.email = email;
     this.phone = phone;
   }

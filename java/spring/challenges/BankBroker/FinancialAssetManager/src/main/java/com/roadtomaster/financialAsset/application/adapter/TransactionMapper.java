@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class TransactionMapper {
 
   @Autowired
-  private static AccountMapper accountMapper;
+  private AccountMapper accountMapper;
 
   @Mapping(source = "id", target = "id")
   @Mapping(source = "amount", target = "amount")
@@ -30,12 +30,12 @@ public abstract class TransactionMapper {
   public abstract TransactionsTable toTable(Transaction transactionsTable);
 
   @Named("mapDomainAccount")
-  public static Account mapDomainAccount(AccountTable accountTable){
+  public Account mapDomainAccount(AccountTable accountTable) {
     return accountMapper.toDomain(accountTable);
   }
 
   @Named("mapTableAccount")
-  public static AccountTable mapTableAccount(Account account){
+  public AccountTable mapTableAccount(Account account) {
     return accountMapper.toTable(account);
   }
 }

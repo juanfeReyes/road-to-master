@@ -23,7 +23,7 @@ public class GetBanks {
     this.bankMapper = bankMapper;
   }
 
-  public List<Bank> searchBanks(BankQuery searchFilters){
+  public List<Bank> searchBanks(BankQuery searchFilters) {
     var banks = bankRepository.findAll(searchFilters.toPredicate());
 
     return StreamSupport.stream(banks.spliterator(), false)

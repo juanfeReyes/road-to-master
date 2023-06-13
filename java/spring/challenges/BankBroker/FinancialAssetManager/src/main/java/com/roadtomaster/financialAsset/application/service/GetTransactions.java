@@ -23,7 +23,7 @@ public class GetTransactions {
     this.transactionMapper = transactionMapper;
   }
 
-  public List<Transaction> getByUser(String userId){
+  public List<Transaction> getByUser(String userId) {
     var transactions = transactionRepository.findAll(new TransactionQuery().queryByUser(userId));
     return StreamSupport.stream(transactions.spliterator(), false).
             map(transactionMapper::toDomain)

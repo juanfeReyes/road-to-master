@@ -1,10 +1,8 @@
 package com.roadtomaster.financialAsset.infrastructure.persistence.account;
 
 
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.BooleanBuilder;
 import lombok.Data;
-
 
 import java.util.UUID;
 
@@ -17,17 +15,17 @@ public class AccountQuery {
 
   private String ownerId;
 
-  public BooleanExpression toPredicate(){
+  public BooleanBuilder toPredicate() {
     var qAccount = QAccountTable.accountTable;
-    var predicate = Expressions.asBoolean(true).isTrue();
+    var predicate = new BooleanBuilder();
 
-    if(id != null){
+    if (id != null) {
       predicate.or(qAccount.id.eq(id));
     }
-    if(ownerId != null){
+    if (ownerId != null) {
       predicate.or(qAccount.ownerId.eq(ownerId));
     }
-    if(balance != null){
+    if (balance != null) {
       predicate.or(qAccount.balance.lt(balance));
     }
 

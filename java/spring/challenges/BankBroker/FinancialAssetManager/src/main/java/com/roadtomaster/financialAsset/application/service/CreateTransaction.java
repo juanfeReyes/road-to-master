@@ -8,6 +8,7 @@ import com.roadtomaster.financialAsset.infrastructure.persistence.account.Accoun
 import com.roadtomaster.financialAsset.infrastructure.persistence.transaction.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -33,6 +34,7 @@ public class CreateTransaction {
     this.wireTransferService = wireTransferService;
   }
 
+  @Transactional
   public Transaction saveTransaction(UUID originId, UUID destinationId, double amount) {
     var originOptional = accountRepository.findById(originId);
     if (originOptional.isEmpty()) {

@@ -2,6 +2,7 @@ package com.roadtomaster.financialAsset.infrastructure.api;
 
 import com.roadtomaster.financialAsset.application.service.CompleteTransaction;
 import com.roadtomaster.financialAsset.domain.model.Transaction;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/transaction")
+@Tag(name = "Transactions", description = "Manage transactions")
 public class CompleteTransactionController {
 
   private final CompleteTransaction completeTransaction;

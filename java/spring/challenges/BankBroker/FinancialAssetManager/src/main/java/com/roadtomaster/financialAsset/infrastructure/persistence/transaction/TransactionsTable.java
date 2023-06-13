@@ -3,14 +3,18 @@ package com.roadtomaster.financialAsset.infrastructure.persistence.transaction;
 import com.roadtomaster.financialAsset.domain.TransactionState;
 import com.roadtomaster.financialAsset.infrastructure.persistence.account.AccountTable;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Getter
 @Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class TransactionsTable {
 
   @Id

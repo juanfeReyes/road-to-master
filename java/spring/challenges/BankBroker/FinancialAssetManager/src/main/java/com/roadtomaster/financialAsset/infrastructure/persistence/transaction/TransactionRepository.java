@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface TransactionRepository extends CrudRepository<TransactionsTable, UUID> , QuerydslPredicateExecutor<TransactionsTable> {
+public interface TransactionRepository extends CrudRepository<TransactionsTable, UUID>, QuerydslPredicateExecutor<TransactionsTable> {
 }

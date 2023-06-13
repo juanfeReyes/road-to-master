@@ -20,12 +20,13 @@ public class CreateBank {
     this.bankMapper = bankMapper;
   }
 
-  public Bank save(@Valid Bank bank){
-    if(bankRepository.existsByName(bank.getName())){
+  public Bank save(@Valid Bank bank) {
+    if (bankRepository.existsByName(bank.getName())) {
       throw new RuntimeException("Bank with name already exists");
     }
 
-    var savedBank = bankRepository.save(bankMapper.toTable(bank));
+    var newBank = new Bank(bank.getName());
+    var savedBank = bankRepository.save(bankMapper.toTable(newBank));
 
     return bankMapper.toDomain(savedBank);
   }

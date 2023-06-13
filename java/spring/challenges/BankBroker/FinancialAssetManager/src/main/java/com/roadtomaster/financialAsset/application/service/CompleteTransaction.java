@@ -21,10 +21,10 @@ public class CompleteTransaction {
     this.transactionMapper = transactionMapper;
   }
 
-  public Transaction complete(UUID id){
+  public Transaction complete(UUID id) {
     var foundTransaction = transactionRepository.findById(id);
 
-    if(foundTransaction.isEmpty()){
+    if (foundTransaction.isEmpty()) {
       throw new RuntimeException("Transaction does not extis");
     }
 

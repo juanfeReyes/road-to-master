@@ -24,7 +24,7 @@ public class GetAccounts {
     this.accountMapper = accountMapper;
   }
 
-  public List<Account> searchAccounts(AccountQuery accountQuery){
+  public List<Account> searchAccounts(AccountQuery accountQuery) {
     var accounts = accountRepository.findAll(accountQuery.toPredicate());
 
     return StreamSupport.stream(accounts.spliterator(), false)

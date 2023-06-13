@@ -1,6 +1,7 @@
 package com.roadtomaster.user.domain.specification;
 
 import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
@@ -9,4 +10,9 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PhoneValid {
+  String message() default "Phone is invalid";
+
+  Class<?>[] groups() default {};
+
+  Class<? extends Payload>[] payload() default {};
 }

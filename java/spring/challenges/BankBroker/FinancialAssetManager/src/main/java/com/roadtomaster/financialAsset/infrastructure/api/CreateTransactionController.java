@@ -2,6 +2,7 @@ package com.roadtomaster.financialAsset.infrastructure.api;
 
 import com.roadtomaster.financialAsset.application.service.CreateTransaction;
 import com.roadtomaster.financialAsset.domain.model.Transaction;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/transaction")
+@Tag(name = "Transactions", description = "Manage transactions")
 public class CreateTransactionController {
 
   private final CreateTransaction createTransactionService;
@@ -23,7 +25,7 @@ public class CreateTransactionController {
   public Transaction createTransaction(@RequestBody CreateTransactionRequest requestBody) {
     return createTransactionService.saveTransaction(
             requestBody.getOriginId(),
-            requestBody.getOriginId(),
+            requestBody.getDestinationId(),
             requestBody.getAmount());
   }
 }

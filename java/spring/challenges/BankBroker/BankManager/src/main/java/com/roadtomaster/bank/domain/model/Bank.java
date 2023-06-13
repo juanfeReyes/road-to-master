@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,13 +26,13 @@ public class Bank {
   @NotNull
   private Set<User> users;
 
-  public Bank(String name){
+  public Bank(String name) {
     this.id = UUID.randomUUID();
     this.name = name;
     this.users = new HashSet<>();
   }
 
-  public void addUser(User user){
+  public void addUser(User user) {
     users.add(user);
   }
 }

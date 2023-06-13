@@ -1,10 +1,11 @@
 package com.roadtomaster.user.infrastructure.persistence;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.BooleanBuilder;
+import lombok.Data;
 
 import java.util.UUID;
 
+@Data
 public class UserQuery {
 
   private UUID id;
@@ -17,27 +18,26 @@ public class UserQuery {
 
   private String phone;
 
-  public BooleanExpression toPredicate() {
+  public BooleanBuilder toPredicate() {
     var qUser = QUserTable.userTable;
-    var predicate = Expressions.asBoolean(true).isTrue();
+    var builder = new BooleanBuilder();
 
     if (id != null) {
-      predicate.or(qUser.id.eq(id));
+      builder.or(qUser.id.eq(id));
     }
-    if (id != null) {
-      predicate.or(qUser.name.like(name));
+    if (name != null) {
+      builder.or(qUser.name.containsIgnoreCase(name));
     }
-    if (id != null) {
-      predicate.or(qUser.lastName.like(lastName));
+    if (lastName != null) {
+      builder.or(qUser.lastName.containsIgnoreCase(lastName));
     }
-    if (id != null) {
-      predicate.or(qUser.email.like(email));
+    if (email != null) {
+      builder.or(qUser.email.containsIgnoreCase(email));
     }
-    if (id != null) {
+    if (phone != null) {
+      builder.or(qUser.phone.like(phone));
+    }
 
-      predicate.or(qUser.phone.like(phone));
-    }
-
-    return predicate;
+    return builder;
   }
 }

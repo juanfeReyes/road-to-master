@@ -11,14 +11,14 @@ spring:
   jpa:
     show-sql: false
     hibernate:
-      ddl-auto: none #update
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
   liquibase:
     change-log: classpath:liquibase/master_changelog.json
-    enabled: true
+    enabled: false
     drop-first: true
     user: postgres
     password: pass
