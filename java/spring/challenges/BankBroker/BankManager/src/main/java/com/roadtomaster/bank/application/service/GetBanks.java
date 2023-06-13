@@ -2,8 +2,8 @@ package com.roadtomaster.bank.application.service;
 
 import com.roadtomaster.bank.application.adapter.BankMapper;
 import com.roadtomaster.bank.domain.model.Bank;
-import com.roadtomaster.bank.persistence.BankQuery;
-import com.roadtomaster.bank.persistence.BankRepository;
+import com.roadtomaster.bank.infrastructure.persistence.BankQuery;
+import com.roadtomaster.bank.infrastructure.persistence.BankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class GetBanks {
     this.bankMapper = bankMapper;
   }
 
-  public List<Bank> searchBanks(BankQuery searchFilters){
+  public List<Bank> searchBanks(BankQuery searchFilters) {
     var banks = bankRepository.findAll(searchFilters.toPredicate());
 
     return StreamSupport.stream(banks.spliterator(), false)

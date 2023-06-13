@@ -1,14 +1,19 @@
-package com.roadtomaster.user.persistence;
+package com.roadtomaster.user.infrastructure.persistence;
 
 
-import com.roadtomaster.bank.persistence.BankTable;
-import com.roadtomaster.financialAsset.persistence.RegisterEmbedded;
+import com.roadtomaster.financialAsset.infrastructure.persistence.RegisterEmbedded;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class UserTable {
 
@@ -27,10 +32,6 @@ public class UserTable {
 
   @Column(nullable = false)
   private String phone;
-
-  @ManyToOne
-  @JoinColumn(name = "fk_bank_id")
-  private BankTable bank;
 
   @Embedded
   private RegisterEmbedded register;

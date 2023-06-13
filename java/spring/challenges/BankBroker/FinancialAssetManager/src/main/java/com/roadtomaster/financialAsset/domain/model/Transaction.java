@@ -29,7 +29,7 @@ public class Transaction {
   @NotNull
   private TransactionState transactionState;
 
-  public Transaction(double amount, Account origin, Account destination){
+  public Transaction(double amount, Account origin, Account destination) {
     this.amount = amount;
     this.origin = origin;
     this.destination = destination;
@@ -38,7 +38,7 @@ public class Transaction {
     this.transactionState = TransactionState.PENDING;
   }
 
-  public void completeTransaction(){
+  public void completeTransaction() {
     this.transactionState = TransactionState.COMPLETED;
   }
 }

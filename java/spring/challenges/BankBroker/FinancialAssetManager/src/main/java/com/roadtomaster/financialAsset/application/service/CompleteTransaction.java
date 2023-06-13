@@ -2,7 +2,7 @@ package com.roadtomaster.financialAsset.application.service;
 
 import com.roadtomaster.financialAsset.application.adapter.TransactionMapper;
 import com.roadtomaster.financialAsset.domain.model.Transaction;
-import com.roadtomaster.financialAsset.persistence.transaction.TransactionRepository;
+import com.roadtomaster.financialAsset.infrastructure.persistence.transaction.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +21,10 @@ public class CompleteTransaction {
     this.transactionMapper = transactionMapper;
   }
 
-  public Transaction complete(UUID id){
+  public Transaction complete(UUID id) {
     var foundTransaction = transactionRepository.findById(id);
 
-    if(foundTransaction.isEmpty()){
+    if (foundTransaction.isEmpty()) {
       throw new RuntimeException("Transaction does not extis");
     }
 

@@ -2,8 +2,8 @@ package com.roadtomaster.financialAsset.application.adapter;
 
 import com.roadtomaster.financialAsset.domain.model.Account;
 import com.roadtomaster.financialAsset.domain.model.Transaction;
-import com.roadtomaster.financialAsset.persistence.account.AccountTable;
-import com.roadtomaster.financialAsset.persistence.transaction.TransactionsTable;
+import com.roadtomaster.financialAsset.infrastructure.persistence.account.AccountTable;
+import com.roadtomaster.financialAsset.infrastructure.persistence.transaction.TransactionsTable;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class TransactionMapper {
 
   @Autowired
-  private static AccountMapper accountMapper;
+  private AccountMapper accountMapper;
 
   @Mapping(source = "id", target = "id")
   @Mapping(source = "amount", target = "amount")
@@ -30,12 +30,12 @@ public abstract class TransactionMapper {
   public abstract TransactionsTable toTable(Transaction transactionsTable);
 
   @Named("mapDomainAccount")
-  public static Account mapDomainAccount(AccountTable accountTable){
+  public Account mapDomainAccount(AccountTable accountTable) {
     return accountMapper.toDomain(accountTable);
   }
 
   @Named("mapTableAccount")
-  public static AccountTable mapTableAccount(Account account){
+  public AccountTable mapTableAccount(Account account) {
     return accountMapper.toTable(account);
   }
 }

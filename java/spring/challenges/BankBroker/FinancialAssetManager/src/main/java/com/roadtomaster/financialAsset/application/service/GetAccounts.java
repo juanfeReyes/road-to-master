@@ -2,8 +2,8 @@ package com.roadtomaster.financialAsset.application.service;
 
 import com.roadtomaster.financialAsset.application.adapter.AccountMapper;
 import com.roadtomaster.financialAsset.domain.model.Account;
-import com.roadtomaster.financialAsset.persistence.account.AccountQuery;
-import com.roadtomaster.financialAsset.persistence.account.AccountRepository;
+import com.roadtomaster.financialAsset.infrastructure.persistence.account.AccountQuery;
+import com.roadtomaster.financialAsset.infrastructure.persistence.account.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class GetAccounts {
     this.accountMapper = accountMapper;
   }
 
-  public List<Account> searchAccounts(AccountQuery accountQuery){
+  public List<Account> searchAccounts(AccountQuery accountQuery) {
     var accounts = accountRepository.findAll(accountQuery.toPredicate());
 
     return StreamSupport.stream(accounts.spliterator(), false)

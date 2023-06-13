@@ -21,25 +21,24 @@ public class Account {
   @NotNull
   private String ownerId;
 
-  public Account(String ownerId){
-    this.id = UUID.randomUUID();
+  public Account(String ownerId) {
     this.balance = 0.0;
     this.ownerId = ownerId;
   }
 
-  public boolean isCloseable(){
+  public boolean isCloseable() {
     return balance == 0.0;
   }
 
-  public void deposit(double amount){
+  public void deposit(double amount) {
     this.balance += amount;
   }
 
-  public void withdrawal(double amount){
+  public void withdrawal(double amount) {
     this.balance -= amount;
   }
 
-  public boolean hasAvailableBalance(double amount){
+  public boolean hasAvailableBalance(double amount) {
     return this.balance - amount >= 0.0;
   }
 

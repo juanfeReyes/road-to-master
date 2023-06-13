@@ -1,14 +1,16 @@
-package com.roadtomaster.bank.persistence;
+package com.roadtomaster.bank.infrastructure.persistence;
 
-import com.roadtomaster.user.persistence.UserTable;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface BankRepository extends CrudRepository<BankTable, UUID>, QuerydslPredicateExecutor<BankTable> {
 
   boolean existsByName(String name);
+
+  Optional<BankTable> findByName(String name);
 }
