@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { BanknotesIcon, Bars4Icon } from "@heroicons/react/24/outline";
+import { signIn } from 'next-auth/react'
 
 interface NavigationBarProps {
   children: JSX.Element;
@@ -25,7 +26,7 @@ export const NavigationBar = ({ children }: NavigationBarProps) => {
 
         <div className="flex items-center space-x-4">
           <p>Github Icon</p>
-          <Link href="/login">{t("labels.login")}</Link>
+          <button onClick={() => signIn()}>{t("labels.login")}</button>
           <div>
             <Bars4Icon className="w-6" />
           </div>

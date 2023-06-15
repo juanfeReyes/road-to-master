@@ -59,7 +59,7 @@ export const BankDetail = ({ bank }: BankDetailProps) => {
                 <EnvelopeIcon className="w-5 stroke-current text-gray-600" />
                 {bank.contact_information}
               </p>
-              <p className="w-full flex gap-2 content-start">
+              <div className="w-full flex gap-2 content-start">
                 <div>
                   <MapPinIcon className="w-5 stroke-current text-gray-600" />
                 </div>
@@ -67,7 +67,7 @@ export const BankDetail = ({ bank }: BankDetailProps) => {
                   {bank.country}, {bank.city}
                   <p className="w-full">{bank.address}</p>
                 </div>
-              </p>
+              </div>
             </div>
             <div>
               <p>{t("labels.managerInformation")}</p>

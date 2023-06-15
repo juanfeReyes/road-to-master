@@ -24,7 +24,6 @@ export const UserDetail = ({
   withdrawals,
   userAvatarUrl,
 }: UserDetailProps) => {
-  console.log(deposits)
   const { t } = useTranslation("common");
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
