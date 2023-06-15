@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
-import { BanknotesIcon, Bars4Icon } from "@heroicons/react/24/outline";
-import { signIn } from 'next-auth/react'
+import {
+  ArrowLeftOnRectangleIcon,
+  ArrowRightOnRectangleIcon,
+  BanknotesIcon,
+  Bars4Icon,
+} from "@heroicons/react/24/outline";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 interface NavigationBarProps {
   children: JSX.Element;
@@ -9,6 +14,7 @@ interface NavigationBarProps {
 
 export const NavigationBar = ({ children }: NavigationBarProps) => {
   const { t } = useTranslation("common");
+  const { data: session } = useSession();
 
   return (
     <div>
@@ -25,8 +31,17 @@ export const NavigationBar = ({ children }: NavigationBarProps) => {
         </div>
 
         <div className="flex items-center space-x-4">
-          <p>Github Icon</p>
-          <button onClick={() => signIn()}>{t("labels.login")}</button>
+          {session ? (
+            <button className="flex gap-1 items-center" onClick={() => signOut()}>
+              {t("labels.logout")}
+              <ArrowLeftOnRectangleIcon className="w-4" />
+            </button>
+          ) : (
+            <button className="flex gap-1 items-center" onClick={() => signIn()}>
+              {t("labels.login")}
+              <ArrowRightOnRectangleIcon className="w-4" />
+            </button>
+          )}
           <div>
             <Bars4Icon className="w-6" />
           </div>

@@ -22,7 +22,7 @@ export const getServerSideProps = async ({
   locale,
   params,
 }: GetServerSidePropsContext) => {
-  const userId = params.id;
+  const userId = params!.id as string; 
   const userDetails = await getUserDetail(userId);
   const deposits = await getUserDeposits(userId);
   const withdrawals = (await getUserWithdrawals(userId)).map((transaction) => ({
@@ -30,7 +30,6 @@ export const getServerSideProps = async ({
     amount: transaction.amount * -1,
   }));
   const avatarUrl = await getUserAvatarImageUrl(userId);
-
   return {
     props: {
       user: JSON.parse(JSON.stringify(userDetails)),

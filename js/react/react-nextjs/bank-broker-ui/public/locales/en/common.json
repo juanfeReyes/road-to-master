@@ -6,6 +6,7 @@
     "location": "Location",
     "address": "Address",
     "login": "Login",
+    "logout": "Logout",
     "name": "Name",
     "email": "Email",
     "contactInformation": "Contact information",
@@ -22,5 +23,4 @@
       "title": "Registered users"
     }
   }
-
 }
