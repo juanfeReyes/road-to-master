@@ -19,6 +19,7 @@
     "flowbite-react": "^0.4.6",
     "i18next": "^22.4.15",
     "next": "13.4.2",
+    "next-auth": "^4.22.1",
     "next-i18next": "^13.2.2",
     "pocketbase": "^0.14.4",
     "react": "18.2.0",

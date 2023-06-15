@@ -13,12 +13,12 @@ export const getStaticPaths = async () => {
   const banks = await getBanks();
 
   const paths = banks.map(bank => ({params: {id: bank.id}}))
-  return {paths, fallback: true}
+  return {paths: paths, fallback: true}
 }
 
 // TODO: solve type error
 export const getStaticProps = async ({params, locale}: GetServerSidePropsContext) => {
-  const bank = await getBankDetails(params?.id)
+  const bank = await getBankDetails(params?.id as string)
   
   return {
     props: {

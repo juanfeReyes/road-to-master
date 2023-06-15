@@ -5,6 +5,22 @@
   "labels": {
     "location": "Ubicacion",
     "address": "Direccion",
-    "login": "Ingresa"
+    "login": "Ingresa",
+    "logout": "Salir",
+    "name": "Nombre",
+    "email": "Email",
+    "contactInformation": "Informacion de contacto",
+    "managerInformation": "Informacion del administrador",
+    "state": "Estado",
+    "origin": "Origen",
+    "destination": "Destino",
+    "amount": "Monto",
+    "date": "Fecha",
+    "transactions": {
+      "title": "Transacciones de usuario"
+    },
+    "users": {
+      "title": "Usuarios registrados"
+    }
   }
 }
