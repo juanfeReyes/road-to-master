@@ -1,4 +1,3 @@
-
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/bank_broker?currentSchema=public
@@ -22,3 +21,19 @@ spring:
     drop-first: true
     user: postgres
     password: pass
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak/auth/realms/pets-api-realm
+
+springdoc:
+  version: '@springdoc.version@'
+  swagger-ui:
+    oauth:
+      clientId: bank-broker
+      clientSecret: 5467b344-1a1b-4f45-9c05-846d7c51f514
+      usePkceWithAuthorization: true
+  oAuthFlow:
+    authorizationUrl: http://localhost:8180/auth/realms/bank-broker/protocol/openid-connect/auth
+    tokenUrl: http://localhost:8180/auth/realms/bank-broker/protocol/openid-connect/token
