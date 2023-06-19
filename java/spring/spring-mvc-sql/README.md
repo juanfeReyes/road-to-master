@@ -20,6 +20,7 @@ pet-api:
 
 ## To export realm keycloak:
 
+docker run -it <image> bash
 run the following command inside docker container
 ```bash
 /opt/jboss/keycloak/bin/standalone.sh \
