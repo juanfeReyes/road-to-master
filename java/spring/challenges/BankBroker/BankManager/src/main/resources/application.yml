@@ -1,3 +1,7 @@
+#server:
+#  servlet:
+#    context-path: /bank-broker
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/bank_broker?currentSchema=public
@@ -25,7 +29,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://keycloak/auth/realms/pets-api-realm
+          issuer-uri: http://localhost:8180/auth/realms/bank-broker
+          jwk-set-uri: http://localhost:8180/auth/realms/bank-broker/protocol/openid-connect/certs
 
 springdoc:
   version: '@springdoc.version@'

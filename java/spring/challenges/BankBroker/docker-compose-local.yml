@@ -34,8 +34,6 @@ services:
       - LDAP_RFC2307BIS_SCHEMA=true
       - LDAP_REMOVE_CONFIG_AFTER_SETUP=true
       - LDAP_TLS_VERIFY_CLIENT=never
-#    networks:
-#      - openldap
     volumes:
       - './scripts/openldap/db:/var/lib/ldap'
       - './scripts/openldap/config:/etc/ldap/slapd.d'
@@ -56,8 +54,6 @@ services:
       - NO_HTTPS=TRUE
       - PASSWORD_HASH=SSHA
       - SERVER_HOSTNAME=localhost:8085
-#    networks:
-#      - openldap
     depends_on:
       - openldap
 
@@ -79,7 +75,3 @@ services:
       KEYCLOAK_IMPORT: "/tmp/bank-broker-realm.json -Dkeycloak.profile.feature.upload_scripts=enabled"
     volumes:
       - ./scripts/keycloak:/tmp
-
-networks:
-  openldap:
-    name: openldap
