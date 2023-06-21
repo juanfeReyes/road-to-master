@@ -37,6 +37,8 @@ services:
     volumes:
       - './scripts/openldap/db:/var/lib/ldap'
       - './scripts/openldap/config:/etc/ldap/slapd.d'
+    ports:
+      - 389:389
 
   ldap-user-manager:
     image: wheelybird/ldap-user-manager:latest
