@@ -56,6 +56,7 @@ services:
       - NO_HTTPS=TRUE
       - PASSWORD_HASH=SSHA
       - SERVER_HOSTNAME=localhost:8085
+      - LDAP_TLS=false
     depends_on:
       - openldap
 
@@ -77,3 +78,4 @@ services:
       KEYCLOAK_IMPORT: "/tmp/bank-broker-realm.json -Dkeycloak.profile.feature.upload_scripts=enabled"
     volumes:
       - ./scripts/keycloak:/tmp
+

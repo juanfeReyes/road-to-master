@@ -2,15 +2,20 @@ package com.roadtomaster.financialAsset.application.service;
 
 import com.roadtomaster.financialAsset.application.adapter.AccountMapper;
 import com.roadtomaster.financialAsset.application.adapter.TransactionMapper;
+import com.roadtomaster.financialAsset.domain.model.Account;
 import com.roadtomaster.financialAsset.domain.model.Transaction;
 import com.roadtomaster.financialAsset.domain.service.WireTransferService;
 import com.roadtomaster.financialAsset.infrastructure.persistence.account.AccountRepository;
 import com.roadtomaster.financialAsset.infrastructure.persistence.transaction.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.UUID;
+
+import static com.roadtomaster.financialAsset.infrastructure.config.CacheConfig.TRANSACTIONS_CACHE_NAME;
 
 @Service
 public class CreateTransaction {
@@ -25,13 +30,16 @@ public class CreateTransaction {
 
   private final WireTransferService wireTransferService;
 
+  private final CacheManager cacheManager;
+
   @Autowired
-  public CreateTransaction(TransactionRepository transactionRepository, TransactionMapper transactionMapper, AccountRepository accountRepository, AccountMapper accountMapper, WireTransferService wireTransferService) {
+  public CreateTransaction(TransactionRepository transactionRepository, TransactionMapper transactionMapper, AccountRepository accountRepository, AccountMapper accountMapper, WireTransferService wireTransferService, CacheManager cacheManager) {
     this.transactionRepository = transactionRepository;
     this.transactionMapper = transactionMapper;
     this.accountRepository = accountRepository;
     this.accountMapper = accountMapper;
     this.wireTransferService = wireTransferService;
+    this.cacheManager = cacheManager;
   }
 
   @Transactional
@@ -54,7 +62,12 @@ public class CreateTransaction {
     accountRepository.save(accountMapper.toTable(origin));
     accountRepository.save(accountMapper.toTable(destination));
     transactionRepository.save(transactionMapper.toTable(transaction));
+    cleanCache(origin);
 
     return transaction;
+  }
+
+  private void cleanCache(Account account){
+    Objects.requireNonNull(cacheManager.getCache(TRANSACTIONS_CACHE_NAME)).evictIfPresent(account.getOwnerId());
   }
 }
