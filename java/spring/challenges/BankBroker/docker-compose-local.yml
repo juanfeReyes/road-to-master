@@ -22,3 +22,58 @@ services:
       MYSQL_ROOT_PASSWORD: password
     volumes:
       - ./scripts/mariadb:/docker-entrypoint-initdb.d
+
+  openldap:
+    image: osixia/openldap:1.5.0
+    container_name: openldap
+    environment:
+      - LDAP_ORGANISATION=example.org
+      - LDAP_DOMAIN=example.org
+      - LDAP_ADMIN_PASSWORD=admin
+      - LDAP_CONFIG_PASSWORD=config
+      - LDAP_RFC2307BIS_SCHEMA=true
+      - LDAP_REMOVE_CONFIG_AFTER_SETUP=true
+      - LDAP_TLS_VERIFY_CLIENT=never
+    volumes:
+      - './scripts/openldap/db:/var/lib/ldap'
+      - './scripts/openldap/config:/etc/ldap/slapd.d'
+    ports:
+      - 389:389
+
+  ldap-user-manager:
+    image: wheelybird/ldap-user-manager:latest
+    container_name: openldap-ui
+    ports:
+      - '8085:80'
+    environment:
+      - LDAP_URI=ldap://openldap
+      - LDAP_BASE_DN=dc=example,dc=org
+      - LDAP_REQUIRE_STARTTLS=FALSE
+      - LDAP_ADMINS_GROUP=admins
+      - LDAP_ADMIN_BIND_DN=cn=admin,dc=example,dc=org
+      - LDAP_ADMIN_BIND_PWD=admin
+      - LDAP_IGNORE_CERT_ERRORS=true
+      - NO_HTTPS=TRUE
+      - PASSWORD_HASH=SSHA
+      - SERVER_HOSTNAME=localhost:8085
+    depends_on:
+      - openldap
+
+  keycloak:
+    image: jboss/keycloak:15.0.1
+    container_name: keycloak
+    depends_on:
+      - mariadb
+    ports:
+      - 8180:8180
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+      DB_VENDOR: mariadb
+      DB_PORT: 3306
+      DB_USER: keycloak_user
+      DB_PASSWORD: password
+      JAVA_OPTS_APPEND: "-Djboss.http.port=8180"
+      KEYCLOAK_IMPORT: "/tmp/bank-broker-realm.json -Dkeycloak.profile.feature.upload_scripts=enabled"
+    volumes:
+      - ./scripts/keycloak:/tmp
