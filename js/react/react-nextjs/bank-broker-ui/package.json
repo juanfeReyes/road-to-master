@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@heroicons/react": "^2.0.18",
     "@types/node": "20.1.4",
     "@types/react": "18.2.6",
@@ -25,6 +29,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-i18next": "^12.2.2",
+    "react-icons": "^4.10.1",
     "typescript": "5.0.4"
   },
   "devDependencies": {
