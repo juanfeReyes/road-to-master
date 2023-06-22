@@ -32,15 +32,18 @@ export const NavigationBar = ({ children }: NavigationBarProps) => {
 
         <div className="flex items-center space-x-4">
           {session ? (
-            <button className="flex gap-1 items-center" onClick={() => signOut()}>
+            <button
+              className="flex gap-1 items-center"
+              onClick={() => signOut()}
+            >
               {t("labels.logout")}
               <ArrowLeftOnRectangleIcon className="w-4" />
             </button>
           ) : (
-            <button className="flex gap-1 items-center" onClick={() => signIn()}>
+            <Link className="flex gap-1 items-center" href={"/auth/signin"}>
               {t("labels.login")}
               <ArrowRightOnRectangleIcon className="w-4" />
-            </button>
+            </Link>
           )}
           <div>
             <Bars4Icon className="w-6" />

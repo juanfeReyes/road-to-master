@@ -1,3 +1,4 @@
+import { ProtectPage } from "@/components/auth/ProtectPage";
 import { NavigationBar } from "@/components/navigationBar/NavigationBar";
 import { UserDetail } from "@/components/user/UserDetail";
 import { Transaction } from "@/model/Transaction";
@@ -22,7 +23,7 @@ export const getServerSideProps = async ({
   locale,
   params,
 }: GetServerSidePropsContext) => {
-  const userId = params!.id as string; 
+  const userId = params!.id as string;
   const userDetails = await getUserDetail(userId);
   const deposits = await getUserDeposits(userId);
   const withdrawals = (await getUserWithdrawals(userId)).map((transaction) => ({
@@ -49,14 +50,16 @@ const UserDetailPage = ({
 }: UserDetailPageProps) => {
   return (
     <>
-      <NavigationBar>
-        <UserDetail
-          user={user}
-          deposits={deposits}
-          withdrawals={withdrawals}
-          userAvatarUrl={userAvatarUrl}
-        />
-      </NavigationBar>
+      <ProtectPage>
+        <NavigationBar>
+          <UserDetail
+            user={user}
+            deposits={deposits}
+            withdrawals={withdrawals}
+            userAvatarUrl={userAvatarUrl}
+          />
+        </NavigationBar>
+      </ProtectPage>
     </>
   );
 };
