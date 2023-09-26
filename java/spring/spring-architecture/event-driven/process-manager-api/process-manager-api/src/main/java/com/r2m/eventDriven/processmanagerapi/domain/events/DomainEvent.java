@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Type;
 import org.hibernate.type.SqlTypes;
+import org.hibernate.usertype.UserTypeSupport;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -16,7 +18,7 @@ import java.util.UUID;
 @Data
 @Jacksonized
 @NoArgsConstructor
-public class DomainEvent {
+public class DomainEvent<T extends Payload> {
 
   @Id
   private String id;
@@ -25,12 +27,20 @@ public class DomainEvent {
   private LocalDate createdDate;
   @JdbcTypeCode(SqlTypes.JSON)
   @Column(columnDefinition = "jsonb")
-  private Payload payload;
+  @Type(value = PayloadType.class)
+  private T payload;
 
-  public DomainEvent(Payload payload, String payloadId) {
+  public DomainEvent(T payload, String payloadId) {
     id = UUID.randomUUID().toString();
     createdDate = LocalDate.now();
     this.payload = payload;
     this.payloadId = payloadId;
+  }
+}
+
+class PayloadType extends UserTypeSupport<Payload>{
+
+  public PayloadType(Class<?> returnedClass, int jdbcTypeCode) {
+    super(Payload.class, SqlTypes.JSON);
   }
 }
