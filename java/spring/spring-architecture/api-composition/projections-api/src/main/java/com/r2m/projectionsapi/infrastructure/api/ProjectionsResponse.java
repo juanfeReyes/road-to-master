@@ -13,4 +13,12 @@ public class ProjectionsResponse {
     this.metrics = Collections.nCopies(10, Math.random()*1000);
     this.name = name;
   }
+
+  public List<Double> getMetrics() {
+    return metrics;
+  }
+
+  public String getName() {
+    return name;
+  }
 }

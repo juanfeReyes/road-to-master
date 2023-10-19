@@ -28,7 +28,7 @@ public class UserService {
   @Async
   public CompletableFuture<UserResponse> getUser(String userId){
     return CompletableFuture.supplyAsync(() -> restTemplate.exchange(
-            userApiUrl+userId,
+            userApiUrl+"/"+userId,
             HttpMethod.GET,
             null,
             new ParameterizedTypeReference<UserResponse>(){}).getBody());

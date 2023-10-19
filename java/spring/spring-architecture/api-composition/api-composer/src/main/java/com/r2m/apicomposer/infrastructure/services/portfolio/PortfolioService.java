@@ -26,6 +26,7 @@ public class PortfolioService {
 
   @Async
   public CompletableFuture<List<PortfolioResponse>> getPortfolioByUserId(String userId){
+
     return CompletableFuture.supplyAsync(() -> restTemplate.exchange(
             portfolioApiUrl+"/user/"+userId,
             HttpMethod.GET,

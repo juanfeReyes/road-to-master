@@ -1,0 +1,16 @@
+
+server:
+  port: 8085
+  ssl:
+    bundle: "web-server"
+    client-auth: NEED
+
+spring:
+  ssl:
+    bundle:
+      jks:
+        web-server:
+          keystore:
+            location: "classpath:ssl/server.p12"
+            password: "123456"
+            type: PKCS12

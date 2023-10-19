@@ -18,7 +18,7 @@ public class GetProjectionsController {
           "3", List.of(new ProjectionsResponse("Gold"), new ProjectionsResponse("Fashion"), new ProjectionsResponse("Industry"))
   );
 
-  @GetMapping("/user/${userId}")
+  @GetMapping("/user/{userId}")
   public List<ProjectionsResponse> getProjectionsByUser(@PathVariable String userId) throws InterruptedException {
     Thread.sleep(2000);
     return projections.getOrDefault(userId, null);

@@ -11,4 +11,16 @@ public class UserResponse {
     this.lastname = lastname;
     this.phone = phone;
   }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getLastname() {
+    return lastname;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
 }

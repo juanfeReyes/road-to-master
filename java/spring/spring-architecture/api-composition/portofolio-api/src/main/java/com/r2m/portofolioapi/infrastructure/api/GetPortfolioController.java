@@ -18,7 +18,7 @@ public class GetPortfolioController {
           "3", List.of(new PortfolioResponse("Gold"), new PortfolioResponse("Fashion"), new PortfolioResponse("Industry"))
   );
 
-  @GetMapping("/user/${userId}")
+  @GetMapping("/user/{userId}")
   public List<PortfolioResponse> getPortfoliosByUser(@PathVariable String userId) throws InterruptedException {
     Thread.sleep(800);
     return portfolios.getOrDefault(userId, null);
