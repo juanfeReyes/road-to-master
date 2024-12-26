@@ -29,3 +29,27 @@ Terminate EC2 instance:
 ````shell
 aws ec2 terminate-instances --instance-ids i-0e4ba9bf957dbc7e6 --profile PowerUserAccess-
 ````
+
+## Containerize
+Build image:
+````shell
+docker build . -t r2m/cloud-api --no-cache
+````
+
+`note:` The ecr url change per repository
+tag for AWS ECR:
+````shell
+docker tag r2m/cloud-api 140023377333.dkr.ecr.us-east-1.amazonaws.com/r2m/cloud:cloud-api
+````
+
+push to ECR:
+Login to aws sso
+Get login credentials for Docker CLI
+`````shell
+docker push 140023377333.dkr.ecr.us-east-1.amazonaws.com/r2m/cloud:cloud-api
+`````
+
+Test health check in local:
+````shell
+docker run -dt -p 8080:8080 --name cloud-api --health-cmd "wget --spider http://localhost:8080/api/actuator/health || exit 1" --health-interval=5s --health-retries=5 140023377333.dkr.ecr.us-east-1.amazonaws.com/r2m/cloud:cloud-api
+````
