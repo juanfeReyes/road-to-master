@@ -7,7 +7,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @With
-public record ProductLog(UUID id, Instant createTime, String content) {
+public record ProductLog(UUID id, Instant createTime, String objectKey) {
 
     @Builder
     public ProductLog{}
