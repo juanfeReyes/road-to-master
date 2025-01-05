@@ -1,0 +1,20 @@
+spring:
+  application.name: cloud-api
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: admin
+    password:
+    url: jdbc:mariadb://localhost:3306/cloud-db?createDatabaseIfNotExist=true
+  data:
+    jpa:
+      repositories:
+        enabled: true
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8080
+  servlet.context-path: /api
+
