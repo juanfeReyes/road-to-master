@@ -1,6 +1,5 @@
-package com.r2m.cloud.cloud_api.infrastructure.persistence.repositories;
+package com.r2m.cloud.cloud_api.infrastructure.persistence.product;
 
-import com.r2m.cloud.cloud_api.infrastructure.persistence.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

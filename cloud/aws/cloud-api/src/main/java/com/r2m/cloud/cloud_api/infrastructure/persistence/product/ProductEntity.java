@@ -1,4 +1,4 @@
-package com.r2m.cloud.cloud_api.infrastructure.persistence;
+package com.r2m.cloud.cloud_api.infrastructure.persistence.product;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
