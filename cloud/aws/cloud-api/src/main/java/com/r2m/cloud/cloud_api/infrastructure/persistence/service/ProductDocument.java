@@ -1,4 +1,4 @@
-package com.r2m.cloud.cloud_api.infrastructure.persistence.product;
+package com.r2m.cloud.cloud_api.infrastructure.persistence.service;
 
 import lombok.Data;
 import lombok.Getter;

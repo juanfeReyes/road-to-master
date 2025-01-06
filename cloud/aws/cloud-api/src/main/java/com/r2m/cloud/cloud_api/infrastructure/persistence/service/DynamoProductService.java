@@ -1,4 +1,4 @@
-package com.r2m.cloud.cloud_api.infrastructure.persistence.product;
+package com.r2m.cloud.cloud_api.infrastructure.persistence.service;
 
 import com.r2m.cloud.cloud_api.domain.Product;
 import com.r2m.cloud.cloud_api.infrastructure.cloud.aws.DynamoService;

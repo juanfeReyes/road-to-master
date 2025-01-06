@@ -13,6 +13,12 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
+  cache:
+    type: redis
+  redis:
+    host: aws.cache.url
+    port: 6379
+    password:
 
 cloud-api:
   integration:

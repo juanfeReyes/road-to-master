@@ -6,8 +6,10 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password: password
+  cache:
+    type: simple
 
 
 cloud-api:
   integration:
-    service: dynamo
+    service: db

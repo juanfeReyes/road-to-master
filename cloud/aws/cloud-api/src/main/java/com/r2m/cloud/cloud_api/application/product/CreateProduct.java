@@ -1,9 +1,8 @@
 package com.r2m.cloud.cloud_api.application.product;
 
 import com.r2m.cloud.cloud_api.domain.Product;
-import com.r2m.cloud.cloud_api.infrastructure.persistence.product.IProductService;
+import com.r2m.cloud.cloud_api.infrastructure.persistence.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Service
