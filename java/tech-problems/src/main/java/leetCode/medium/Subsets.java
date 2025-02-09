@@ -1,7 +1,9 @@
 package leetCode.medium;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Subsets {
 
@@ -16,7 +18,6 @@ public class Subsets {
     }
 
     private void permute(int[] nums, int idx, List<Integer> sub){
-
         permutations.add(new ArrayList<>(sub));
 
         for (int i = idx; i < nums.length; i++) {
