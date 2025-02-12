@@ -6,7 +6,6 @@ public class CombinationSumII {
     List<List<Integer>> combinations;
     Set<String> set;
 
-
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         combinations = new ArrayList<>();
         set = new HashSet<>();
