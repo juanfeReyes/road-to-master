@@ -7,19 +7,18 @@ terraform {
       version = "5.93.0"
     }
     ansible = {
-      source  = "habakke/ansible"
-      version = "2.0.1"
+      source  = "ansible/ansible"
+      version = "1.3.0"
     }
+    # ansible = {
+    #   source  = "habakke/ansible"
+    #   version = "2.0.1"
+    # }
   }
 }
 
 provider "aws" {
   region = "us-east-1"
-}
-
-provider "ansible" {
-  path       = "./inventories"
-  log_caller = false
 }
 
 // Infrastructure config
@@ -122,7 +121,7 @@ module "fck-nat" {
   ssh_key_name = "r2m-cloud-key"
 }
 
-data aws_network_interface bastion_eni {
+data "aws_network_interface" "bastion_eni" {
   id = module.fck-nat.eni_id
 }
 
@@ -142,10 +141,10 @@ resource "aws_security_group" "public_web_sg" {
   }
 
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    security_groups = module.fck-nat.security_group_ids
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = module.fck-nat.security_group_ids //Security groups can be sg sources
   }
 
   egress {
@@ -162,100 +161,78 @@ resource "aws_instance" "web_instance" {
   tags = {
     develop = "basic"
   }
-  # user_data              = file("basic-web-provision.tpl")
   subnet_id              = aws_subnet.basic_web_public_subnet.id
   vpc_security_group_ids = [aws_security_group.public_web_sg.id]
   key_name               = "r2m-cloud-key"
 }
 
 // Ansible inventory
-resource "ansible_inventory" "cluster" {
-  group_vars = <<-EOT
-      ---
-  EOT
-}
 
-resource "ansible_group" "bastion" {
-  depends_on = [ansible_inventory.cluster]
-  name       = "bastion_nat"
-  inventory  = ansible_inventory.cluster.id
-}
-
-resource "ansible_group" "web_instances" {
-  depends_on = [ansible_inventory.cluster]
-  name       = "web_instances"
-  inventory  = ansible_inventory.cluster.id
-}
-
-resource "ansible_host" "bastion_nat_inv" {
-  name      = module.fck-nat.instance_public_ip
-  inventory = ansible_inventory.cluster.id
-  group     = ansible_group.bastion.id
+resource "ansible_group" "web" {
+  name     = "web_instances"
+  children = ["web"]
   variables = {
-    ansible_user                 = "ec2-user"
-    ansible_ssh_private_key_file = "'/mnt/d/road to master/r2m-cloud-key.pem'"
-    prefix                       = "multi_tier"
+    ansible_ssh_common_args =  "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand='ssh -A -W %h:%p -q ec2-user@${module.fck-nat.instance_public_ip}'"
   }
 }
 
-resource "ansible_host" "web_instance" {
-  name      = aws_instance.web_instance.private_ip
-  inventory = ansible_inventory.cluster.id
-  group     = ansible_group.web_instances.id
+resource "ansible_host" "web-app" {
+  name   = aws_instance.web_instance.private_ip
+  groups = ["web"]
   variables = {
+    ansible_host                 = aws_instance.web_instance.private_ip
     ansible_user                 = "ec2-user"
-    ansible_ssh_private_key_file = "'/mnt/d/road to master/r2m-cloud-key.pem'"
-    prefix                       = "multi_tier"
+    ansible_ssh_private_key_file = "/mnt/d/road to master/r2m-cloud-key.pem"
   }
 }
 
-// Instance configuration
+// Api configuration 
 
-# resource "aws_security_group" "private_api_sg" {
-#   name        = "private_api_sg"
-#   description = "Allow ssh and http"
-#   vpc_id      = aws_vpc.multitier_web_vpc.id
-#   ingress {
-#     from_port   = 8080
-#     to_port     = 8080
-#     protocol    = "tcp"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
+resource "aws_security_group" "private_api_sg" {
+  name        = "private_api_sg"
+  description = "Allow ssh and http"
+  vpc_id      = aws_vpc.multitier_web_vpc.id
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-# }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
 
-# resource "aws_instance" "api_instance" {
-#   ami           = "ami-08b5b3a93ed654d19"
-#   instance_type = "t2.micro"
-#   tags = {
-#     develop = "basic"
-#   }
-#   subnet_id              = aws_subnet.basic_web_private_subnet
-#   vpc_security_group_ids = [aws_security_group.private_api_sg.id]
-#   key_name               = "r2m-cloud-key"
-#   private_ip = "10.16.1.10"
-# }
+resource "aws_instance" "api_instance" {
+  ami           = "ami-08b5b3a93ed654d19"
+  instance_type = "t2.micro"
+  tags = {
+    develop = "basic"
+  }
+  subnet_id              = aws_subnet.basic_web_private_subnet
+  vpc_security_group_ids = [aws_security_group.private_api_sg.id]
+  key_name               = "r2m-cloud-key"
+  private_ip = "10.16.1.10"
+}
 
-# resource "ansible_group" "master" {
-#   depends_on = [ansible_inventory.cluster]
-#   name = "api_instances"
-#   inventory = ansible_inventory.cluster.id
-# }
+resource "ansible_group" "api" {
+  name     = "api_instances"
+  children = ["api"]
+  variables = {
+    ansible_ssh_common_args =  "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand='ssh -A -W %h:%p -q ec2-user@${module.fck-nat.instance_public_ip}'"
+  }
+}
 
-# resource "ansible_host" "web_instance_inv" {
-#   name = aws_instance.api_instance.private_ip
-#   inventory = ansible_inventory.cluster.id
-#   group = ansible_group.master.id
-#   variables = {
-#     ansible_user = "ec2-user"
-#     ansible_ssh_private_key_file = "'/mnt/d/road to master/r2m-cloud-key.pem'"
-#     prefix = "multi_tier"
-#   }
-# }
-
+resource "ansible_host" "web-app" {
+  name   = aws_instance.api_instance.private_ip
+  groups = ["api"]
+  variables = {
+    ansible_host                 = aws_instance.api_instance.private_ip
+    ansible_user                 = "ec2-user"
+    ansible_ssh_private_key_file = "/mnt/d/road to master/r2m-cloud-key.pem"
+  }
+}

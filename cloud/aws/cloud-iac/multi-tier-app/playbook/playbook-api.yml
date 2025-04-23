@@ -1,0 +1,27 @@
+- name: Provision api instance with Java and deploy api
+  hosts: api_instances
+  become: true
+  tasks:
+  - name: Ping my hosts
+    ansible.builtin.ping:
+
+  - name: Install java
+    ansible.builtin.dnf:
+      name: java-17-amazon-corretto-headless
+      state: present
+      update_cache: yes
+    become_user: root
+
+  - name: Copy cloud-api
+    ansible.builtin.copy:
+      src: /mnt/d/road to master/r2m-cloud/cloud-api/target/cloud-api.jar
+      dest: /usr/share/api
+      owner: "{{ user }}"
+      group: root
+      mode: '0644'
+  
+  - name: Run cloud-api jar
+    ansible.builtin.shell:
+      cmd: java -jar cloud-api.jar
+      chdir: /usr/share/api
+    become_user: root
