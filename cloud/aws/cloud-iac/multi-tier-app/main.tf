@@ -35,7 +35,7 @@ resource "aws_subnet" "basic_web_public_subnet" {
   cidr_block              = "10.16.0.0/24"
   map_public_ip_on_launch = true
   tags = {
-    develop = "basic"
+    develop = "multitier"
   }
 }
 
@@ -70,6 +70,45 @@ resource "aws_route_table" "basic_web_public_rt" {
 resource "aws_route_table_association" "basic_web_public_rt_assoc" {
   route_table_id = aws_route_table.basic_web_public_rt.id
   subnet_id      = aws_subnet.basic_web_public_subnet.id
+}
+
+resource "aws_subnet" "private_subnet" {
+  vpc_id = aws_vpc.multitier_web_vpc.id
+  tags = {
+    develop = "multitier"
+  }
+}
+
+resource "aws_network_acl" "private_acl" {
+  vpc_id     = aws_vpc.multitier_web_vpc.id
+  subnet_ids = [aws_subnet.private_subnet.id]
+
+  ingress {
+    from_port  = 0
+    to_port    = 0
+    rule_no    = 100
+    protocol   = -1 //all
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+  }
+
+  egress {
+    from_port  = 0
+    to_port    = 0
+    rule_no    = 100
+    protocol   = -1
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+  }
+}
+
+resource "aws_route_table" "private_rt" {
+  vpc_id = aws_vpc.multitier_web_vpc.id
+}
+
+resource "aws_route_table_association" "private_rt_assoc" {
+  route_table_id = aws_route_table.private_rt.id
+  subnet_id      = aws_subnet.private_subnet.id
 }
 
 // Internet Gateway config
@@ -125,6 +164,13 @@ data "aws_network_interface" "bastion_eni" {
   id = module.fck-nat.eni_id
 }
 
+// All traffic send to nat ENI
+resource "aws_route" "nat_route" {
+  route_table_id         = aws_route_table.private_rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  network_interface_id   = module.fck-nat.eni_id
+}
+
 /**
 Instance configuration
 */
@@ -172,7 +218,7 @@ resource "ansible_group" "web" {
   name     = "web_instances"
   children = ["web"]
   variables = {
-    ansible_ssh_common_args =  "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand='ssh -A -W %h:%p -q ec2-user@${module.fck-nat.instance_public_ip}'"
+    ansible_ssh_common_args = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand='ssh -A -W %h:%p -q ec2-user@${module.fck-nat.instance_public_ip}'"
   }
 }
 
@@ -213,21 +259,21 @@ resource "aws_instance" "api_instance" {
   tags = {
     develop = "basic"
   }
-  subnet_id              = aws_subnet.basic_web_private_subnet
+  subnet_id              = aws_subnet.private_subnet.id
   vpc_security_group_ids = [aws_security_group.private_api_sg.id]
   key_name               = "r2m-cloud-key"
-  private_ip = "10.16.1.10"
+  private_ip             = "10.16.1.10"
 }
 
 resource "ansible_group" "api" {
   name     = "api_instances"
   children = ["api"]
   variables = {
-    ansible_ssh_common_args =  "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand='ssh -A -W %h:%p -q ec2-user@${module.fck-nat.instance_public_ip}'"
+    ansible_ssh_common_args = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand='ssh -A -W %h:%p -q ec2-user@${module.fck-nat.instance_public_ip}'"
   }
 }
 
-resource "ansible_host" "web-app" {
+resource "ansible_host" "api-app" {
   name   = aws_instance.api_instance.private_ip
   groups = ["api"]
   variables = {
