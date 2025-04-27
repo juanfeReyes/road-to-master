@@ -1,6 +1,12 @@
 # r2m-cloud
 Road to Master cloud
 
+### AWS CLI
+login: 
+```
+aws sso login
+```
+
 ### Light Sail
 1. Start VPS with light sail
   a. Start linux instance

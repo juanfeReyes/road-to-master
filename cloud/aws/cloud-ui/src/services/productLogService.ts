@@ -6,5 +6,5 @@ export const getProductLogs = async (): Promise<ProductLog[]> => {
 }
 
 export const createProductLog = async (data: ProductLogRequest) => {
-  await axiosInstance.post('/api/productlogs', data)
+  await axiosInstance.post('/api/productlogs/tag', data)
 }

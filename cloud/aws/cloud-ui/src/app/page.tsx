@@ -9,6 +9,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 
 export default function Home() {
 
+  const listHeaders = ["Object key", "Create time", "Tags"]
   const [productLogs, setProductLogs] = useState<ProductLog[]>([])
   const [logContent, setLogContent] = useState("")
 
@@ -46,7 +47,7 @@ export default function Home() {
       </DialogCloud>
       <div>
         <h2 className="bg-slate-300 rounded-sm p-1">Product Logs</h2>
-        <ListGrid data={productLogs} Item={ProductLogItemList} />
+        <ListGrid data={productLogs} Item={ProductLogItemList} headers={listHeaders}/>
       </div>
     </div>
   );

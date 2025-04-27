@@ -5,6 +5,7 @@ import com.r2m.cloud.cloud_api.application.product.DownloadProductLog;
 import com.r2m.cloud.cloud_api.application.product.GetProductLogs;
 import com.r2m.cloud.cloud_api.domain.ProductLog;
 import com.r2m.cloud.cloud_api.domain.request.CreateProductLogRequest;
+import com.r2m.cloud.cloud_api.domain.request.CreateProductLogTagsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,21 @@ public class ProductLogController {
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void createProductLog(@ModelAttribute  CreateProductLogRequest request){
         createProductLog.execute(request);
+    }
+
+    @PostMapping(path = "/file-upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public void createProductLogByFileUpload(@ModelAttribute  CreateProductLogRequest request){
+        createProductLog.executeByUploadFile(request);
+    }
+
+    @PostMapping(path = "/multipart", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public void createProductLogByMultipart(@ModelAttribute  CreateProductLogRequest request){
+        createProductLog.executeByUploadMultipartFile(request);
+    }
+
+    @PostMapping( path = "/tag", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public String createProductLogTagsOnly(@RequestBody CreateProductLogTagsRequest request){
+        return createProductLog.executeOnlyTags(request);
     }
 
     @GetMapping
