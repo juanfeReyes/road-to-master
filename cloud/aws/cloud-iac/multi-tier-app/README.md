@@ -1,5 +1,6 @@
 
-```
+To deploy multitier app follow the next commands:
+```sh
 aws sso login
 eval $(ssh-agent -s)
 make
@@ -34,7 +35,7 @@ ansible-inventory -i playbook/inventory/nodes/hosts.yml --list --yaml
 
 
 Run playbook for web-instances
-```
+```sh
 eval $(ssh-agent)
 ssh-add '/mnt/d/road to master/r2m-cloud-key.pem'
 ansible-playbook -i playbook/inventory/nodes/hosts.yml playbook/playbook-web.yml
