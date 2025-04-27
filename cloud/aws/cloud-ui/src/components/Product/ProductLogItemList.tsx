@@ -8,9 +8,10 @@ export interface ProductLogItemListProps {
 export const ProductLogItemList = ({data}: ProductLogItemListProps) => {
 
   return (
-    <div key={data.id} className="flex gap-2">
-      <div>{data.content}</div>
-      <div>{data.createTime}</div>
+    <div key={data.id} className="flex gap-2 ">
+      <div className="w-1/3">{data.objectKey}</div>
+      <div className="w-1/3">{data.createTime}</div>
+      <div className="w-1/3">{data.tags}</div>
     </div>
   ) 
 }

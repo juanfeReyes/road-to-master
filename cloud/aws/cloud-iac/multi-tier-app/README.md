@@ -1,4 +1,10 @@
 
+```
+aws sso login
+eval $(ssh-agent -s)
+make
+```
+
 #### Provision infrastructure
 ```
 tofu apply -auto-approve
@@ -23,7 +29,7 @@ host-ip | SUCCESS => {
 #### Run Playbook
 Verify inventory:
 ```
-ansible-inventory -i playbook/inventory/nodes/hosts.yml --list
+ansible-inventory -i playbook/inventory/nodes/hosts.yml --list --yaml
 ```  
 
 
@@ -31,7 +37,8 @@ Run playbook for web-instances
 ```
 eval $(ssh-agent)
 ssh-add '/mnt/d/road to master/r2m-cloud-key.pem'
-ansible-playbook -i playbook/inventory/nodes/hosts.yml playbook-web.yaml
+ansible-playbook -i playbook/inventory/nodes/hosts.yml playbook/playbook-web.yml
+ansible-playbook -i playbook/inventory/nodes/hosts.yml playbook/playbook-api.yml
 ```
 
 #### Destroy infrastructure

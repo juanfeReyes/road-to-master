@@ -74,6 +74,7 @@ resource "aws_route_table_association" "basic_web_public_rt_assoc" {
 
 resource "aws_subnet" "private_subnet" {
   vpc_id = aws_vpc.multitier_web_vpc.id
+  cidr_block              = "10.16.1.0/24"
   tags = {
     develop = "multitier"
   }
@@ -125,6 +126,11 @@ resource "aws_route" "igw_route" {
 
 // Bastion-NAT configuration
 
+data "http" "myip" {
+  url = "https://ipv4.icanhazip.com"
+}
+
+
 resource "aws_security_group" "nat_bastion_sg" {
   name        = "nat_bastion_sg"
   description = "Allow ssh and http"
@@ -134,7 +140,7 @@ resource "aws_security_group" "nat_bastion_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["181.234.158.187/32"] // delete myIp
+    cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"] // delete myIp
   }
 
   egress {
@@ -206,6 +212,7 @@ resource "aws_instance" "web_instance" {
   instance_type = "t2.micro"
   tags = {
     develop = "basic"
+    Name = "multier-ui"
   }
   subnet_id              = aws_subnet.basic_web_public_subnet.id
   vpc_security_group_ids = [aws_security_group.public_web_sg.id]
@@ -218,7 +225,7 @@ resource "ansible_group" "web" {
   name     = "web_instances"
   children = ["web"]
   variables = {
-    ansible_ssh_common_args = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand='ssh -A -W %h:%p -q ec2-user@${module.fck-nat.instance_public_ip}'"
+    ansible_ssh_common_args = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -A -W %h:%p -q ec2-user@${module.fck-nat.instance_public_ip}'"
   }
 }
 
@@ -245,6 +252,13 @@ resource "aws_security_group" "private_api_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = module.fck-nat.security_group_ids //Security groups can be sg sources
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -258,6 +272,7 @@ resource "aws_instance" "api_instance" {
   instance_type = "t2.micro"
   tags = {
     develop = "basic"
+    Name = "multitier-api"
   }
   subnet_id              = aws_subnet.private_subnet.id
   vpc_security_group_ids = [aws_security_group.private_api_sg.id]
@@ -269,7 +284,7 @@ resource "ansible_group" "api" {
   name     = "api_instances"
   children = ["api"]
   variables = {
-    ansible_ssh_common_args = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand='ssh -A -W %h:%p -q ec2-user@${module.fck-nat.instance_public_ip}'"
+    ansible_ssh_common_args = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -A -W %h:%p -q ec2-user@${module.fck-nat.instance_public_ip}'"
   }
 }
 

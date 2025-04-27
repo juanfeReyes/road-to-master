@@ -49,7 +49,7 @@ http {
     
      # proxy to ws-api (TODO use docker domain name)
     location /api/ {
-      proxy_pass      http://10.16.1.10:8080/; # Update to call aws
+      proxy_pass      http://10.16.1.10:8080/api/; # Update to call aws
     }
   }
 }

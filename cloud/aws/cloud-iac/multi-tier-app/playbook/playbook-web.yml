@@ -1,0 +1,51 @@
+- name: Provision web instance with NGINX and deply UI
+  hosts: web_instances
+  become: true
+  tasks:
+  - name: Ping my hosts
+    ansible.builtin.ping:
+
+  - name: Install nginx
+    ansible.builtin.dnf:
+      name: nginx
+      state: latest
+      update_cache: yes
+    become_user: root
+
+  - name: Remove default nginx configuration
+    file:
+      path: /etc/nginx/sites-enabled/default
+      state: absent
+
+  - name: Copy Nginx config
+    ansible.builtin.copy:
+      src: /mnt/d/road to master/r2m-cloud/cloud-iac/multi-tier-app/static-site-config 
+      dest: /etc/nginx/sites-available/
+      owner: "{{ user }}"
+      group: root
+      mode: '0644'
+
+  - name: Enable website configuration
+    ansible.builtin.file:
+      src: /etc/nginx/sites-available/static-site-config
+      dest: /etc/nginx/nginx.conf
+      state: link
+      force: yes
+    become_user: root  
+
+  - name: Copy cloud-ui
+    ansible.builtin.copy:
+      src: /mnt/d/road to master/r2m-cloud/cloud-ui/out/
+      dest: /usr/share/nginx/html/
+      owner: "{{ user }}"
+      group: root
+      mode: '0644'
+  
+  - name: ensure nginx is running
+    ansible.builtin.systemd:
+      name: nginx
+      state: started
+      enabled: yes
+
+  vars:
+    user: "ec2-user"

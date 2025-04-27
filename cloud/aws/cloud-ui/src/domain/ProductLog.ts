@@ -2,7 +2,8 @@
 export interface ProductLog {
   id: string,
   createTime: string,
-  content: string
+  objectKey: string
+  tags: string
 }
 
 export interface ProductLogRequest {
