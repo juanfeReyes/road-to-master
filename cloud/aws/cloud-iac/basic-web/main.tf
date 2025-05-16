@@ -70,8 +70,8 @@ resource "aws_route" "igw_route" {
 Instance configuration
 */
 
-resource "aws_security_group" "public_web_sg" {
-  name        = "public_web_sg"
+resource "aws_security_group" "private_web_sg" {
+  name        = "private_web_sg"
   description = "Allow ssh and http"
   vpc_id      = aws_vpc.basic_web_vpc.id
   ingress {
@@ -104,7 +104,7 @@ resource "aws_instance" "web_instance" {
   }
   user_data              = file("basic-web-provision.tpl")
   subnet_id              = aws_subnet.basic_web_public_subnet.id
-  vpc_security_group_ids = [aws_security_group.public_web_sg.id]
+  vpc_security_group_ids = [aws_security_group.private_web_sg.id]
   key_name               = "r2m-cloud-key"
 }
 
