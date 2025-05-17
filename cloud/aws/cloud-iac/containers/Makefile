@@ -1,9 +1,15 @@
 
-.PHONY: push_ui_image
+.PHONY: all deploy_ecr build_ui build_api deploy_ecr_repo push_ui_image push_api_image deploy_ecs_cluster
+
+all: deploy_ecr deploy_ecs_cluster
 
 clean: clean_ecs clean_ecr
 
-deploy_ecr: deploy_ecr_repo build_ui push_ui_image build_api push_api_image
+deploy_ecr: deploy_ecr_repo build_images push_images
+
+build_images: build_ui build_api
+
+push_images: push_ui_image push_api_image
 
 build_ui:
 	@echo "Build UI Image"
