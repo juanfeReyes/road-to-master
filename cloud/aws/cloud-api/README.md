@@ -51,5 +51,10 @@ docker push 140023377333.dkr.ecr.us-east-1.amazonaws.com/r2m/cloud:cloud-api
 
 Test health check in local:
 ````shell
-docker run -dt -p 8080:8080 --name cloud-api --health-cmd "wget --spider http://localhost:8080/api/actuator/health || exit 1" --health-interval=5s --health-retries=5 140023377333.dkr.ecr.us-east-1.amazonaws.com/r2m/cloud:cloud-api
+docker.exe run -dt -p 8080:8080 -e SPRING_PROFILES_ACTIVE=local --name cloud-api --health-cmd "wget --spider http://localhost:8080/api/actuator/health || exit 1" --health-interval=5s --health-retries=5 140023377333.dkr.ecr.us-east-1.amazonaws.com/r2m-containers-repository:cloud-api
+````
+docker.exe run -dt -p 8080:8080 -e SPRING_PROFILES_ACTIVE=local --name cloud-api --health-cmd "wget --spider http://localhost:8080/api/actuator/health || exit 1" --health-interval=5s --health-retries=5 r2m-containers-repository/cloud-api:latest
+
+````shell
+docker.exe run -dt -p 80:80 --name cloud-ui --health-cmd "service nginx status || exit 1" --health-interval=5s --health-retries=5 140023377333.dkr.ecr.us-east-1.amazonaws.com/r2m-containers-repository/r2m-containers-repository/cloud:cloud-ui
 ````

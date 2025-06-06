@@ -10,10 +10,6 @@ terraform {
       source  = "ansible/ansible"
       version = "1.3.0"
     }
-    # ansible = {
-    #   source  = "habakke/ansible"
-    #   version = "2.0.1"
-    # }
   }
 }
 
@@ -181,8 +177,8 @@ resource "aws_route" "nat_route" {
 Instance configuration
 */
 
-resource "aws_security_group" "public_web_sg" {
-  name        = "public_web_sg"
+resource "aws_security_group" "private_web_sg" {
+  name        = "private_web_sg"
   description = "Allow ssh and http"
   vpc_id      = aws_vpc.multitier_web_vpc.id
   ingress {
@@ -215,7 +211,7 @@ resource "aws_instance" "web_instance" {
     Name = "multier-ui"
   }
   subnet_id              = aws_subnet.basic_web_public_subnet.id
-  vpc_security_group_ids = [aws_security_group.public_web_sg.id]
+  vpc_security_group_ids = [aws_security_group.private_web_sg.id]
   key_name               = "r2m-cloud-key"
 }
 
