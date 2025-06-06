@@ -1,0 +1,7 @@
+externalAccess:
+  enabled: true
+  service:
+    domain: 127.0.0.1
+    type: ClusterIP
+    ports:
+      external: 9094

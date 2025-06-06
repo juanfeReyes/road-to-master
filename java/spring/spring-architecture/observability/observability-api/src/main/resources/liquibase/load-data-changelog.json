@@ -1,0 +1,36 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "1",
+        "author": "juan",
+        "changes": [
+          {
+            "loadData": {
+              "file": "data/warehouse_data.csv",
+              "relativeToChangelogFile": true,
+              "separator": ",",
+              "tableName": "warehouse"
+            }
+          },
+          {
+            "loadData": {
+              "file": "data/shelve_data.csv",
+              "relativeToChangelogFile": true,
+              "separator": ",",
+              "tableName": "shelve"
+            }
+          },
+          {
+            "loadData": {
+              "file": "data/stock_item_data.csv",
+              "relativeToChangelogFile": true,
+              "separator": ",",
+              "tableName": "stock_item"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

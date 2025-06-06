@@ -1,0 +1,49 @@
+{
+  "databaseChangeLog": [
+    {
+      "include": {
+        "file": "/liquibase/changelogs/9122021_add_pet.json"
+      }
+    },
+    {
+      "include": {
+        "file": "/liquibase/changelogs/14122021_add_doctor.json"
+      }
+    },
+    {
+      "include": {
+        "file": "/liquibase/changelogs/14122021_add_medical_appointment.json"
+      }
+    },
+    {
+      "include": {
+        "file": "/liquibase/changelogs/14122021_add_treatment.json"
+      }
+    },
+    {
+      "include": {
+        "file": "/liquibase/changelogs/15122021_add_adopter.json"
+      }
+    },
+    {
+      "include": {
+        "file": "/liquibase/changelogs/15122021_add_adoption.json"
+      }
+    },
+    {
+      "include": {
+        "file": "/liquibase/changelogs/15122021_add_appointment_type.json"
+      }
+    },
+    {
+      "include": {
+        "file": "/liquibase/data/25122021_initial_data.json"
+      }
+    },
+    {
+      "include": {
+        "file": "/liquibase/changelogs/27122021_report_store_procedure.json"
+      }
+    }
+  ]
+}

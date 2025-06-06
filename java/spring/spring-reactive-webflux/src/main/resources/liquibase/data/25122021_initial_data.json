@@ -1,0 +1,18 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "seed-initial-data",
+        "author": "shelter",
+        "changes": [
+          {
+            "loadData": {
+              "tableName": "sales",
+              "file": "/data/initial-data/seed-sales.csv"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

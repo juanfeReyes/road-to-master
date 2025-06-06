@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mariadb-ingress
+spec:  
+  rules:  
+    - host: mariadb.pets-api
+      http:  
+        paths:  
+          - path: / 
+            pathType: Prefix 
+            backend: 
+              service: 
+                name: mariadb-release
+                port:
+                  number: 3306
+    ingressClassName: nginx

@@ -1,0 +1,39 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "add_appointment_type",
+        "author": "shelter",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "appointment_type",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "type": "varchar(36)",
+                    "constraints": {
+                      "nullable": false,
+                      "primaryKey": true,
+                      "primaryKeyName": "pk_appointment_type"
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "name",
+                    "type": "varchar(100)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "add_medical_appointment",
+        "author": "shelter",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "medical_appointment",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "type": "varchar(36)",
+                    "constraints": {
+                      "nullable": false,
+                      "primaryKey": true,
+                      "primaryKeyName": "pk_medical_appointment"
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "pet_id",
+                    "type": "varchar(36)",
+                    "constraints": {
+                      "nullable": false,
+                      "references": "pet(id)",
+                      "foreignKeyName": "fk_medical_appointment_pet"
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "doctor_id",
+                    "type": "varchar(36)",
+                    "constraints": {
+                      "nullable": false,
+                      "references": "doctor(id)",
+                      "foreignKeyName": "fk_medical_appointment_doctor"
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "schedule_date",
+                    "type": "datetime",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "atention_date",
+                    "type": "datetime",
+                    "constraints": {
+                      "nullable": true
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "description",
+                    "type": "varchar(500)",
+                    "constraints": {
+                      "nullable": true
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+mutation{
+  createMedicalAppointment(medicalAppointment: {
+    doctorId: "abc",
+    petId: "082e5f76-a4c1-4915-a486-935b29d18814",
+    id: "635",
+    scheduleDate: "1996-12-19",
+    attentionDate:"1996-12-19"
+  }) {
+    description
+    id
+  }
+}

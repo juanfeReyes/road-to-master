@@ -1,0 +1,20 @@
+
+server:
+  servlet:
+    encoding:
+      force: false
+      forceResponse: false
+
+spring:
+  r2dbc:
+    name: sales_db
+    url: r2dbc:mariadb://mariadb:3306
+    username: root
+    password: pets-admin-root
+  liquibase:
+    change-log: classpath:liquibase/master_changelog.json
+    enabled: true
+    drop-first: true
+    user: root
+    password: pets-admin-root
+

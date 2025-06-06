@@ -1,0 +1,482 @@
+{ "databaseChangeLog": [
+  {
+    "changeSet": {
+      "id": "1698018521571-1",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "defaultValueComputed": "NULL",
+                  "name": "date",
+                  "type": "date"
+                }
+              },
+              {
+                "column": {
+                  "defaultValueComputed": "NULL",
+                  "name": "type",
+                  "type": "TINYINT"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "unique": true
+                  },
+                  "name": "transport_id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "name": "user_id",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "order_item"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1698018521571-2",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "name": "location",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "name": "warehouse_id",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "shelve"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1698018521571-3",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "count",
+                  "type": "INT"
+                }
+              },
+              {
+                "column": {
+                  "name": "description",
+                  "type": "VARCHAR(2000)"
+                }
+              },
+              {
+                "column": {
+                  "name": "name",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "name": "shelve_id",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "stock_item"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1698018521571-4",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "name": "driver",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "name": "plate",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false
+                  },
+                  "name": "years_of_service",
+                  "type": "INT"
+                }
+              }
+            ]
+            ,
+            "tableName": "transport"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1698018521571-5",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "name": "name",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "name": "phone",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "user"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1698018521571-6",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "name": "address",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "name": "country",
+                  "type": "VARCHAR(255)"
+                }
+              },
+              {
+                "column": {
+                  "name": "region",
+                  "type": "VARCHAR(255)"
+                }
+              }
+            ]
+            ,
+            "tableName": "warehouse"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1698018521571-7",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "columns": [
+              {
+                "column": {
+                  "name": "warehouse_id"
+                }
+              }
+            ]
+            ,
+            "indexName": "FKs2h5sr3306moxg8cilia4g6wb",
+            "tableName": "shelve"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1698018521571-8",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "columns": [
+              {
+                "column": {
+                  "name": "shelve_id"
+                }
+              }
+            ]
+            ,
+            "indexName": "SHELVE_ID_FK",
+            "tableName": "stock_item"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1698018521571-9",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "createIndex": {
+            "columns": [
+              {
+                "column": {
+                  "name": "user_id"
+                }
+              }
+            ]
+            ,
+            "indexName": "USER_ID_FK",
+            "tableName": "order_item"
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1698018521571-10",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "warehouse_id",
+            "baseTableName": "shelve",
+            "constraintName": "FKs2h5sr3306moxg8cilia4g6wb",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "warehouse",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1698018521571-11",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "shelve_id",
+            "baseTableName": "stock_item",
+            "constraintName": "SHELVE_ID_FK",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "shelve",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1698018521571-12",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "transport_id",
+            "baseTableName": "order_item",
+            "constraintName": "TRANSPORT_ID_FK",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "transport",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1698018521571-13",
+      "author": "liquibase (generated)",
+      "changes": [
+        {
+          "addForeignKeyConstraint": {
+            "baseColumnNames": "user_id",
+            "baseTableName": "order_item",
+            "constraintName": "USER_ID_FK",
+            "deferrable": false,
+            "initiallyDeferred": false,
+            "onDelete": "RESTRICT",
+            "onUpdate": "RESTRICT",
+            "referencedColumnNames": "id",
+            "referencedTableName": "user",
+            "validate": true
+          }
+        }
+      ]
+      
+    }
+  },
+
+  {
+    "changeSet": {
+      "id": "1",
+      "author": "juan",
+      "changes": [
+        {
+          "loadData": {
+            "file": "data/warehouse_data.csv",
+            "relativeToChangelogFile": true,
+            "separator": ",",
+            "tableName": "warehouse"
+          }
+        },
+        {
+          "loadData": {
+            "file": "data/shelve_data.csv",
+            "relativeToChangelogFile": true,
+            "separator": ",",
+            "tableName": "shelve"
+          }
+        }
+      ]
+    }
+  }
+  
+]}

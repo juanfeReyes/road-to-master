@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+
+  postgresDb:
+    image: postgres:alpine3.17
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: postgres
+    volumes:
+      - ./scripts/postgres:/docker-entrypoint-initdb.d
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbituser
+      - RABBITMQ_DEFAULT_PASS=rabbitpass
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+

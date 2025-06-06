@@ -1,0 +1,70 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "add_adoption",
+        "author": "shelter",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "adoption",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "type": "varchar(36)",
+                    "constraints": {
+                      "nullable": false,
+                      "primaryKey": true,
+                      "primaryKeyName": "pk_adoption"
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "pet_id",
+                    "type": "varchar(36)",
+                    "constraints": {
+                      "nullable": false,
+                      "references": "pet(id)",
+                      "foreignKeyName": "fk_adoption_pet"
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "adopter_id",
+                    "type": "varchar(36)",
+                    "constraints": {
+                      "nullable": false,
+                      "references": "adopter(id)",
+                      "foreignKeyName": "fk_adoption_adopter"
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "adoption_date",
+                    "type": "datetime",
+                    "constraints": {
+                      "nullable": true
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "description",
+                    "type": "varchar(500)",
+                    "constraints": {
+                      "nullable": true
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

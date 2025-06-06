@@ -1,0 +1,6 @@
+auth:
+  rootPassword: "pets-admin-root"
+  username: "pets-user"
+  password: "pets-password"
+  database: "deploy-test"
+

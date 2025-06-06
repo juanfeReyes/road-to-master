@@ -1,0 +1,14 @@
+{
+  "databaseChangeLog": [
+    {
+      "include": {
+        "file": "/changelogs/742023_add_sales.json"
+      }
+    },
+    {
+      "include": {
+        "file": "/data/25122021_initial_data.json"
+      }
+    }
+  ]
+}

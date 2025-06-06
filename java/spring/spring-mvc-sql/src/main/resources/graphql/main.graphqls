@@ -1,0 +1,25 @@
+scalar Date
+type MedicalAppointment {
+  id: String!
+  scheduleDate: String!
+  atentionDate: String!
+  description: String
+}
+
+input MedicalAppointmentRequest{
+  id: String!
+  scheduleDate: Date!
+  attentionDate: Date!
+  description: String
+  doctorId: String!
+  petId: String!
+}
+
+type Query {
+  getMedicalAppointments: [MedicalAppointment!]!
+}
+
+
+type Mutation {
+  createMedicalAppointment(medicalAppointment: MedicalAppointmentRequest): MedicalAppointment
+}
