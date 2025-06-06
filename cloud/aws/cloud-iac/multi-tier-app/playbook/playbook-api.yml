@@ -1,0 +1,36 @@
+- name: Provision api instance with Java and deploy api
+  hosts: api_instances
+  become: true
+  tasks:
+  - name: Ping my hosts
+    ansible.builtin.ping:
+
+  - name: Install java
+    ansible.builtin.dnf:
+      name: java-17-amazon-corretto-headless
+      state: present
+      update_cache: yes
+    become_user: root
+
+  - name: Create api directory if not exists
+    ansible.builtin.file:
+      path: /usr/share/api
+      state: directory
+
+  - name: Copy cloud-api
+    ansible.builtin.copy:
+      src: /mnt/d/road to master/r2m-cloud/cloud-api/target/cloud-api.jar
+      dest: /usr/share/api/
+      owner: "{{ user }}"
+      group: root
+      mode: '0644'
+  
+  - name: Run cloud-api jar
+    ansible.builtin.shell:
+      cmd: java -jar '-Dspring.profiles.active=local' cloud-api.jar &
+      chdir: /usr/share/api/
+    become_user: root
+    poll: 0
+
+  vars:
+    user: "ec2-user"
