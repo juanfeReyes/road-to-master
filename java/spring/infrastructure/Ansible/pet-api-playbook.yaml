@@ -1,0 +1,86 @@
+---
+- name: Install docker compose
+  hosts: all
+  remote_user: ubuntu
+  become: yes
+  tasks:
+  # Install docker and  docker compose
+    - name: Install docker packages
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      with_items:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+        - python3-pip
+      tags:
+        - docker
+    - name: Add Docker s official GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+      tags:
+        - docker
+    - name: Verify that we have the key with the fingerprint
+      apt_key:
+        id: 0EBFCD88
+        state: present
+      tags:
+        - docker
+    - name: Set up the stable repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+        state: present
+        update_cache: yes
+      tags:
+        - docker
+    - name: Update apt packages
+      apt:
+        update_cache: yes
+      tags:
+        - docker
+    - name: Install docker
+      apt:
+        name: docker-ce
+        state: present
+        update_cache: yes
+      #notify: Start docker on boot
+      tags:
+        - docker
+    - name: Pip install docker
+      pip:
+        name: docker-compose
+    - name: Add remote "ubuntu" user to "docker" group
+      user:
+        name: "ubuntu"
+        group: "docker"
+        append: yes
+      tags:
+        - docker
+    - name: Install docker-compose
+      get_url: 
+        url : https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: 'u+x,g+x'
+    # Get respository of pet-api
+    - name: Install GIT
+      apt:
+        name: git
+        state: present
+        update_cache: yes
+    - name: Clone pet api repository
+      git:
+        repo: https://github.com/juanfeReyes/R2M-Pet-Spring.git
+        dest: /home/web/pet-api
+    # Start docker compose and hope is available :D
+    - name: Start compose
+      docker_compose:
+        project_src: /home/web/pet-api
+        state: present
+        files:
+          - docker-compose-dev.yml
+      vars:
+        ansible_python_interpreter: /bin/python3

@@ -1,0 +1,39 @@
+
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          applicationId: process-manager-api
+          brokers: localhost:9094
+          autoCreateTopics: true
+          autoAddPartitions: true
+          consumer-properties:
+            allow:
+              auto:
+                create:
+                  topics: true
+      bindings:
+        domain-event-out-0:
+          destination: process-manager-event-topic
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/process_manager?currentSchema=public
+    username: postgres
+    password: pass
+    hikari:
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+

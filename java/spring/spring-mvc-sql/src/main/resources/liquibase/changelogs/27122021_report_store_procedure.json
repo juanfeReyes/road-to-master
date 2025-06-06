@@ -1,0 +1,19 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "add_appointment_type",
+        "author": "shelter",
+        "changes": [
+          {
+            "createProcedure": {
+              "encoding": "UTF-8",
+              "path": "/liquibase/scripts/report.sql",
+              "procedureName": "report"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

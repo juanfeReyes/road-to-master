@@ -1,0 +1,57 @@
+{
+  "type": "record",
+  "name": "PetResourceRequest",
+  "namespace": "schemas.Pet",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "race",
+      "type": "string"
+    },
+    {
+      "name": "creationDate",
+      "type": "string"
+    },
+    {
+      "name": "priority",
+      "type": {
+        "type": "enum",
+        "name": "PriorityEnum",
+        "symbols": ["LOW", "MEDIUM", "HIGH", "SEVERE"]
+      }
+    },
+    {
+      "name": "resources",
+      "type": {
+        "name": "resources",
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "Resource",
+          "namespace": "schemas.Donation",
+          "fields": [
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "amount",
+              "type": "long"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

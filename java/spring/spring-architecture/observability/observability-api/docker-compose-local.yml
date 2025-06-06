@@ -1,0 +1,50 @@
+version: "3.9"  # optional since v1.27.0
+services:
+
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./init-script/mariadb:/docker-entrypoint-initdb.d
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: always
+    ports:
+      - 9090:9090
+    volumes:
+      - ./init-script/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: always
+    ports:
+      - 9095:3000
+    volumes:
+      - ./init-script/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./init-script/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+    environment:
+      DS_PROMETHEUS: 951236
+
+  loki:
+    image: grafana/loki
+    extra_hosts: [ 'host.docker.internal:host-gateway' ]
+    command: [ "-config.file=/etc/loki/local-config.yaml" ]
+    ports:
+      - "3100:3100"
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686" # the jaeger UI
+      - "4317:4317" # the OpenTelemetry collector grpc
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+

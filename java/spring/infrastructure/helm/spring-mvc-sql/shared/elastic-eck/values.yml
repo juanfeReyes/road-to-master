@@ -1,0 +1,11 @@
+eck-elasticsearch:
+  enabled: false
+
+eck-kibana:
+  enabled: false
+
+eck-agent:
+  enabled: false
+
+eck-fleet-server:
+  enabled: true

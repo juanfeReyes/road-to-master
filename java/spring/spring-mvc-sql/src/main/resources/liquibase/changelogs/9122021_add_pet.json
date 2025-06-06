@@ -1,0 +1,58 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "add_pet",
+        "author": "shelter",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "pet",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "type": "varchar(36)",
+                    "constraints": {
+                      "nullable": false,
+                      "primaryKey": true,
+                      "primaryKeyName": "pk_pet"
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "name",
+                    "type": "varchar(50)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "race",
+                    "type": "varchar(50)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "active",
+                    "type": "boolean",
+                    "constraints": {
+                      "nullable": false,
+                      "defaultValueBoolean": false
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

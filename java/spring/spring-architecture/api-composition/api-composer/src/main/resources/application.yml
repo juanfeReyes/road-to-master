@@ -1,0 +1,23 @@
+
+services:
+  portfolio: https://localhost:8085/portfolio
+  projection:  https://localhost:8086/projections
+  user:  https://localhost:8087/user
+
+spring:
+  ssl:
+    bundle:
+      jks:
+        web-server:
+          keystore:
+            location: "classpath:ssl/server.p12"
+            password: "123456"
+            type: PKCS12
+
+server:
+  port: 8443
+  ssl:
+    bundle: "web-server"
+    client-auth: NEED
+
+logging.level.root: info

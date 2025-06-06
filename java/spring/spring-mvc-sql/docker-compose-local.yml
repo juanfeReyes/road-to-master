@@ -1,0 +1,61 @@
+version: "3.9"  # optional since v1.27.0
+services:
+
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./init-script/mariadb:/docker-entrypoint-initdb.d
+
+  keycloak:
+    image: jboss/keycloak:15.0.1
+    container_name: keycloak
+    depends_on:
+      - mariadb
+    ports:
+      - 8180:8180
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+      DB_VENDOR: mariadb
+      DB_PORT: 3306
+      DB_USER: keycloak_user
+      DB_PASSWORD: password
+      JAVA_OPTS_APPEND: "-Djboss.http.port=8180"
+      KEYCLOAK_IMPORT: "/tmp/pet-realm.json -Dkeycloak.profile.feature.upload_scripts=enabled"
+    volumes:
+      - ./init-script/keycloak:/tmp
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - 2181:2181
+  kafka:
+    image: wurstmeister/kafka:2.12-2.5.0
+    container_name: kafka
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_SCHEMA_REGISTRY_URL: "schemaregistry:8085"
+    volumes:
+      - ./init-script/kafka:/var/run/docker.sock
+
+  schemaregistry:
+    image: confluentinc/cp-schema-registry:5.1.2
+    container_name: schemaregistry
+    restart: always
+    depends_on:
+      - zookeeper
+    environment:
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: "zookeeper:2181"
+      SCHEMA_REGISTRY_HOST_NAME: schemaregistry
+      SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8085"
+    ports:
+      - 8085:8085

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pet-api-deployment
+  labels:
+    app: pet-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pet-api
+  template:
+    metadata:
+      labels:
+        app: pet-api
+    spec:
+      containers:
+      - name: pet-api
+        image: ghcr.io/juanfereyes/r2m-pet-spring:release
+        ports:
+        - containerPort: 8080

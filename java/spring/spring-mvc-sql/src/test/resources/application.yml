@@ -1,0 +1,32 @@
+jdbc:
+  driverClassName: org.h2.Driver
+  url: jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1;NON_KEYWORDS=KEY,VALUE
+
+api-version: v1
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    oauth:
+      clientId: pets-client
+      clientSecret: 371ff349-a1d7-4fa6-8bf4-4294b3f97176
+      usePkceWithAuthorizationCodeGrant: true
+  api-docs:
+    path: /api-docs
+  oAuthFlow:
+    authorizationUrl: http://keycloak/auth/realms/pets-api-realm/protocol/openid-connect/auth
+    tokenUrl: http://keycloak/auth/realms/pets-api-realm/protocol/openid-connect/token
+
+spring:
+  liquibase:
+    enabled: false
+  datasource:
+    url: jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1;NON_KEYWORDS=KEY,VALUE
+    driver-class-name: org.h2.Driver
+  hibernate:
+    dialect: org.hibernate.dialect.H2Dialect
+    hbm2ddl:
+      auto: create
+  main:
+    allow-bean-definition-overriding: true
+

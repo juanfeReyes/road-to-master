@@ -1,0 +1,6 @@
+jobName: keycloak-db-provisioning
+imageName: pets-infra/keycloak-provisioning
+envVariables: 
+    url: jdbc:mariadb://mariadb-release:3306/deploy-test
+    username: root
+    password: pets-admin-root

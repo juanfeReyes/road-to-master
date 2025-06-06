@@ -1,0 +1,26 @@
+{
+  "bankList": {
+    "header": "Bank List"
+  },
+  "labels": {
+    "location": "Location",
+    "address": "Address",
+    "login": "Login",
+    "logout": "Logout",
+    "name": "Name",
+    "email": "Email",
+    "contactInformation": "Contact information",
+    "managerInformation": "Manager information",
+    "state": "Status",
+    "origin": "Origin",
+    "destination": "Destination",
+    "amount": "Amount",
+    "date": "Date",
+    "transactions": {
+      "title": "User transactions"
+    },
+    "users": {
+      "title": "Registered users"
+    }
+  }
+}

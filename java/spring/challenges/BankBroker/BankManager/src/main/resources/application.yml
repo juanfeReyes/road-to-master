@@ -1,0 +1,44 @@
+#server:
+#  servlet:
+#    context-path: /bank-broker
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bank_broker?currentSchema=public
+    username: postgres
+    password: pass
+    hikari:
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  liquibase:
+    change-log: classpath:liquibase/master_changelog.json
+    enabled: false
+    drop-first: true
+    user: postgres
+    password: pass
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8180/auth/realms/bank-broker
+          jwk-set-uri: http://localhost:8180/auth/realms/bank-broker/protocol/openid-connect/certs
+
+springdoc:
+  version: '@springdoc.version@'
+  swagger-ui:
+    oauth:
+      clientId: bank-broker
+      clientSecret: 5467b344-1a1b-4f45-9c05-846d7c51f514
+      usePkceWithAuthorization: true
+  oAuthFlow:
+    authorizationUrl: http://localhost:8180/auth/realms/bank-broker/protocol/openid-connect/auth
+    tokenUrl: http://localhost:8180/auth/realms/bank-broker/protocol/openid-connect/token
