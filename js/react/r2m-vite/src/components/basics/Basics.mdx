@@ -1,0 +1,50 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+ 
+import * as stories from './Basics.stories';
+ 
+<Meta of={stories} />
+ 
+# Functional component
+ 
+ The main goals a UI must succeed to be useful are: 
+ - Visualization
+ - Interactivity
+
+ **Visualization**: Show the user the necessary information information to help them perform the task in the system  
+ **Interactivity**: Allow the user to perform the necesary actions in the system to facilitate their experience
+
+ React allows to write components primarily with functional sintax which is simpler than component class components
+
+<Canvas of={stories.Default} />
+
+## Component lifecycle
+
+1. Initial state setup  
+  Setup all state (with useState hook) and component functions
+2. Mount
+  Component is rendered in browser for first time and useEffects are called just after mounting
+3. Update
+  Every change in state or props will trigger a rerender, running the componen body.
+4. Un-mount
+  Run just before the component will be removed from DOM and nor visualized
+
+## Props and state
+Every react component handles data from 2 sources:
+- Props (Properties): Data send to the component sharing data or configuration parameters
+- State: Internal state managed by component.
+
+React is watching for any change in props or state to trigger an update of the component in the DOM
+
+## Conditional Rendering
+
+## Composition
+
+## List and keys
+
+## Render props
+
+## Refs advance
+
+## Events
+
+## High order component and best patterns
