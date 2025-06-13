@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.card {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: whitesmoke;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0.5rem 0.5rem 0.5rem gray;
+}
+
+.drag-zone_zontainer {
+  border: 1px solid gray;
+  padding: 1rem;
+}
+
+.notification {
+  background-color: beige;
+  padding: 0.2rem;
+}
+
+.notification_container {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+}

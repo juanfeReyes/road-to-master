@@ -64,7 +64,7 @@ interface MessageProps {
 }
 const LoadIfSelected = (Component: ComponentType<MessageProps>) => {
   return (props: MessageProps) => {
-    if (!!props.msg) {
+    if (props.msg) {
       return <Component {...props}/>
     }
 

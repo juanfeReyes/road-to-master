@@ -36,15 +36,35 @@ Every react component handles data from 2 sources:
 React is watching for any change in props or state to trigger an update of the component in the DOM
 
 ## Conditional Rendering
+React allow us to render component and html elem based on different conditions to adapt the UI for multiple
+scenarios 
 
-## Composition
+
 
 ## List and keys
+React allows us to map a list into a collection of React components that will be rendered. This is useful
+when loading several elements of the same component by only changing the props of the item component.
 
-## Render props
+key property is really important as is the ID react tracks to update the state of each item in the 
+rendered list
 
 ## Refs advance
 
 ## Events
 
-## High order component and best patterns
+## Reuseability
+
+#### Componsition
+Composition allows to improve maintanability of component by allowing to have a 
+modular structure and build specilized components which will be integrated for complex features
+
+Usually by passing a component as a children prop
+
+### Enhancing components
+
+#### High order component (HOC)
+HOC are functions that receive a component and return an enhanced component
+
+#### Render props
+Render props is a patter to send a function that returns a React component as a prop which allows to
+enhance the prop component by the Parent component
