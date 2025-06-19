@@ -1,6 +1,6 @@
 import type { KeyboardEvent } from "react"
-import { Card } from "../Events"
 import { NotificationContainer, type NotificationItemProps } from "../NotificationContainer"
+import { Card } from "../../../shared/card/Card"
 
 export const KeyBoardEvents = () => {
 

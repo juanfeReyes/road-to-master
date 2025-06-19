@@ -1,6 +1,6 @@
 import { type ChangeEvent, type FormEvent, type InputEvent, type InvalidEvent, type SyntheticEvent } from "react"
-import { Card } from "../Events"
 import { NotificationContainer, type NotificationItemProps } from "../NotificationContainer"
+import { Card } from "../../../shared/card/Card"
 
 export const FormEvents = () => {
 

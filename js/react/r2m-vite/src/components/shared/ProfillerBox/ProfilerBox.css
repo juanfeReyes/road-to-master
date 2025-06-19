@@ -1,0 +1,25 @@
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.horizontal {
+  display: flex;
+  flex-direction: row;
+}
+
+.justify_between {
+  justify-content: space-between;
+}
+
+.align_center {
+  align-content: center;
+}
+
+.box_border {
+  border: 1px solid darkslategray;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+}

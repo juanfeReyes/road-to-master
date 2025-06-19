@@ -2,7 +2,7 @@ import { useState, type DragEvent, type MouseEvent } from "react"
 import { NotificationContainer, type NotificationItemProps } from "../NotificationContainer"
 
 import '../Events.css'
-import { Card } from "../Events"
+import { Card } from "../../../shared/card/Card"
 
 export const MouseEvents = () => {
 
