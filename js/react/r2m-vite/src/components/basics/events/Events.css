@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.drag-zone_zontainer {
+  border: 1px solid gray;
+  padding: 1rem;
+}
+
+.notification {
+  background-color: beige;
+  padding: 0.2rem;
+}
+
+.notification_container {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+}

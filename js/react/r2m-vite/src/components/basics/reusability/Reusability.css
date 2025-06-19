@@ -1,0 +1,17 @@
+
+.container {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.item {
+  background-color: whitesmoke;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0.5rem 0.5rem 0.5rem gray;
+  display: flex;
+  flex-direction: column;
+  gap: 0.rem;
+}
