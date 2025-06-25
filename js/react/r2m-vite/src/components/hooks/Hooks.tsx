@@ -1,10 +1,11 @@
-import { StateHook } from "./types/StateHook"
+import { StateHook } from "./basics/StateHook"
 import './Hooks.css'
-import { EffectHook } from "./types/EffectHook"
-import { MemoHook } from "./types/MemoHook"
-import { CallbackHook } from "./types/CallbackHook"
-import { ReducerHook } from "./types/ReducerHook"
-import { ContextHook } from "./types/ContextHook"
+import { EffectHook } from "./basics/EffectHook"
+import { MemoHook } from "./basics/MemoHook"
+import { CallbackHook } from "./basics/CallbackHook"
+import { ReducerHook } from "./basics/ReducerHook"
+import { ContextHook } from "./basics/ContextHook"
+import { CustomHook } from "./custom/CustomHook"
 
 export const Hooks = () => {
 
@@ -15,5 +16,6 @@ export const Hooks = () => {
     <CallbackHook />
     <ReducerHook />
     <ContextHook />
+    <CustomHook />
   </div>)
 }
