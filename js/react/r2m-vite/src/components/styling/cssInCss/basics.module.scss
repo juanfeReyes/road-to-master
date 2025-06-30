@@ -1,0 +1,40 @@
+
+%capitalize {
+  text-transform: capitalize;
+}
+
+%level_icon {
+  size: 1rem;
+
+  &:hover {
+    color: goldenrod;
+    font-size: large;
+    z-index: 10;
+  }
+}
+
+.icon {
+  @extend %level_icon;
+}
+
+.card {
+  padding: 0.5rem;
+  border-radius: 1rem;
+  background-color: #F9F6EE;
+  box-shadow: gray 1rem 1rem 0.5rem;
+}
+
+.title th {
+  @extend %capitalize;
+  background-color: lightgray;
+}
+
+.capitalize {
+  @extend %capitalize;
+}
+
+table, th, td {
+  border: 1px solid gray;
+  border-collapse: collapse;
+  padding: 0.2rem;
+}

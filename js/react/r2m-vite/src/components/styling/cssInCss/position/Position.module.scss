@@ -1,0 +1,55 @@
+
+.flex {
+  display: flex;
+  gap: 2rem;
+}
+
+.parent-box {
+  position: relative;
+  height: 400px;
+  width: 300px;
+}
+
+.box {
+  background-color: bisque;
+  width: 100px;
+  height: 100px;
+}
+
+.static-position {
+  position: static;
+}
+
+%absolute {
+  position: absolute;
+}
+
+.absolute-one {
+  @extend %absolute;
+  top: 60px;
+  left: 30px;
+}
+
+.absolute-two {
+  @extend %absolute;
+  top: 100px;
+  left: 100px;
+  background-color: gray;
+}
+
+%fixed {
+  position: fixed;
+}
+
+.fixed-one {
+  @extend %fixed;
+  top: 80px;
+  left: 650px;
+}
+
+.fixed-two {
+  @extend %fixed;
+  top: 150px;
+  left: 700px;
+  background-color: gray;
+}
