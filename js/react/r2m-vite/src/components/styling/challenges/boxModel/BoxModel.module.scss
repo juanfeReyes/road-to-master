@@ -1,0 +1,25 @@
+
+$padding: 1rem;
+
+.bg-color-child {
+  background-color: gray;
+}
+
+.bg-color-parent {
+  background-color: bisque;
+}
+
+.margin {
+  margin: 1rem;
+}
+
+.padding {
+  padding: $padding;
+}
+
+.content-outline {
+  outline: 1px solid red !important;
+  outline-offset: $padding;
+}
+
+
