@@ -1,0 +1,22 @@
+$palettes: (
+    light: (primary: (500: #212529,
+            400: #495057,
+            300: #adb5bd,
+            200: #dee2e6,
+            100: #f8f9fa),
+        secondary: (),
+        neutral: (),
+    ),
+    dark: ()
+);
+
+:root {
+    @each $modename, $mode in $palettes {
+        @each $colorname, $palette in $mode {
+            @each $key, $value in $palette {
+                $keyname: "--palette-" + $modename + "-"  + $colorname + "-" + $key;
+                #{$keyname}: #{$value};
+            }
+        }
+    }
+}
