@@ -1,3 +1,16 @@
 {
-  "banner.roleTitle": "Ingeniero de software"
+  "banner.roleTitle": "Ingeniero de software",
+  "skills.title": "Habilidades",
+  "skill.name.JAVA": "Java",
+  "skill.name.JAVASCRIPT": "JavaScript",
+  "skill.name.REACT": "React",
+  "skill.name.RUST": "Rust",
+  "skill.name.SPRING": "Spring",
+  "skill.name.SQL": "SQL",
+  "skill.name.TYPESCRIPT": "TypeScript",
+  "skill.level.1": "Ni idea",
+  "skill.level.2": "Basico",
+  "skill.level.3": "Medio",
+  "skill.level.4": "Proeficient",
+  "skill.level.5": "Experto"
 }

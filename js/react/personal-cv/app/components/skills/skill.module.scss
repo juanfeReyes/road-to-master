@@ -1,0 +1,29 @@
+
+.list_container {
+  padding: 1rem;
+}
+
+.horizontal_layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.title {
+  font-size: 2.5rem;
+}
+
+.card {
+  border-radius: 0.5rem;
+  box-shadow: 0.5rem 0.5rem 0.5rem gray;
+  padding: 0.5rem;
+
+  .header {
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.icon {
+  font-size: 2rem;
+}
