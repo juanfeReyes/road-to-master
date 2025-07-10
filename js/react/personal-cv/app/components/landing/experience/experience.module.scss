@@ -1,0 +1,51 @@
+.container_bg {
+  background-color: var(--palette-light-primary-400);
+  padding: 1rem;
+}
+
+.horizontal_container {
+  display: flex;
+  flex-direction: row;
+}
+
+.justify_between {
+  justify-content: space-between;
+}
+
+.justify_end {
+  justify-content: end;
+}
+
+.experience_list {
+
+  .title {
+    font-size: 2rem;
+    color: var(--palette-light-primary-100);
+  }
+}
+
+.card {
+  width: 66%;
+
+  .title {
+    font-size: 1.2rem;
+    color: var(--palette-light-primary-100);
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .item {
+      background-color: var(--palette-light-primary-100);
+      padding: 0rem 1rem;
+
+      .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+  }
+}

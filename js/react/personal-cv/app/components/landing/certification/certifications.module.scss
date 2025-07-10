@@ -1,0 +1,43 @@
+.horizontal_layout {
+  display: flex;
+}
+
+.certification_container {
+  padding: 1rem;
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .list {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .title {
+        font-size: 1.3rem;
+        font-weight: bold;
+      }
+    }
+
+    ul {
+      list-style-type: circle;
+
+
+      li {
+        gap: 0.5rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .link {
+        color: var(--palette-light-primary-500);
+      }
+    }
+  }
+}
