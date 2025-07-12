@@ -6,24 +6,43 @@
 }
 
 .bg-color {
-  background-color: var(--palette-light-primary-300);
+  background-color: var(--palette-primary-300);
 }
 
 .banner-bg {
   padding: 2rem;
 }
 
-.title-container {
+.content {
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
-  align-items: end;
+  justify-content: space-between;
 
-  .title {
-    font-size: 5rem;
+  .title-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: end;
+
+    .title {
+      font-size: 5rem;
+    }
+
+    .subtitle {
+      font-size: 2rem;
+    }
   }
 
-  .subtitle {
-    font-size: 2rem;
+  .contact_container {
+    display: flex;
+    gap: 1rem;
+
+    a {
+      border-width: 2px;
+      border-radius: 25%;
+      border-color: var(--palette-primary-500);
+      padding: 0.5rem;
+      display: inline;
+    }
   }
 }

@@ -1,12 +1,11 @@
-
 .list_container {
-  padding: 1rem;
+  padding: 3rem 0;
 }
 
 .horizontal_layout {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.3rem;
+  gap: 1rem;
 }
 
 .title {
@@ -14,13 +13,22 @@
 }
 
 .card {
-  border-radius: 0.5rem;
-  box-shadow: 0.5rem 0.5rem 0.5rem gray;
+  border-radius: 0.2rem;
+  box-shadow: 0.2rem 0.2rem var(--palette-primary-500);
   padding: 0.5rem;
+  border-color: var(--palette-primary-500);
+  border-style: solid;
+  border-width: 1px;
 
   .header {
     justify-content: space-between;
     align-items: center;
+  }
+
+  .level {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
   }
 }
 

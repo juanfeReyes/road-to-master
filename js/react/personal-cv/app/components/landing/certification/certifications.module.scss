@@ -30,13 +30,13 @@
 
 
       li {
-        gap: 0.5rem;
-        display: flex;
-        align-items: center;
+        text-justify: inter-word;
       }
 
       .link {
-        color: var(--palette-light-primary-500);
+        color: var(--palette-primary-500);
+        display: inline;
+        text-align: center;
       }
     }
   }

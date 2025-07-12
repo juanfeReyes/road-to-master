@@ -1,12 +1,13 @@
 import { Banner } from "~/components/landing/banner/Banner";
 import type { Route } from "./+types/home";
-import { ThemeContext } from "~/components/theme/ThemeContext";
 import { Experiences } from "~/components/landing/experience/Experiences";
 import { Certifications } from "~/components/landing/certification/Certifications";
 import { Skills } from "~/components/landing/skills/Skills";
 import { AboutMe } from "~/components/landing/aboutMe/AboutMe";
 
-export function meta({}: Route.MetaArgs) {
+import styles from './home.module.scss'
+
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "Juan Felipe Reyes CV" },
     { name: "Juan Felipe Reyes CV", content: "Hoja de vida de Juan" },
@@ -14,13 +15,13 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return <ThemeContext>
+  return <>
     <Banner />
-    <div>
+    <div className={`${styles.container}`}>
       <AboutMe />
-      <Skills/>
+      <Skills />
       <Experiences />
       <Certifications />
     </div>
-  </ThemeContext>;
+  </>
 }

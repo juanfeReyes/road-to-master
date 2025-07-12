@@ -12,6 +12,7 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import './components/i18n/i18nConfig'
+import { NavBar } from "./components/shared/navBar/NavBar";
 
 export function HydrateFallback() {
   return <div>Loading...</div>;
@@ -34,7 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
       <head>
-        <base href="/"/>
+        <base href="/" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
@@ -50,7 +51,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (<div>
+    <NavBar />
+    <Outlet />
+  </div>)
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

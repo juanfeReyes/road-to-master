@@ -1,5 +1,5 @@
 .container_bg {
-  background-color: var(--palette-light-primary-400);
+  background-color: var(--palette-primary-400);
   padding: 1rem;
 }
 
@@ -20,16 +20,17 @@
 
   .title {
     font-size: 2rem;
-    color: var(--palette-light-primary-100);
+    color: var(--palette-primary-100);
   }
 }
 
 .card {
   width: 66%;
+  
 
   .title {
     font-size: 1.2rem;
-    color: var(--palette-light-primary-100);
+    color: var(--palette-primary-100);
   }
 
   .list {
@@ -38,8 +39,9 @@
     gap: 2rem;
 
     .item {
-      background-color: var(--palette-light-primary-100);
-      padding: 0rem 1rem;
+      background-color: var(--palette-primary-100);
+      padding: 0.5rem 1rem;
+      border-radius: 0.2rem;
 
       .header {
         display: flex;

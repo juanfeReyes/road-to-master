@@ -31,10 +31,12 @@ export const Certifications = () => {
           <h3 className={`${styles.title}`}>{t('certification.investigation.title')}</h3>
           <ul >
             {researchs.map((research) => <li>
-              <div>{research.label}</div>
-              <a href={research.link} target="_blank">
-                <FiExternalLink className={`${styles.link}`} />
-              </a>
+              <p>
+                {research.label}
+                <a href={research.link} target="_blank">
+                  <FiExternalLink className={`${styles.link}`} />
+                </a>
+              </p>
             </li>
             )}
           </ul>
