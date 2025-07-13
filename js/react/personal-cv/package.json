@@ -1,12 +1,16 @@
 {
   "name": "personal-cv",
+  "version": "0.1.0",
+  "homepage": "https://yourusername.github.io/your-repo-name",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
