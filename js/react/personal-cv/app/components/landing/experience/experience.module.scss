@@ -1,5 +1,5 @@
 .container_bg {
-  background-color: var(--palette-primary-400);
+  background-color: var(--palette-primary-500);
   padding: 1rem;
 }
 
@@ -20,7 +20,7 @@
 
   .title {
     font-size: 2rem;
-    color: var(--palette-primary-100);
+    color: var(--palette-neutral-100);
   }
 }
 
@@ -29,8 +29,7 @@
   
 
   .title {
-    font-size: 1.2rem;
-    color: var(--palette-primary-100);
+    font-size: 1.3rem;
   }
 
   .list {
@@ -40,6 +39,7 @@
 
     .item {
       background-color: var(--palette-primary-100);
+      color: var(--palette-neutral-500);
       padding: 0.5rem 1rem;
       border-radius: 0.2rem;
 
@@ -47,6 +47,9 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        font-weight: bold;
+        font-size: large;
+        padding: 0.5rem 0rem;
       }
     }
   }

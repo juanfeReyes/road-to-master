@@ -32,7 +32,7 @@ export const Certifications = () => {
           <ul >
             {researchs.map((research) => <li>
               <p>
-                {research.label}
+                {research.label}&nbsp;
                 <a href={research.link} target="_blank">
                   <FiExternalLink className={`${styles.link}`} />
                 </a>

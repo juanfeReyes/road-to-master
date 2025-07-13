@@ -3,6 +3,7 @@ import { SkillCard } from "./SkillCard"
 import type { Skill } from "~/domain/Skill"
 
 import styles from './skill.module.scss'
+import { useMemo } from "react"
 
 const skills: Skill[] = [
   {
@@ -99,13 +100,15 @@ const skills: Skill[] = [
 
 export const Skills = () => {
   const { t } = useTranslation()
-
-  return (<div className={`${styles.list_container}`}>
-    <h2 className={`${styles.title}`}>{t('skills.title')}</h2>
-    <div className={`${styles.horizontal_layout}`}>
-      {skills
+  const skillList = useMemo(() => skills
       .sort((a, b) => b.level - a.level)
-      .sort((a, b) => b.name > a.name)
+      .sort((a, b) => b.name > a.name), // TODO: not sorting by name
+    [])
+
+  return (<div className={`${styles.container}`}>
+    <h2 className={`${styles.title}`}>{t('skills.title')}</h2>
+    <div className={`${styles.list_container}`}>
+      {skillList
       .map((skill) => (<SkillCard skill={skill} />))}
     </div>
   </div>)

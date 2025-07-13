@@ -3,10 +3,10 @@
 .container {
   display: flex;
   justify-content: space-between;
-  padding: 0.7rem;
+  padding: 0.5rem;
   font-size: 1.5rem;
-  background-color: var(--palette-primary-400);
-  color: var(--palette-primary-100);
+  background-color: var(--palette-neutral-100);
+  color: var(--palette-neutral-500);
 
   svg {
     font-size: 2rem;

@@ -4,6 +4,7 @@
 
 .certification_container {
   padding: 1rem;
+  color: var(--palette-neutral-500);
 
   .title {
     font-size: 2rem;
@@ -34,9 +35,11 @@
       }
 
       .link {
-        color: var(--palette-primary-500);
+        color: var(--palette-secondary-500);
         display: inline;
         text-align: center;
+        font-weight: bold;
+        font-size: larger;
       }
     }
   }
