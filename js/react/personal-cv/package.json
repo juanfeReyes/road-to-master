@@ -29,6 +29,7 @@
     "@types/node": "^20",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "gh-pages": "^6.3.0",
     "sass-embedded": "^1.89.2",
     "tailwindcss": "^4.1.4",
     "typescript": "^5.8.3",
