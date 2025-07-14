@@ -10,7 +10,8 @@
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build", 
+    "ghbuild": "npm run build && node ./gh-post-build.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
