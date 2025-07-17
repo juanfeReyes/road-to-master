@@ -1,0 +1,19 @@
+version: '2'
+services:
+  db:
+    build: ./
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: test@test.com
+  #     PGADMIN_DEFAULT_PASSWORD: test
+  #   ports:
+  #     - '80:80'
