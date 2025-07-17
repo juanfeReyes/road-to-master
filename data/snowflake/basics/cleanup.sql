@@ -1,0 +1,4 @@
+DROP DATABASE IF EXISTS sf_tuts;
+
+DROP WAREHOUSE IF EXISTS sf_tuts_wh;
+
