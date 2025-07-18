@@ -1,0 +1,17 @@
+services:
+  db2:
+    image: icr.io/db2_community/db2
+    ports:
+      - '50000:50000'
+    volumes:
+      - ./compose-volume-local/db2/data:/database
+    env_file:
+      - compose-volume-local/db2/.env_list
+    restart: unless-stopped
+    privileged: true
+    healthcheck:
+      test: [ "CMD", "su", "-", "db2inst1", "-c", "db2 connect to testdb || exit 1" ]
+      interval: 30s
+      retries: 5
+      start_period: 60s
+      timeout: 10s

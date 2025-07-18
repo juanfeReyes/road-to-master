@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: spring-db2
+
+  datasource:
+    url: jdbc:db2://localhost:50000/testdb
+    username: db2inst1
+    password: password
+    driver-class-name: com.ibm.db2.jcc.DB2Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.DB2Dialect
+    hibernate:
+      dd-auto: update
+      show-sql: true
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/master-changelog.yml
