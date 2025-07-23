@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: sqs-producer
+
+springdoc:
+  swagger-ui:
+    path: "/swagger-ui.html"
+
+
+sqs:
+  queue:
+    shipment:
+      url: ""
