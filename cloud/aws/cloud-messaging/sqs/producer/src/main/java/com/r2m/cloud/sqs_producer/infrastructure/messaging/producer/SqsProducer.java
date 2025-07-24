@@ -1,4 +1,4 @@
-package com.r2m.cloud.sqs_producer.infrastructure.messaging;
+package com.r2m.cloud.sqs_producer.infrastructure.messaging.producer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

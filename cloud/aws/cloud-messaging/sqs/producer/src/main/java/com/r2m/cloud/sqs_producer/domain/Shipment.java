@@ -3,7 +3,7 @@ package com.r2m.cloud.sqs_producer.domain;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -20,5 +20,5 @@ public class Shipment {
 
     private List<Product> products;
 
-    private Map<String, LocalDate> trackLabels;
+    private Map<String, LocalDateTime> trackLabels;
 }

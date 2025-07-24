@@ -1,11 +1,11 @@
-package com.r2m.cloud.sqs_producer.infrastructure.messaging;
+package com.r2m.cloud.sqs_producer.infrastructure.messaging.producer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ShipmentMessageProducer extends SqsProducer{
+public class ShipmentMessageProducer extends SqsProducer {
 
     @Value("${sqs.queue.shipment.url}")
     private String shipmentQueueUrl;
