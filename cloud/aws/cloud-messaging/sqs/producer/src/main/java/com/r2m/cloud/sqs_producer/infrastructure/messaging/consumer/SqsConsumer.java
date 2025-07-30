@@ -17,7 +17,6 @@ import java.util.List;
 @Slf4j
 public abstract class SqsConsumer {
 
-    private static final Logger log = LoggerFactory.getLogger(SqsConsumer.class);
     private final SqsClient sqsClient;
 
     private final String queueUrl;
@@ -31,8 +30,10 @@ public abstract class SqsConsumer {
 
     @Scheduled(fixedDelay = 5000)
     public void execute() {
+        log.info("Consuming messages");
         ReceiveMessageResponse messageResponse = consume(queueUrl, 5);
         if (messageResponse.hasMessages()) {
+            log.info("Processing messages");
             for (Message message : messageResponse.messages()) {
                 try {
                     process(message);

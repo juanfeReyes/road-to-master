@@ -36,13 +36,15 @@ public class InspectShipmentService {
         Shipment inspectedShipment = shipmentStore.get(shipment.getId());
 
         if(!areProductsEquals(inspectedShipment.getProducts(), shipment.getProducts())) {
-            List<Product> missingProducts = shipment.getProducts().stream()
-                    .filter(p -> inspectedShipment.getProducts().contains(p))
+            log.info("Sending alarm as there are products missing");
+            List<Product> missingProducts = inspectedShipment.getProducts().stream()
+                    .filter(p -> !shipment.getProducts().contains(p))
                     .toList();
             alarmsStore.sendAlarm(String.format("Missing products: %s on location %s",
                     missingProducts,
                     lastLocation));
         }
+        shipmentStore.put(shipment.getId(), shipment);
     }
 
     private boolean areProductsEquals(List<Product> inspectedProducts, List<Product> currentProducts){
