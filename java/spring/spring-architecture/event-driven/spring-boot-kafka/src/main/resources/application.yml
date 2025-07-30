@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: spring-boot-kafka
+  kafka:
+    bootstrap-servers: localhost:9092
+    properties:
+      security:
+        protocol: PLAINTEXT
+    consumer:
+      group-id: chat-sk-group
+
+springdoc:
+  swagger-ui:
+    path: "/swagger-ui.html"
