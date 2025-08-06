@@ -1,0 +1,6 @@
+services:
+  liquibase:
+    image: liquibase/liquibase
+    command: --defaultsFile=/liquibase/changelog/liquibase.docker.properties update
+    volumes:
+      - ./src/main/resources/changelogs:/liquibase/changelog
