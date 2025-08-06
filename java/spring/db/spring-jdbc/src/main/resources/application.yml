@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: spring-jdbc
+
+logging:
+  level:
+    org.springframework.data.jdbc: DEBUG
+
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

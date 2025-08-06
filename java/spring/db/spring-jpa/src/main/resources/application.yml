@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: spring-jpa
+
+logging:
+  level:
+    org.hibernate.jpa: TRACE
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+hikari:
+  url: jdbc:postgresql://localhost:5432/shipment_db
+  username: postgres
+  password: password
+  maxConnections: 5
+  driverName: org.postgresql.Driver
+
+hibernate:
+  dialect: org.hibernate.dialect.PostgreSQLDialect
