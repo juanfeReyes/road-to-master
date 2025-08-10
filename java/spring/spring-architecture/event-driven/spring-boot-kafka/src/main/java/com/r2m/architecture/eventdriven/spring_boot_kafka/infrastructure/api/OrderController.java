@@ -23,7 +23,7 @@ public class OrderController {
     }
 
 
-    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public void sendOrder(@RequestBody String message) throws ExecutionException, InterruptedException, TimeoutException {
         createOrderService.execute(message);
     }
