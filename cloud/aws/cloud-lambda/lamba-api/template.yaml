@@ -5,6 +5,11 @@ Description: >
 
   Sample SAM Template for lamba-api
 
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: dev
+
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
@@ -24,6 +29,7 @@ Resources:
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:
           PARAM1: VALUE
+          ENV_NAME: !Ref EnvironmentName
       Events:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api

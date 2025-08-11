@@ -1,0 +1,2 @@
+environmentName: ${ENV_NAME}
+imagePullEndpoint: http://localhost/image
