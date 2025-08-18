@@ -1,0 +1,6 @@
+**/target/
+**/*.exe
+**/*.zip
+**/.idea/
+**/.aws-sam/
+**/bin/
