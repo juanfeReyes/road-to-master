@@ -61,6 +61,7 @@ resource "aws_codepipeline" "deploy_lambda" {
     type     = "S3"
   }
 
+  # TODO: Pending to test for Monorepo config
   # trigger {
   #   provider_type = "CodeStarSourceConnection"
   #   git_configuration {
@@ -115,7 +116,20 @@ resource "aws_codepipeline" "deploy_lambda" {
     }
   }
 
-  # stage {
-  #   name = "Deploy to Lambda"
-  # }
+  stage {
+    name = "Deploy"
+
+    action {
+      name = "Lambda-Deploy"
+      category = "Deploy"
+      owner = "AWS"
+      provider = "Lambda"
+      version = "1"
+      input_artifacts = [ "lambda_artifact" ]
+
+      configuration = {
+        FunctionName = var.lambda_name
+      }
+    }
+  }
 }

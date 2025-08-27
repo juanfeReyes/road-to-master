@@ -8,3 +8,8 @@ resource "aws_s3_bucket" "lambda_store" {
   }
 }
 
+resource "aws_s3_object" "lambda_zip" {
+  bucket = aws_s3_bucket.lambda_store.bucket
+  key = "r2m_lambda.zip"
+}
+

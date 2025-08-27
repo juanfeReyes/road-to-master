@@ -19,8 +19,12 @@ variable "lambda_repo_folder_path" {
   description = "Path of the lambda source code to build in the repo"
 }
 
-
 variable "connection_arn" {
   type = string
   description = "Codeconnection ARN"
+}
+
+variable "lambda_name" {
+  type = string
+  description = "Name of the Lambda function"
 }

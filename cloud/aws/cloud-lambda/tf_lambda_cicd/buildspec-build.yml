@@ -17,5 +17,5 @@ phases:
       - cd ./.aws-sam/build/HelloWorldFunction && zip -r r2m_lambda.zip .
 artifacts:
   files:
-    - 'r2m_lambda.zip'
+    - '**/*'
   base-directory: $CODEBUILD_SRC_DIR_github_cloud_cicd/java/aws/lambda/lambda-setup/.aws-sam/build/HelloWorldFunction

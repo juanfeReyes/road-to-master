@@ -51,7 +51,9 @@ data "aws_iam_policy_document" "lambda_cd" {
       "codeconnections:UseConnection",
       "codestar-connections:UseConnection",
       "s3:*",
-      "codebuild:*"
+      "codebuild:*",
+      "logs:*",
+      "lambda:*"
     ]
     resources = [
       "*"
