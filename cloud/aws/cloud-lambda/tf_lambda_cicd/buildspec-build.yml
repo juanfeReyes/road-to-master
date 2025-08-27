@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo "Building Lambda with SAM tool"
+      - sam build
+  compress:
+    commands:
+      - echo "Zip the Lambda code"
+      - cd ./.aws-sam/build/HelloWorldFunction && zip -r r2m_lambda.zip .
+artifacts:
+  files:
+    - 'r2m_lambda.zip'
+  base-directory: ./.aws-sam/build/HelloWorldFunction
