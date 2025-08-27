@@ -4,6 +4,3 @@ variable "bucket_name" {
   default = "r2m-bucket"
 }
 
-variable "bucket_source" {
-  type = string
-}
