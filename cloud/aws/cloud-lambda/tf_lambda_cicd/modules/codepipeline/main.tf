@@ -22,20 +22,29 @@ resource "aws_codebuild_project" "lambda_build" {
 
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+    image                       = "aws/codebuild/amazonlinux-x86_64-standard:5.0"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
   }
 
   source {
-    type = "CODEPIPELINE"
+    type      = "CODEPIPELINE"
+    buildspec = "cloud/aws/cloud-lambda/tf_lambda_cicd/buildspec-build.yml"
   }
 
   secondary_sources {
     source_identifier = "github_cloud_cicd"
     type              = "GITHUB"
-    location          = "https://github.com/juanfeReyes/road-to-master/tree/feat/aws-cicd-study/cloud/aws/cloud-lambda/tf_lambda_cicd"
-    buildspec         = "buildspec-build.yml"
+    location          = "https://github.com/juanfeReyes/road-to-master"
+    auth {
+      type     = "CODECONNECTIONS"
+      resource = var.connection_arn
+    }
+  }
+
+  secondary_source_version {
+    source_identifier = "github_cloud_cicd"
+    source_version    = "feat/aws-cicd-study"
   }
 
   # Explore second source and specify buildspec
@@ -52,22 +61,22 @@ resource "aws_codepipeline" "deploy_lambda" {
     type     = "S3"
   }
 
-  trigger {
-    provider_type = "CodeStarSourceConnection"
-    git_configuration {
-      source_action_name = "Source"
-      push {
+  # trigger {
+  #   provider_type = "CodeStarSourceConnection"
+  #   git_configuration {
+  #     source_action_name = "Source"
+  #     push {
 
-        file_paths {
-          includes = [var.lambda_repo_folder_path]
-        }
-        branches {
-          includes = ["feat/aws-cicd-study"]
-        }
-      }
+  #       file_paths {
+  #         includes = [var.lambda_repo_folder_path]
+  #       }
+  #       branches {
+  #         includes = ["feat/aws-cicd-study"]
+  #       }
+  #     }
 
-    }
-  }
+  #   }
+  # }
 
   stage {
     name = "Source"
@@ -83,7 +92,7 @@ resource "aws_codepipeline" "deploy_lambda" {
       configuration = {
         ConnectionArn    = var.connection_arn # add connection ARN from codeconnections
         FullRepositoryId = "juanfeReyes/road-to-master"
-        BranchName       = "main"
+        BranchName       = "feat/aws-cicd-study"
       }
     }
   }

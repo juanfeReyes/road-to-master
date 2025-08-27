@@ -98,7 +98,9 @@ data "aws_iam_policy_document" "lambda_build_cd" {
     effect = "Allow"
     actions = [
       "s3:*",
-      "logs:*"
+      "logs:*",
+      "codeconnections:*",
+      "codestar-connections:UseConnection"
     ]
     resources = [
       "*"

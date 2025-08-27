@@ -1,15 +1,21 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      java: corretto21
+    commands:
+      - sudo yum install -y java-21-amazon-corretto-devel
   build:
     commands:
+      - cd $CODEBUILD_SRC_DIR_github_cloud_cicd/java/aws/lambda/lambda-setup
+      - java -version
+      - javac -version
       - echo "Building Lambda with SAM tool"
       - sam build
-  compress:
-    commands:
       - echo "Zip the Lambda code"
       - cd ./.aws-sam/build/HelloWorldFunction && zip -r r2m_lambda.zip .
 artifacts:
   files:
     - 'r2m_lambda.zip'
-  base-directory: ./.aws-sam/build/HelloWorldFunction
+  base-directory: $CODEBUILD_SRC_DIR_github_cloud_cicd/java/aws/lambda/lambda-setup/.aws-sam/build/HelloWorldFunction
