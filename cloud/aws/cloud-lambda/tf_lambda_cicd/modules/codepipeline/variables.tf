@@ -14,11 +14,6 @@ variable "codepipeline_bucket" {
   description = "Codepipeline bucket storage"
 }
 
-variable "lambda_repo_folder_path" {
-  type = string
-  description = "Path of the lambda source code to build in the repo"
-}
-
 variable "connection_arn" {
   type = string
   description = "Codeconnection ARN"
@@ -27,4 +22,10 @@ variable "connection_arn" {
 variable "lambda_name" {
   type = string
   description = "Name of the Lambda function"
+}
+
+variable "source_branch" {
+  type = string
+  description = "Branch name for the source"
+  default = "main"
 }

@@ -44,7 +44,7 @@ resource "aws_codebuild_project" "lambda_build" {
 
   secondary_source_version {
     source_identifier = "github_cloud_cicd"
-    source_version    = "feat/aws-cicd-study"
+    source_version    = var.source_branch
   }
 
   # Explore second source and specify buildspec
@@ -72,7 +72,7 @@ resource "aws_codepipeline" "deploy_lambda" {
   #         includes = [var.lambda_repo_folder_path]
   #       }
   #       branches {
-  #         includes = ["feat/aws-cicd-study"]
+  #         includes = [var.source_branch]
   #       }
   #     }
 
@@ -93,7 +93,7 @@ resource "aws_codepipeline" "deploy_lambda" {
       configuration = {
         ConnectionArn    = var.connection_arn # add connection ARN from codeconnections
         FullRepositoryId = "juanfeReyes/road-to-master"
-        BranchName       = "feat/aws-cicd-study"
+        BranchName       = var.source_branch
       }
     }
   }

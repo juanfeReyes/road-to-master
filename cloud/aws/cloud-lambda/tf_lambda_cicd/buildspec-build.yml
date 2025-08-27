@@ -13,8 +13,6 @@ phases:
       - javac -version
       - echo "Building Lambda with SAM tool"
       - sam build
-      - echo "Zip the Lambda code"
-      - cd ./.aws-sam/build/HelloWorldFunction && zip -r r2m_lambda.zip .
 artifacts:
   files:
     - '**/*'

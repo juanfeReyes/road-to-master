@@ -1,7 +1,7 @@
 
-variable "repo_path" {
+variable "lambda_name" {
   type = string
-  description = "Path of the folder of the folder in the repo that contains Lambda source code"
+  description = "lambda function name"
 }
 
 variable "connectionArn" {
