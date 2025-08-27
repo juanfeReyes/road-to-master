@@ -28,8 +28,14 @@ resource "aws_codebuild_project" "lambda_build" {
   }
 
   source {
-    type      = "CODEPIPELINE"
-    buildspec = "buildspec-build.yml"
+    type = "CODEPIPELINE"
+  }
+
+  secondary_sources {
+    source_identifier = "github_cloud_cicd"
+    type              = "GITHUB"
+    location          = "https://github.com/juanfeReyes/road-to-master/tree/feat/aws-cicd-study/cloud/aws/cloud-lambda/tf_lambda_cicd"
+    buildspec         = "buildspec-build.yml"
   }
 
   # Explore second source and specify buildspec
@@ -56,7 +62,7 @@ resource "aws_codepipeline" "deploy_lambda" {
           includes = [var.lambda_repo_folder_path]
         }
         branches {
-          includes = ["main"]
+          includes = ["feat/aws-cicd-study"]
         }
       }
 
