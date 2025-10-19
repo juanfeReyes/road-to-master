@@ -1,6 +1,6 @@
 package r2m.spring.db.spring_jdbc.domain;
 
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Sequence;
@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Set;
 
 @Data
+@Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Table(name = "shipment", schema = "logistics")
 public class Shipment {
 

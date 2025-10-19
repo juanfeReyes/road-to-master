@@ -2,19 +2,12 @@ package r2m.spring.db.spring_jdbc.infrastructure.persistence;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.cglib.core.DefaultNamingPolicy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jdbc.core.convert.*;
-import org.springframework.data.jdbc.core.mapping.JdbcMappingContext;
+import org.springframework.data.jdbc.core.convert.JdbcCustomConversions;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
-import org.springframework.data.relational.core.dialect.Dialect;
-import org.springframework.data.relational.core.dialect.PostgresDialect;
-import org.springframework.data.relational.core.mapping.DefaultNamingStrategy;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.TransactionManager;
 import r2m.spring.db.spring_jdbc.infrastructure.persistence.converters.StringToTravelMediaType;
 import r2m.spring.db.spring_jdbc.infrastructure.persistence.converters.TravelMediaTypeToStringConverter;
 
@@ -46,10 +39,7 @@ public class JdbcConfig {
 
     @Bean
     public JdbcCustomConversions jdbcCustomConversions() {
-        return new JdbcCustomConversions(List.of(
-           new TravelMediaTypeToStringConverter(),
-           new StringToTravelMediaType()
-        ));
+        return new JdbcCustomConversions(List.of(new TravelMediaTypeToStringConverter(), new StringToTravelMediaType()));
     }
 
 }

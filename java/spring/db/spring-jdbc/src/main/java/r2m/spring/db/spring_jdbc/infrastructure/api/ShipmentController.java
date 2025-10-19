@@ -1,28 +1,31 @@
 package r2m.spring.db.spring_jdbc.infrastructure.api;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import r2m.spring.db.spring_jdbc.application.ImportShipments;
 import r2m.spring.db.spring_jdbc.domain.Shipment;
 import r2m.spring.db.spring_jdbc.domain.Travel;
 import r2m.spring.db.spring_jdbc.domain.TravelMediaType;
 import r2m.spring.db.spring_jdbc.domain.request.ShipmentRequest;
 import r2m.spring.db.spring_jdbc.infrastructure.persistence.repositories.ShipmentRepository;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/shipments")
 public class ShipmentController {
 
     private final ShipmentRepository repository;
 
-    @Autowired
-    public ShipmentController(ShipmentRepository repository) {
-        this.repository = repository;
-    }
+    private final ImportShipments importShipments;
 
     @PostMapping("/")
     public void createShipment(@RequestBody ShipmentRequest request) {
@@ -44,5 +47,15 @@ public class ShipmentController {
     @GetMapping("/")
     public List<Shipment> getShipments() {
         return repository.findAll();
+    }
+
+    @PostMapping("/import")
+    public void importShipments(MultipartFile file) throws IOException {
+        importShipments.execute(file);
+    }
+
+    @PostMapping("/export")
+    public void exportShipments() {
+
     }
 }
