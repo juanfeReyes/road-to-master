@@ -1,6 +1,9 @@
 services:
   liquibase:
-    image: liquibase/liquibase
+    container_name: liquibase
+    build:
+      context: .
+      dockerfile: liquibase-postgres-Dockerfile
     command: --defaultsFile=/liquibase/changelog/liquibase.docker.properties update
     volumes:
       - ./src/main/resources/changelogs:/liquibase/changelog

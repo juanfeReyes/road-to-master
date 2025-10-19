@@ -1,0 +1,23 @@
+meta {
+  name: importShipments
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/shipments/import
+  body: multipartForm
+  auth: inherit
+}
+
+params:query {
+  file: 
+}
+
+body:multipart-form {
+  file: @file(C:\Users\Juan\Downloads\shipments_import.xlsx)
+}
+
+body:file {
+  file: @file(C:\Users\Juan\Downloads\shipments_import.xlsx) @contentType(application/vnd.openxmlformats-officedocument.spreadsheetml.sheet)
+}

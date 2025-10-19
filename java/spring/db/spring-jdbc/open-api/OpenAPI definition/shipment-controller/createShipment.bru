@@ -1,0 +1,18 @@
+meta {
+  name: createShipment
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/shipments/
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "source": "",
+    "destination": ""
+  }
+}
