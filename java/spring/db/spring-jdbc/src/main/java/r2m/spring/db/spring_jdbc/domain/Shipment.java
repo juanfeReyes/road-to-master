@@ -18,12 +18,12 @@ public class Shipment {
 
     @Id
     @Sequence(sequence = "shipment_seq_id", schema = "logistics")
-    public Integer id;
+    private Integer id;
 
-    public String source;
+    private String source;
 
-    public String destination;
+    private String destination;
 
     @MappedCollection(idColumn = "shipment_id")
-    public Set<Travel> travels;
+    private Set<Travel> travels;
 }

@@ -2,8 +2,13 @@ package r2m.spring.db.spring_jdbc.infrastructure.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+import r2m.spring.db.spring_jdbc.application.ExportShipments;
 import r2m.spring.db.spring_jdbc.application.ImportShipments;
 import r2m.spring.db.spring_jdbc.domain.Shipment;
 import r2m.spring.db.spring_jdbc.domain.Travel;
@@ -26,6 +31,8 @@ public class ShipmentController {
     private final ShipmentRepository repository;
 
     private final ImportShipments importShipments;
+
+    private final ExportShipments exportShipments;
 
     @PostMapping("/")
     public void createShipment(@RequestBody ShipmentRequest request) {
@@ -54,8 +61,17 @@ public class ShipmentController {
         importShipments.execute(file);
     }
 
-    @PostMapping("/export")
-    public void exportShipments() {
+    @GetMapping("/export")
+    public ResponseEntity<StreamingResponseBody> exportShipments() {
+        StreamingResponseBody responseBody = out -> {
+            exportShipments.execute(out);
+            out.flush();
+            out.close();
+        };
 
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=shipments.xlsx")
+                .body(responseBody);
     }
 }
