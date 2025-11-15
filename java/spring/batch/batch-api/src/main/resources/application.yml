@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: batch-api
+
+  datasource:
+      driverClassName: org.postgresql.Driver
+      username: postgres
+      password: password
+      url: jdbc:postgresql://localhost:5432/r2m_db?currentSchema=batch_sc
