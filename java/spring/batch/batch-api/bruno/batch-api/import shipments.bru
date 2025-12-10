@@ -1,0 +1,20 @@
+meta {
+  name: import shipments
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/shipment/import
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file(C:\Users\Juan\Downloads\shipment_import.xlsx)
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
