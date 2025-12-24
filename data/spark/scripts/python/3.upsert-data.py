@@ -1,4 +1,4 @@
-from pyspark.sql import SparkSession
+from pyspark.sql import SparkSession, DataFrame
 
 def build_spark():
     return SparkSession.builder\
@@ -20,10 +20,17 @@ def build_df(spark: SparkSession, db: str, table: str):
         table=table
     )
 
+def create_temp_view(df: DataFrame, db: str, table: str):
+    connection_str = f"jdbc:postgresql://postgresDb:5432/{db}"
+    df.write.jdbc(connection_str, table=table)
+
 def upsert_shipment_etl():
     spark = build_spark()
     shipment_df = build_df(spark=spark, db="shipment_db", table="shipment")
-    warehouse_shipment_df = build_df(spark=spark, db="warehouse_db", table="shipment")
+    shipment_df.createOrReplaceTempView("warehouse_db.shipment_aux")
+    spark.sql('''
+    INSERT INTO shipment ()
+    ''')
     
 
 
