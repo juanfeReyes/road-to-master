@@ -2,7 +2,7 @@ CREATE DATABASE shipment_db;
 \connect shipment_db
 
 CREATE TABLE IF NOT EXISTS SHIPMENT (
-    id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY UNIQUE,
     source  VARCHAR(100) NOT NULL ,
     destination VARCHAR(100) NOT NULL
 );
@@ -43,7 +43,7 @@ CREATE DATABASE warehouse_db;
 \connect warehouse_db
 
 CREATE TABLE IF NOT EXISTS SHIPMENT (
-    id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY UNIQUE,
     source VARCHAR(100) NOT NULL,
     destination VARCHAR(100) NOT NULL
 );
