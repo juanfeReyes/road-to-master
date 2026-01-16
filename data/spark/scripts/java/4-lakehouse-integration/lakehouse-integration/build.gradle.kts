@@ -17,7 +17,8 @@ dependencies {
     implementation("org.apache.spark:spark-sql_2.13:4.0.1")
     implementation("org.yaml:snakeyaml:2.5")
     implementation("org.postgresql:postgresql:42.7.8")
-
+    implementation("org.apache.iceberg:iceberg-spark-runtime-4.0_2.13:1.10.1")
+//    implementation("org.apache.hadoop:hadoop-client:3.4.2")
 }
 
 tasks.test {
