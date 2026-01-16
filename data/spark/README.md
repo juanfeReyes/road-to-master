@@ -28,5 +28,5 @@ docker exec -it spark-master bash
 
 ### Apache Iceberg
 ```sh
-bin/spark-submit --packages org.apache.iceberg:iceberg-spark-runtime-4.0_2.13:1.10.1 --class org.example.Main scripts/java/4-lakehouse-integration/lakehouse-integration/build/libs/lakehouse-integration-1.0-SNAPSHOT.jar
+bin/spark-submit --packages org.apache.iceberg:iceberg-spark-runtime-4.0_2.13:1.10.1,org.postgresql:postgresql:42.7.8 --class org.example.Main scripts/java/4-lakehouse-integration/lakehouse-integration/build/libs/lakehouse-integration-1.0-SNAPSHOT.jar
 ```
