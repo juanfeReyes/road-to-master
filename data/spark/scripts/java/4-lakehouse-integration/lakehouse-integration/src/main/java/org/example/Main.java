@@ -1,11 +1,14 @@
 package org.example;
 
-import org.apache.spark.sql.*;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.RowFactory;
+import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.catalyst.analysis.NoSuchTableException;
-import org.apache.spark.sql.catalyst.analysis.TableAlreadyExistsException;
-import org.apache.spark.sql.types.*;
+import org.apache.spark.sql.types.DataTypes;
+import org.apache.spark.sql.types.StructField;
+import org.apache.spark.sql.types.StructType;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -13,7 +16,7 @@ public class Main {
 
     public static final String SHIPMENTS_ICE_TABLE = "local.shipments_ice";
 
-    public static void main(String[] args) throws TableAlreadyExistsException, NoSuchTableException {
+    public static void main(String[] args) throws NoSuchTableException {
         String userDirectory = System.getProperty("user.dir");
         System.setProperty("hadoop.home.dir", userDirectory);
         SparkSession spark = SparkSession.builder()
@@ -26,11 +29,10 @@ public class Main {
                 .getOrCreate();
 
         spark.catalog().listCatalogs().show();
-//        spark.sql("DROP TABLE if exists " + SHIPMENTS_ICE_TABLE);
         var sourceDf = loadTable(spark, "shipment_db", "shipment");
         sourceDf.show();
 
-        var schema = new StructType(new StructField[] {
+        var schema = new StructType(new StructField[]{
                 DataTypes.createStructField("id", DataTypes.IntegerType, true),
                 DataTypes.createStructField("source", DataTypes.StringType, true),
                 DataTypes.createStructField("destination", DataTypes.StringType, true)
@@ -42,7 +44,6 @@ public class Main {
         var newDF = spark.createDataFrame(sourceDf.collectAsList(), schema);
         newDF.writeTo(SHIPMENTS_ICE_TABLE).using("iceberg").append();
         spark.table(SHIPMENTS_ICE_TABLE).show();
-
     }
 
     private static Dataset<Row> loadTable(SparkSession spark, String db, String table) {
