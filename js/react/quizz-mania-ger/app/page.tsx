@@ -1,10 +1,9 @@
-import QuizzCard from "@/components/QuizzCard/QuizzCard";
-import Image from "next/image";
+import { StartMenu } from "@/src/features/setgeneration/components/StartMenu/StartMenu";
 
 export default function Home() {
   return (
     <div >
-      <QuizzCard type={""} question={""} answer={""} />
+      <StartMenu></StartMenu>
     </div>
   );
 }

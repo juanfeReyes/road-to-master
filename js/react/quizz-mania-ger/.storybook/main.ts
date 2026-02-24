@@ -1,9 +1,11 @@
 import type { StorybookConfig } from '@storybook/nextjs-vite';
+import { dirname, join } from "path";
+
 
 const config: StorybookConfig = {
   "stories": [
-    "../stories/**/*.mdx",
-    "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"
+    "../src/stories/**/*.mdx",
+    "../src/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
   "addons": [
     "@chromatic-com/storybook",
@@ -15,6 +17,10 @@ const config: StorybookConfig = {
   "framework": "@storybook/nextjs-vite",
   "staticDirs": [
     "..\\public"
-  ]
+  ],
+  "typescript": {
+    reactDocgen: "react-docgen-typescript",
+    reactDocgenTypescriptOptions: {tsconfigPath: '../tsconfig.json'}
+  }
 };
 export default config;

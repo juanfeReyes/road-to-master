@@ -1,4 +1,4 @@
-import type { Preview } from '@storybook/nextjs-vite'
+import { definePreview } from '@storybook/nextjs-vite'
 import {withThemeByClassName} from '@storybook/addon-themes'
 import '../app/globals.css'
 
@@ -12,7 +12,7 @@ export const decorators = [
   }),
 ];
 
-const preview: Preview = {
+export default definePreview( {
   parameters: {
     controls: {
       matchers: {
@@ -28,6 +28,4 @@ const preview: Preview = {
       test: 'todo'
     }
   },
-};
-
-export default preview;
+});
