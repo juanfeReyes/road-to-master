@@ -1,0 +1,45 @@
+{
+    "english": [
+        {
+            "name": "Java concurrency",
+            "role": "Java Backend",
+            "tags": [
+                "Java",
+                "Junior",
+                "core"
+            ],
+            "file": "/english/java/concurrency.yml"
+        },
+        {
+            "name": "Java core",
+            "role": "Java Backend",
+            "tags": [
+                "Java",
+                "Junior",
+                "core"
+            ],
+            "file": "/english/java/core.yml"
+        },
+        {
+            "name": "Kotlin concurrency",
+            "role": "Kotlin Backend",
+            "tags": [
+                "Kotlin",
+                "Junior",
+                "core"
+            ],
+            "file": "/english/kotlin/concurrency.yml"
+        },
+        {
+            "name": "Kotlin core",
+            "role": "Kotlin Backend",
+            "tags": [
+                "Kotlin",
+                "Junior",
+                "core"
+            ],
+            "file": "/english/kotlin/core.yml"
+        }
+    ],
+    "spanish": []
+}

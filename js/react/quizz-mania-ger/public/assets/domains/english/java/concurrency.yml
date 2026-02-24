@@ -1,0 +1,25 @@
+name: Java concurrency
+role: Java Backend
+tags:
+  - Java
+  - Junior
+  - core
+quiz:
+  - question: Describe Java in a single sentence
+    answer: >
+      Java is a platform-independent (write once, run anywhere) object-oriented language
+       with automatic memory management (garbage collection), strong typing, and a rich standard library.
+    level: 1
+  - question: What are the differences between primitive data types and objects in Java?
+    answer: >
+      Primitives and objects highlight the core methods
+       in how Java handles basic data vs. complex structures.
+    level: 2
+  - question: What is the difference between String, StringBuilder, and StringBuffer?
+    answer: If your string is not going to change, use a String class as a String object is immutable.
+     If your string should be modified and will be accessed only by a single thread, StringBuilder is 
+      good enough. In other scenarios (string can be changed, using multiple threads), use StringBuffer 
+     because it is synchronous and thread-safe.
+    level: 3
+  
+    
