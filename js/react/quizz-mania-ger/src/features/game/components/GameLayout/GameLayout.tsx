@@ -6,11 +6,14 @@ import { useGameStore } from "../../../common/store/GameStore";
 import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
 import clsx from "clsx";
+import { defineStepper } from "@stepperize/react";
+import SwitchCard from "../SwitchCard/SwitchCard";
+import { Button } from "@/src/features/common/components/Button/Button";
 
 export const GameLayout = () => {
     const router = useRouter()
-    const { currentGame, setCurrentGame, reset } = useGameStore()
-    const [currentQuestion, setCurrentQuestions] = useState(0)
+
+    const { currentGame, resetGame, finishGame } = useGameStore()
     const [correctAnswers, setCorrectAnswers] = useState<Question[]>([])
     const [wrongAnswers, setWrongAnswers] = useState<Question[]>([])
     if (currentGame === null) {
@@ -19,65 +22,67 @@ export const GameLayout = () => {
         return;
     }
     const { questions } = currentGame
+    const { useStepper } = defineStepper(...questions.map((q, idx) => ({ id: idx.toString(), ...q })))
+    const { state, navigation, flow } = useStepper({ initialStep: '0' })
 
     const completeGame = () => {
         const report = {
             wrong: wrongAnswers,
             correct: correctAnswers
         }
-        setCurrentGame({ ...currentGame, report: report })
+        // setCurrentGame({ ...currentGame, report: report })
         router.push("/game/report")
     }
 
     const nextQuestion = () => {
-        if (currentQuestion === questions.length - 1) {
+        if (state.isLast) {
             completeGame()
             return;
         }
-        setCurrentQuestions(curr => curr + 1)
+        navigation.next()
     }
 
     const onCorrectAnswer = () => {
-        setCorrectAnswers(ans => [...ans, questions[currentQuestion]])
+        setCorrectAnswers(ans => [...ans, questions[Number(state.current.data.id)]])
         nextQuestion()
     }
 
     const onWrongAnswer = () => {
-        setWrongAnswers(ans => [...ans, questions[currentQuestion]])
+        setWrongAnswers(ans => [...ans, questions[Number(state.current.data.id)]])
         nextQuestion()
     }
 
     const handleReset = () => {
-        reset()
         router.push("/")
     }
-    const question = questions[currentQuestion];
-    const currentDomain = currentGame.domains[question.domainIdx]
 
-    return (<div className="flex flex-col gap-1">
-        <div className="flex gap-1 pb-2 justify-between">
-            <div className="flex justify-center items-center">
-                <Icon icon="lets-icons:check-fill" className={'text-2xl'} />
-                {correctAnswers.length}
-            </div>
-            <button onClick={handleReset}><Icon icon="ri:reset-right-fill" className={'text-2xl transform -scale-x-100'} /></button>
-        </div>
-        <div className="pt-8 flex gap-2">
-            <div className="flex justify-center">
-                <MemoryCard
-                    question={questions[currentQuestion]}
-                    onCorrectAnswer={onCorrectAnswer}
-                    onWrongAnswer={onWrongAnswer} />
-            </div>
-            <div className="min-w-1/6 bg-blue-300 p-2 ml-auto rounded-md">
-                <div className="flex justify-end">
-                    {Array(currentDomain.level).fill(0).map(item => <Icon icon={"streamline-flex:skull-2-solid"} />)}
+    return (<div className="flex flex-col gap-2">
+        <header className="bg-cyan-500">
+            timer + reset +
+        </header>
+        <div className="flex">
+            <nav className="w-1/5">
+                <div className="flex flex-col gap-2">
+                    <div className="border-2 rounded-br-full">{Number(state.current.data.id)-1}</div>
+                    <div className="border-2 rounded-br-full">{Number(state.current.data.id)}</div>
+                    <div className="border-2 rounded-br-full">{Number(state.current.data.id)+1}</div>
                 </div>
-                <p className="py-2 font-bold">{currentDomain.name}</p>
-                <ul className="flex flex-wrap gap-1">
-                    {currentDomain.tags.map(tag => (<li className="bg-gray-100 rounded-xl text-sm p-1">{tag}</li>))}
-                </ul>
-            </div>
+            </nav>
+            <main className="w-3/5">
+                <SwitchCard>
+                    <SwitchCard.Primary>
+                        {state.current.data.question}
+                    </SwitchCard.Primary>
+                    <SwitchCard.Secondary>
+                        {state.current.data.answer}
+                        <div>
+                            <Button type="Info" onClick={onCorrectAnswer} label="Ok" />
+                            <Button type="Error" onClick={onWrongAnswer} label="Bad" />
+                        </div>
+                    </SwitchCard.Secondary>
+                </SwitchCard>
+            </main>
+            <aside className="w-1/5">metadata</aside>
         </div>
     </div>)
 }

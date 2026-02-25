@@ -53,6 +53,7 @@ export const useGameStore = create<GameState>(set => ({
         const totalQuestions = setup.questions.length
         set({
             currentGame: {
+                id: v4(),
                 setup: {
                     timer: setup.timer,
                     questResume: setup.resume,
@@ -66,7 +67,6 @@ export const useGameStore = create<GameState>(set => ({
     startGame: () =>
         set(produce((s: GameState) => {
             if (s.currentGame) {
-                s.currentGame.id = v4()
                 s.currentGame.report = { startDate: new Date }
             }
         })),

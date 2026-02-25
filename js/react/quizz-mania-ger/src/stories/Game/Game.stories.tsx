@@ -22,18 +22,7 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
     decorators: [
         (Story: StoryFn) => {
-            const setCurrentGame = useGameStore(state => state.setCurrentGame)
-            const {fetchAndShuffle} = useShuffler()
-            const {fetchDomains} = useFetcher()
-            useEffect(() => {
-                const getQuestions = async () => {
-                    const questions = await fetchAndShuffle([{file: '/english/java/core.yml', name: 'story'}], 'By domain', Number.MAX_SAFE_INTEGER)
-                    const domains = await fetchDomains([{file: '/english/java/core.yml', name: 'story'}])
-                    setCurrentGame({ questions: questions, domains: domains })
-                }
-
-                getQuestions()
-            }, [])
+            
 
             return <Story />
         }
