@@ -11,7 +11,10 @@ interface Game {
     setup: {
         sortBy: sortOptionLabelTypes,
         totalQuestions: number,
-        timer?: number,
+        timer?: {
+            minutes?: number,
+            expireTime?: Date,
+        }
         questResume: Partial<Record<string | number, GameQuestion[]>>
     },
     report?: {
@@ -55,7 +58,7 @@ export const useGameStore = create<GameState>(set => ({
             currentGame: {
                 id: v4(),
                 setup: {
-                    timer: setup.timer,
+                    timer: {minutes: setup.timer},
                     questResume: setup.resume,
                     totalQuestions: totalQuestions,
                     sortBy: setup.sortBy
@@ -67,7 +70,13 @@ export const useGameStore = create<GameState>(set => ({
     startGame: () =>
         set(produce((s: GameState) => {
             if (s.currentGame) {
-                s.currentGame.report = { startDate: new Date }
+                const startDate = new Date()
+                s.currentGame.report = { startDate }
+                if (s.currentGame.setup.timer && s.currentGame.setup.timer.minutes) {
+                    const expireTime = new Date(startDate);
+                    expireTime.setMinutes(expireTime.getMinutes() + s.currentGame.setup.timer.minutes)
+                    s.currentGame.setup.timer.expireTime = expireTime
+                }
             }
         })),
     finishGame: () => { },

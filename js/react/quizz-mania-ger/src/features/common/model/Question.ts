@@ -7,7 +7,7 @@ const sortOptionsMap  = {
 export interface Question {
     question: string,
     answer: string,
-    options: string[],
+    options?: string[],
     tags: string[],
     level: number
 }
