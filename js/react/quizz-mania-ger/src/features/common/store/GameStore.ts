@@ -25,11 +25,16 @@ interface Game {
     }
 }
 
-export type SetupType = {
+export type SetupActionType = {
     sortBy: sortOptionLabelTypes
     timer: number | undefined,
     questions: Question[],
     resume: Partial<Record<string | number, GameQuestion[]>>
+}
+
+export type FinishGameActionType = {
+    correct: Question[],
+    wrong: Question[]
 }
 
 interface GameState {
@@ -37,9 +42,9 @@ interface GameState {
     currentGame: Game | null,
     lastGames: Game[],
     setConfig: (config: any) => void,
-    initializeGame: (setup: SetupType) => void,
+    initializeGame: (setup: SetupActionType) => void,
     startGame: () => void,
-    finishGame: () => void,
+    finishGame: (action: FinishGameActionType) => void,
     resetGame: () => void
 }
 
@@ -52,13 +57,13 @@ const initialState = {
 export const useGameStore = create<GameState>(set => ({
     ...initialState,
     setConfig: (config: any) => set({ config: config }),
-    initializeGame: (setup: SetupType) => {
+    initializeGame: (setup: SetupActionType) => {
         const totalQuestions = setup.questions.length
         set({
             currentGame: {
                 id: v4(),
                 setup: {
-                    timer: {minutes: setup.timer},
+                    timer: { minutes: setup.timer },
                     questResume: setup.resume,
                     totalQuestions: totalQuestions,
                     sortBy: setup.sortBy
@@ -79,6 +84,19 @@ export const useGameStore = create<GameState>(set => ({
                 }
             }
         })),
-    finishGame: () => { },
+    finishGame: (action: FinishGameActionType) => set(
+        produce((s: GameState) => {
+            if (s.currentGame && s.currentGame.report) {
+                s.currentGame.report = {
+                    startDate: s.currentGame.report?.startDate,
+                    endDate: new Date(),
+                    correct: action.correct,
+                    wrong: action.wrong
+                }
+                s.lastGames.push(s.currentGame)
+                s.currentGame = null
+            }
+        })
+    ),
     resetGame: () => set(initialState)
 }))
