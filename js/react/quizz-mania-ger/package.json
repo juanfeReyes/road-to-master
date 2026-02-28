@@ -24,6 +24,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-hook-form": "^7.71.1",
+    "react-timer-hook": "^4.0.5",
     "uuid": "^13.0.0",
     "zustand": "^5.0.10"
   },

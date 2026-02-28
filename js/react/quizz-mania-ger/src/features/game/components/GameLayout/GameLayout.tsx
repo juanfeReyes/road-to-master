@@ -1,16 +1,52 @@
 'use client'
-import React, { useState } from "react";
+import React, { ComponentProps, PropsWithChildren, useState } from "react";
 import MemoryCard from "../QuestionCard/QuestionCard";
 import { Question } from "@/src/features/common/model/Question";
 import { useGameStore } from "../../../common/store/GameStore";
 import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
 import clsx from "clsx";
+import { defineStepper } from "@stepperize/react";
+import SwitchCard from "../SwitchCard/SwitchCard";
+import { Button } from "@/src/features/common/components/Button/Button";
+import { useStopwatch, useTimer } from "react-timer-hook";
+
+type CircleProps = ComponentProps<'div'> & {
+    width: '5' | '7' | '10' | '15'
+}
+const Circle = ({ children, width, onClick }: PropsWithChildren<CircleProps>) => {
+    return (
+        <div onClick={onClick} className={`border-2 rounded-full w-${width} aspect-square flex items-center justify-center`}>
+            <p>{children}</p>
+        </div>
+    )
+}
+
+type TimerProps = {
+    expireTime: Date
+}
+const Timer = ({ expireTime }: TimerProps) => {
+    const { minutes, seconds } = useTimer({ expiryTimestamp: expireTime })
+
+    return (<div className="flex items-center gap-2 justify-center text-2xl">
+        <Icon icon={"gg:timer"} />{String(minutes).padStart(2, '0')}:{String(minutes).padStart(2, '0')}
+    </div>)
+}
+
+type StopWatchProps = {
+}
+const StopWatch = ({ }: StopWatchProps) => {
+    const { minutes, seconds } = useStopwatch({ autoStart: true })
+
+    return (<div className="flex items-center gap-2 justify-center text-2xl">
+        <Icon icon={"boxicons:stopwatch"} />{String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+    </div>)
+}
 
 export const GameLayout = () => {
     const router = useRouter()
-    const { currentGame, setCurrentGame, reset } = useGameStore()
-    const [currentQuestion, setCurrentQuestions] = useState(0)
+
+    const { currentGame, resetGame, finishGame } = useGameStore()
     const [correctAnswers, setCorrectAnswers] = useState<Question[]>([])
     const [wrongAnswers, setWrongAnswers] = useState<Question[]>([])
     if (currentGame === null) {
@@ -19,65 +55,83 @@ export const GameLayout = () => {
         return;
     }
     const { questions } = currentGame
+    const { useStepper } = defineStepper(...questions.map((q, idx) => ({ id: idx.toString(), ...q })))
+    const { state, navigation, flow } = useStepper({ initialStep: '0' })
+    const currentIdx = Number(state.current.data.id)
+
 
     const completeGame = () => {
         const report = {
             wrong: wrongAnswers,
             correct: correctAnswers
         }
-        setCurrentGame({ ...currentGame, report: report })
+        // setCurrentGame({ ...currentGame, report: report })
         router.push("/game/report")
     }
 
     const nextQuestion = () => {
-        if (currentQuestion === questions.length - 1) {
+        if (state.isLast) {
             completeGame()
             return;
         }
-        setCurrentQuestions(curr => curr + 1)
+        navigation.next()
     }
 
     const onCorrectAnswer = () => {
-        setCorrectAnswers(ans => [...ans, questions[currentQuestion]])
+        setCorrectAnswers(ans => [...ans, questions[currentIdx]])
         nextQuestion()
     }
 
     const onWrongAnswer = () => {
-        setWrongAnswers(ans => [...ans, questions[currentQuestion]])
+        setWrongAnswers(ans => [...ans, questions[currentIdx]])
         nextQuestion()
     }
 
     const handleReset = () => {
-        reset()
         router.push("/")
     }
-    const question = questions[currentQuestion];
-    const currentDomain = currentGame.domains[question.domainIdx]
 
-    return (<div className="flex flex-col gap-1">
-        <div className="flex gap-1 pb-2 justify-between">
-            <div className="flex justify-center items-center">
-                <Icon icon="lets-icons:check-fill" className={'text-2xl'} />
-                {correctAnswers.length}
+    return (<div className="flex flex-col gap-10 bg-stone-100 ">
+        <header className="bg-cyan-500 flex items-center p-2 rounded-lg justify-between">
+            {currentGame.setup.timer?.expireTime ?
+                <Timer expireTime={currentGame.setup.timer.expireTime} /> :
+                <StopWatch />}
+            <div className="flex gap-5">
+                <p className="text-xl flex"><p className="font-bold">{currentIdx+1}</p>/{questions.length}</p>
+                <button className="text-2xl pr-4" onClick={handleReset}><Icon icon="ri:reset-left-fill" /></button>
             </div>
-            <button onClick={handleReset}><Icon icon="ri:reset-right-fill" className={'text-2xl transform -scale-x-100'} /></button>
-        </div>
-        <div className="pt-8 flex gap-2">
-            <div className="flex justify-center">
-                <MemoryCard
-                    question={questions[currentQuestion]}
-                    onCorrectAnswer={onCorrectAnswer}
-                    onWrongAnswer={onWrongAnswer} />
-            </div>
-            <div className="min-w-1/6 bg-blue-300 p-2 ml-auto rounded-md">
-                <div className="flex justify-end">
-                    {Array(currentDomain.level).fill(0).map(item => <Icon icon={"streamline-flex:skull-2-solid"} />)}
+        </header>
+        <div className="flex gap-5 pb-4">
+            <nav className="w-1/5">
+                <div className="flex flex-col gap-2 justify-center items-center">
+                    {!state.isFirst && <Circle width="7" onClick={() => navigation.prev()}>{Number(state.current.data.id) - 1}</Circle>}
+                    <Circle width="10">{Number(state.current.data.id)}</Circle>
+                    {!state.isLast && <Circle width="7" onClick={() => navigation.next()}>{Number(state.current.data.id) + 1}</Circle>}
                 </div>
-                <p className="py-2 font-bold">{currentDomain.name}</p>
-                <ul className="flex flex-wrap gap-1">
-                    {currentDomain.tags.map(tag => (<li className="bg-gray-100 rounded-xl text-sm p-1">{tag}</li>))}
-                </ul>
-            </div>
+            </nav>
+            <main className="w-3/5 bg-white h-full rounded-2xl shadow p-2">
+                <SwitchCard>
+                    <SwitchCard.Primary>
+                        <div className="">
+                            {state.current.data.question}
+                        </div>
+                    </SwitchCard.Primary>
+                    <SwitchCard.Secondary>
+                        <div className="flex flex-col gap-4">
+                            <p>{state.current.data.answer}</p>
+                            <div className="flex justify-evenly">
+                                <Button type="Info" onClick={onCorrectAnswer} label="Ok" />
+                                <Button type="Error" onClick={onWrongAnswer} label="Bad" />
+                            </div>
+                        </div>
+                    </SwitchCard.Secondary>
+                </SwitchCard>
+            </main>
+            <aside className="w-1/5 bg-sky-900 p-3 rounded-lg flex flex-col gap-4">
+                <div className="text-sky-50 text-2xl flex gap-1">{Array.from({ length: state.current.data.level }, () => <Icon icon={'streamline-flex:skull-2-remix'} />)}</div>
+                <div className="flex gap-2">{state.current.data.tags.map((t) =>
+                    <p className="bg-sky-100 rounded-full px-2 text-sm">{t}</p>)}</div>
+            </aside>
         </div>
     </div>)
 }
