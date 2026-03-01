@@ -8,8 +8,8 @@ import { FormProvider, useForm, useWatch } from "react-hook-form"
 import { Icon } from "@iconify/react"
 import { useQuizGenForm } from "../../hooks/useQuizGenForm"
 import { Button } from "@/src/features/common/components/Button/Button"
-import { maxQaOptions, sortOptionLabels, timerOptions } from "@/src/features/common/model/Options.js"
 import { StepperNavigation } from "@stepperize/core"
+import { timerOptions, maxQaOptions, sortOptionLabels } from "@/src/features/common/model/Options"
 
 type QuizGenForm = {
     onClose: () => void,

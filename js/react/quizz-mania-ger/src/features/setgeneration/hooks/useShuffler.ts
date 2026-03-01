@@ -28,6 +28,7 @@ export const useShuffler = () => {
             ...q,
             domainName: domain.name,
             role: domain.role,
+            tags: domain.tags
         })))
 
         const groups = Object.groupBy(gameQuestions, (quest) => quest[sortBy])

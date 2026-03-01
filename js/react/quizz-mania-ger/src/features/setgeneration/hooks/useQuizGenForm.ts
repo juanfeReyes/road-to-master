@@ -4,7 +4,7 @@ import { useShuffler } from "./useShuffler"
 import { UseFormReturn, useWatch } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import { SetupActionType, useGameStore } from "../../common/store/GameStore"
-import { maxQaOptions, sortOptionLabels, sortOptionLabelTypes, sortOptionsMap } from "@/src/features/common/model/Options.js"
+import { maxQaOptions, sortOptionLabels, sortOptionLabelTypes, sortOptionsMap } from "@/src/features/common/model/Options"
 import { useFetcher } from "./useFetcher"
 
 export const useQuizGenForm = (form: UseFormReturn<any>) => {
