@@ -1,6 +1,6 @@
 import { GameLayout } from "@/src/features/game/components/GameLayout/GameLayout";
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { SetupType, useGameStore } from "@/src/features/common/store/GameStore";
+import { SetupActionType, useGameStore } from "@/src/features/common/store/GameStore";
 import { useEffect } from "react";
 import { StoryFn } from "storybook/internal/types";
 import { Question } from "@/src/features/common/model/Question";
@@ -45,9 +45,31 @@ export const Default: Story = {
             const { initializeGame, startGame } = useGameStore()
 
             useEffect(() => {
-                const setup: SetupType = {
+                const setup: SetupActionType = {
                     sortBy: "By domain",
                     timer: undefined,
+                    questions: questions,
+                    resume: {}
+                }
+                initializeGame(setup)
+                startGame()
+
+            }, [])
+
+            return <Story />
+        }
+    ]
+}
+
+export const WithTimer: Story = {
+    decorators: [
+        (Story: StoryFn) => {
+            const { initializeGame, startGame } = useGameStore()
+
+            useEffect(() => {
+                const setup: SetupActionType = {
+                    sortBy: "By domain",
+                    timer: 1,
                     questions: questions,
                     resume: {}
                 }

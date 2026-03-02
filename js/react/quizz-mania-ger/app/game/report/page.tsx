@@ -1,8 +1,8 @@
-import { GameReport } from "@/components/Game/GameReport";
+import { ReportLayout } from "@/src/features/reporting/components/ReportLayout/ReportLayout";
 
 export default function Report(){
 
     return (<div>
-        <GameReport correctAnswers={[]} wrongAnswers={[]} />
+        <ReportLayout />
     </div>)
 }

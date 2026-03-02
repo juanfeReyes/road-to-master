@@ -1,3 +1,6 @@
+import * as addonQueryparams from "@storybook/addon-queryparams/preview";
+import addonDocs from "@storybook/addon-docs";
+import addonA11y from "@storybook/addon-a11y";
 import { definePreview } from '@storybook/nextjs-vite'
 import {withThemeByClassName} from '@storybook/addon-themes'
 import '../app/globals.css'
@@ -28,4 +31,6 @@ export default definePreview( {
       test: 'todo'
     }
   },
+
+  addons: [addonA11y(), addonDocs(), addonQueryparams]
 });
