@@ -1,10 +1,10 @@
 'use client'
 import { Question } from "@/src/features/common/model/Question"
+import { useGameStore } from "@/src/features/common/store/GameStore"
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { Icon } from "@iconify/react"
 import clsx from "clsx"
-import { useGameStore } from "../store/GameStore"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 interface QuestionReportProps {
     question: Question
@@ -48,27 +48,23 @@ const AnswerReportPanel = ({ answers, title, color }: AnswerReportPanelProps) =>
     </>)
 }
 
-interface GameReportProps {
-    correctAnswers: Question[]
-    wrongAnswers: Question[]
-}
+export const ReportLayout = () => {
+    const searchParams = useSearchParams()
+    const game = useGameStore((s) => s.lastGames.find((g) => g.id === searchParams.get('id')))
 
-export const GameReport = () => {
-    const { currentGame } = useGameStore()
     const router = useRouter()
-    if (currentGame === null) {
+    if (!game || !game.report || !game.report.correct || !game.report.wrong) {
         router.push("/")
         return;
     }
-    const wrong = currentGame.report.wrong;
-    const correct = currentGame.report.correct;
-    console.log(currentGame)
+    const wrong = game.report.wrong;
+    const correct = game.report.correct;
     const scorePercentage = (correct.length / (correct.length + wrong.length)) * 100
 
     return (<div className="flex flex-col p-4 gap-1 rounded-l-lg shadow-2xl bg-gray-100">
-        <div className="font-bold text-3xl py-2 ">Resultados</div>
-        <div>Puntaje: <span className="text-xl">{correct.length}</span>/<span className="text-lg">{correct.length + wrong.length}</span> - ({scorePercentage.toFixed(2)}%)</div>
-        <AnswerReportPanel title={`Respuestas Erroneas: ${wrong.length}`} answers={wrong} color="bg-red-300" />
-        <AnswerReportPanel title={`Respuestas correctas: ${correct.length}`} answers={correct} color="bg-green-300" />
+        <div className="font-bold text-3xl py-2 ">Report</div>
+        <div>Score: <span className="text-xl">{correct.length}</span>/<span className="text-lg">{correct.length + wrong.length}</span> - ({scorePercentage.toFixed(2)}%)</div>
+        <AnswerReportPanel title={`Questions to improve: ${wrong.length}`} answers={wrong} color="bg-red-300" />
+        <AnswerReportPanel title={`Great Job, check! ${correct.length}`} answers={correct} color="bg-green-300" />
     </div>)
 }

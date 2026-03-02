@@ -64,7 +64,7 @@ export const GameLayout = () => {
     const completeGame = () => {
         finishGame({ correct: correctAnswers, wrong: wrongAnswers })
         toast('Game completed')
-        router.push("/game/report")
+        router.push(`/game/report?id=${currentGame?.id}`)
     }
 
     const nextQuestion = () => {

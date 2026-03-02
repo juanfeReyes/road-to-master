@@ -26,6 +26,7 @@ interface Game {
 }
 
 export type SetupActionType = {
+    id?: string
     sortBy: sortOptionLabelTypes
     timer: number | undefined,
     questions: Question[],
@@ -61,7 +62,7 @@ export const useGameStore = create<GameState>(set => ({
         const totalQuestions = setup.questions.length
         set({
             currentGame: {
-                id: v4(),
+                id: setup.id ?? v4(),
                 setup: {
                     timer: { minutes: setup.timer },
                     questResume: setup.resume,
