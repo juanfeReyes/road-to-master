@@ -52,7 +52,7 @@ const Filter = ({ header }: FilterProps) => {
 
     return (
         <Popover className="relative">
-            <PopoverButton>{flexRender(header.column.columnDef.header, header.getContext())}</PopoverButton>
+            <PopoverButton as="button" className={'w-full block'}>{flexRender(header.column.columnDef.header, header.getContext())}</PopoverButton>
             <PopoverPanel anchor="bottom" className="flex flex-col bg-white">
                 {filterComponent}
             </PopoverPanel>
@@ -87,14 +87,16 @@ export const Table = <T,>({ data, columns, rowExpandPanel }: TableProps<T>) => {
     })
 
     return (<div>
-        <table>
+        <table className="w-full">
             <thead>
                 {table.getHeaderGroups().map(headerGroup => <tr key={headerGroup.id}>
                     {headerGroup.headers.map(header => <th key={header.id}>
-                        {header.column.getCanSort() && <button onClick={header.column.getToggleSortingHandler()}><SortingIcon column={header.column} /></button>}
-                        {header.column.getCanFilter() ?
-                            <Filter header={header} /> :
-                            flexRender(header.column.columnDef.header, header.getContext())}
+                        <div className="w-full flex gap-2">
+                            {header.column.getCanSort() && <button onClick={header.column.getToggleSortingHandler()}><SortingIcon column={header.column} /></button>}
+                            {header.column.getCanFilter() ?
+                                <Filter header={header} /> :
+                                flexRender(header.column.columnDef.header, header.getContext())}
+                        </div>
                     </th>)}
                 </tr>)}
             </thead>

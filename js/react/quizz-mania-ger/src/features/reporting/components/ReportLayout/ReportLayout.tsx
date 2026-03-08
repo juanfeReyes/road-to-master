@@ -136,16 +136,18 @@ export const ReportLayout = () => {
         }),
     ];
 
+    const tabStyle = 'data-hover:bg-sky-200 data-selected:bg-sky-50 pt-1.5 px-1.5 rounded-t-xl'
+
     return (<div className="flex flex-col p-4 gap-1 rounded-l-lg shadow-2xl bg-gray-100">
         <div className="font-bold text-3xl py-2 ">Report</div>
         <div>Score: <span className="text-xl">{correct.length}</span>/<span className="text-lg">{correct.length + wrong.length}</span> - ({scorePercentage.toFixed(2)}%)</div>
         <div>
-            <TabGroup>
-                <TabList>
-                    <Tab>Questions</Tab>
-                    <Tab>Charts</Tab>
+            <TabGroup className={'bg-sky-50 rounded-xl pb-2 shadow'}>
+                <TabList className={'bg-sky-500 rounded-t-xl flex gap-1'}>
+                    <Tab className={tabStyle}>Questions</Tab>
+                    <Tab className={tabStyle}>Charts</Tab>
                 </TabList>
-                <TabPanels>
+                <TabPanels className={' rounded-xl'}>
                     <TabPanel>
                         <Table data={game.report.answers} columns={columns} rowExpandPanel={(row) => <QuestionRowPanel question={row} /> }/>
                     </TabPanel>
