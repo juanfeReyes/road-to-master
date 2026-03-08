@@ -1,4 +1,4 @@
-import { GameQuestion, Question } from "@/src/features/common/model/Question";
+import { GameQuestion, Question, QuestionResult } from "@/src/features/common/model/Question";
 import { produce } from "immer";
 import { create } from "zustand";
 import { sortOptionLabelTypes } from "../model/Options";
@@ -7,7 +7,7 @@ import { UUIDTypes, v4 } from "uuid";
 /** change domain to contain the questions and questions should be the flattened */
 interface Game {
     id: UUIDTypes
-    questions: Question[],
+    questions: GameQuestion[],
     setup: {
         sortBy: sortOptionLabelTypes,
         totalQuestions: number,
@@ -20,8 +20,7 @@ interface Game {
     report?: {
         startDate: Date,
         endDate?: Date,
-        correct?: Question[],
-        wrong?: Question[]
+        answers?: QuestionResult[]
     }
 }
 
@@ -29,13 +28,12 @@ export type SetupActionType = {
     id?: string
     sortBy: sortOptionLabelTypes
     timer: number | undefined,
-    questions: Question[],
+    questions: GameQuestion[],
     resume: Partial<Record<string | number, GameQuestion[]>>
 }
 
 export type FinishGameActionType = {
-    correct: Question[],
-    wrong: Question[]
+    answers: QuestionResult[]
 }
 
 interface GameState {
@@ -91,8 +89,7 @@ export const useGameStore = create<GameState>(set => ({
                 s.currentGame.report = {
                     startDate: s.currentGame.report?.startDate,
                     endDate: new Date(),
-                    correct: action.correct,
-                    wrong: action.wrong
+                    answers: action.answers
                 }
                 s.lastGames.push(s.currentGame)
                 s.currentGame = null

@@ -15,7 +15,12 @@ export interface Question {
 export interface GameQuestion extends Question {
     domainName: string,
     role: string,
-    level: number
+    level: number,
+}
+
+export type QuestionState = 'CORRECT' | 'WRONG'
+export interface QuestionResult extends GameQuestion {
+    result: QuestionState
 }
 
 export interface FileConfig {
