@@ -16,6 +16,7 @@
   "dependencies": {
     "@headlessui/react": "^2.2.9",
     "@stepperize/react": "^6.1.0",
+    "@tanstack/react-table": "^8.21.3",
     "array-shuffle": "^4.0.0",
     "clsx": "^2.1.1",
     "immer": "^11.1.4",

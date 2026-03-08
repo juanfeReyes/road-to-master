@@ -1,7 +1,7 @@
 'use client'
 import React, { ComponentProps, PropsWithChildren, useState } from "react";
 import MemoryCard from "../QuestionCard/QuestionCard";
-import { Question } from "@/src/features/common/model/Question";
+import { GameQuestion, Question, QuestionResult, QuestionState } from "@/src/features/common/model/Question";
 import { useGameStore } from "../../../common/store/GameStore";
 import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
@@ -48,8 +48,7 @@ const StopWatch = ({ }: StopWatchProps) => {
 export const GameLayout = () => {
     const router = useRouter()
     const { currentGame, resetGame, finishGame } = useGameStore()
-    const [correctAnswers, setCorrectAnswers] = useState<Question[]>([])
-    const [wrongAnswers, setWrongAnswers] = useState<Question[]>([])
+    const [answers, setAnswers] = useState<QuestionResult[]>([])
     if (currentGame === null) {
 
         router.push("/")
@@ -62,7 +61,7 @@ export const GameLayout = () => {
 
 
     const completeGame = () => {
-        finishGame({ correct: correctAnswers, wrong: wrongAnswers })
+        finishGame({ answers })
         toast('Game completed')
         router.push(`/game/report?id=${currentGame?.id}`)
     }
@@ -75,13 +74,9 @@ export const GameLayout = () => {
         navigation.next()
     }
 
-    const onCorrectAnswer = () => {
-        setCorrectAnswers(ans => [...ans, questions[currentIdx]])
-        nextQuestion()
-    }
-
-    const onWrongAnswer = () => {
-        setWrongAnswers(ans => [...ans, questions[currentIdx]])
+    const onAnswer = (result: QuestionState) => {
+        const answer: QuestionResult = {...questions[currentIdx], result}
+        setAnswers(ans => [...ans, answer])
         nextQuestion()
     }
 
@@ -121,8 +116,8 @@ export const GameLayout = () => {
                             <div className="flex flex-col gap-4">
                                 <p>{state.current.data.answer}</p>
                                 <div className="flex justify-evenly">
-                                    <Button type="Info" onClick={onCorrectAnswer} label="Ok" />
-                                    <Button type="Error" onClick={onWrongAnswer} label="Bad" />
+                                    <Button type="Info" onClick={() => onAnswer('CORRECT')} label="Ok" />
+                                    <Button type="Error" onClick={() => onAnswer('WRONG')} label="Bad" />
                                 </div>
                             </div>
                         </SwitchCard.Secondary>

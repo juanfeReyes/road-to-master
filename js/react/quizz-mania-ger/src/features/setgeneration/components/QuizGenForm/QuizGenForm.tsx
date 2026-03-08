@@ -1,6 +1,6 @@
 'use client'
 
-import { OptionSelector } from "@/src/features/common/components/OptionSelect/OptionSelector"
+import { FormOptionSelector } from "@/src/features/common/components/FormOptionSelect/FormOptionSelector"
 import { SearchAndSelect } from "@/src/features/common/components/SearchAndSelect/SearchAndSelect"
 import { useGameStore } from "@/src/features/common/store/GameStore"
 import { Field, Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
@@ -45,7 +45,7 @@ export const QuizGenForm = ({onClose, navigation}: QuizGenForm) => {
 
     return (<FormProvider {...form}>
         <Field>
-            <OptionSelector fieldName="lang" options={languages} placeholder="Select language" />
+            <FormOptionSelector fieldName="lang" options={languages} placeholder="Select language" />
         </Field>
         {lang &&
             <Field>
@@ -62,19 +62,19 @@ export const QuizGenForm = ({onClose, navigation}: QuizGenForm) => {
             <DisclosurePanel className="flex flex-col gap-3">
                 <Field className={"flex justify-center items-center gap-1"}>
                     <Icon icon={'material-symbols:timer-outline-rounded'} />
-                    <OptionSelector
+                    <FormOptionSelector
                         fieldName="timer"
                         options={timerOptions}
                         placeholder="Select timer" />
                 </Field>
                 <Field className={"flex flex-col gap-1"}>
-                    <OptionSelector
+                    <FormOptionSelector
                         fieldName="maxQuestions"
                         options={maxQaOptions}
                         placeholder="Select max question per domain" />
                 </Field>
                 <Field className={"flex flex-col gap-1"}>
-                    <OptionSelector
+                    <FormOptionSelector
                         fieldName="sortBy"
                         options={sortOptionLabels}
                         placeholder="Select sort option" />

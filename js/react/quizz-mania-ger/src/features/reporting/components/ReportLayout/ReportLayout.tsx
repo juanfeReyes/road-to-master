@@ -1,8 +1,10 @@
 'use client'
-import { Question } from "@/src/features/common/model/Question"
+import { Table } from "@/src/features/common/components/Table/Table"
+import { GameQuestion, Question, QuestionResult } from "@/src/features/common/model/Question"
 import { useGameStore } from "@/src/features/common/store/GameStore"
-import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
+import { Disclosure, DisclosureButton, DisclosurePanel, Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react"
 import { Icon } from "@iconify/react"
+import { createColumnHelper } from "@tanstack/react-table"
 import clsx from "clsx"
 import { useRouter, useSearchParams } from "next/navigation"
 
@@ -43,9 +45,32 @@ const AnswerReportPanel = ({ answers, title, color }: AnswerReportPanelProps) =>
                     </DisclosurePanel>
                 </>
             )}
-
         </Disclosure>}
     </>)
+}
+
+const QuestionsList = () => {
+
+    return (<div>
+
+    </div>)
+}
+
+const QuestionsCharts = () => {
+    return (<div>
+
+    </div>)
+}
+
+interface QuestionRowPanelProps {
+    question: Question
+}
+
+const QuestionRowPanel = ({question}: QuestionRowPanelProps) => {
+
+    return (<div>
+        {question.answer}
+    </div>)
 }
 
 export const ReportLayout = () => {
@@ -53,18 +78,82 @@ export const ReportLayout = () => {
     const game = useGameStore((s) => s.lastGames.find((g) => g.id === searchParams.get('id')))
 
     const router = useRouter()
-    if (!game || !game.report || !game.report.correct || !game.report.wrong) {
+    if (!game || !game.report || !game.report.answers || !game.report.answers) {
         router.push("/")
         return;
     }
-    const wrong = game.report.wrong;
-    const correct = game.report.correct;
+    const wrong = game.report.answers.filter(a => a.result === 'WRONG');
+    const correct = game.report.answers.filter(a => a.result === 'CORRECT');;
     const scorePercentage = (correct.length / (correct.length + wrong.length)) * 100
+
+    const columnHelper = createColumnHelper<QuestionResult>();
+
+    const columns = [
+        columnHelper.display({
+            id: 'expand',
+            header: () => (<p>-</p>),
+            cell: ({row}) => (
+                <button onClick={row.getToggleExpandedHandler()}>
+                     {row.getIsExpanded() ? <Icon icon={'prime:sort-down'} /> : <Icon icon={'icon-park-solid:right-one'} />}
+                 </button>
+            )
+        }),
+        columnHelper.accessor("question", {
+            header: "question",
+            sortingFn: 'alphanumeric',
+            cell: (info) => info.getValue(),
+        }),
+        columnHelper.accessor("result", {
+            header: "result",
+            sortingFn: 'alphanumeric',
+            cell: (info) => <span className={`${info.getValue() === 'CORRECT' ? 'bg-green-400' : 'bg-red-400'} rounded-xl px-2 py-0.5`}>
+                {info.getValue()}
+                </span>,
+            meta: {
+                filterVariant: 'select'
+            }
+        }),
+        columnHelper.accessor("domainName", {
+            header: "domain",
+            sortingFn: 'alphanumeric',
+            cell: (info) => info.getValue(),
+        }),
+        columnHelper.accessor("role", {
+            header: "role",
+            sortingFn: 'alphanumeric',
+            cell: (info) => info.getValue(),
+            meta: {
+                filterVariant: 'select'
+            }
+        }),
+        columnHelper.accessor("level", {
+            header: "level",
+            sortingFn: 'alphanumeric',
+            cell: (info) => info.getValue(),
+            meta: {
+                filterVariant: 'select'
+            }
+        }),
+    ];
 
     return (<div className="flex flex-col p-4 gap-1 rounded-l-lg shadow-2xl bg-gray-100">
         <div className="font-bold text-3xl py-2 ">Report</div>
         <div>Score: <span className="text-xl">{correct.length}</span>/<span className="text-lg">{correct.length + wrong.length}</span> - ({scorePercentage.toFixed(2)}%)</div>
-        <AnswerReportPanel title={`Questions to improve: ${wrong.length}`} answers={wrong} color="bg-red-300" />
-        <AnswerReportPanel title={`Great Job, check! ${correct.length}`} answers={correct} color="bg-green-300" />
+        <div>
+            <TabGroup>
+                <TabList>
+                    <Tab>Questions</Tab>
+                    <Tab>Charts</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
+                        <Table data={game.report.answers} columns={columns} rowExpandPanel={(row) => <QuestionRowPanel question={row} /> }/>
+                    </TabPanel>
+                    <TabPanel>Content 2</TabPanel>
+                </TabPanels>
+            </TabGroup>
+
+        </div>
+
     </div>)
 }
