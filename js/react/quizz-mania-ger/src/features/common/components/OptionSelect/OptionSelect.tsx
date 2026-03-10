@@ -1,11 +1,12 @@
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from "@headlessui/react"
-import { ComponentProps } from "react"
+import { ComponentProps, ReactNode } from "react"
 
 export type OptionSelectProps  = ComponentProps<'select'> & {
     placeholder?: string,
-    readonly options: readonly String[],
+    readonly options: readonly string[],
+    optionDisplay?: (option: string) => ReactNode
 }
-export const OptionSelect = ({value, onChange, options, placeholder}:  OptionSelectProps) => {
+export const OptionSelect = ({value, onChange, options, placeholder, optionDisplay}:  OptionSelectProps) => {
     const defaultPlaceholder = placeholder ?? 'Select'
         
         return (<>
@@ -14,7 +15,7 @@ export const OptionSelect = ({value, onChange, options, placeholder}:  OptionSel
                 <ListboxOptions className={"bg-gray-200 p-1.5 rounded-b-xl w-(--button-width)"} anchor="bottom">
                     {options.map((opt, idx) => (
                         <ListboxOption key={idx} value={opt} className="data-focus:bg-blue-200 rounded-lg p-1">
-                            {opt}
+                            {optionDisplay ? optionDisplay(opt) :opt}
                         </ListboxOption>
                     ))}
                 </ListboxOptions>
