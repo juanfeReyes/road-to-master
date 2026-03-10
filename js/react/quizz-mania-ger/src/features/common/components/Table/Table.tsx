@@ -29,7 +29,7 @@ type FilterProps = {
     header: Header<any, unknown>
 }
 const Filter = ({ header }: FilterProps) => {
-    const { filterVariant } = header.column.columnDef.meta ?? {}
+    const { filterVariant, optionDisplay } = header.column.columnDef.meta ?? {}
     const columnFilterValue = header.column.getFilterValue()
     let filterComponent;
     switch (filterVariant) {
@@ -44,6 +44,7 @@ const Filter = ({ header }: FilterProps) => {
                 value={columnFilterValue}
                 onChange={(e) => header.column.setFilterValue(e)}
                 options={sortedUniqueValues}
+                optionDisplay={optionDisplay}
             />)
             break;
         default:
@@ -52,7 +53,9 @@ const Filter = ({ header }: FilterProps) => {
 
     return (
         <Popover className="relative">
-            <PopoverButton as="button" className={'w-full block'}>{flexRender(header.column.columnDef.header, header.getContext())}</PopoverButton>
+            <PopoverButton as="button" className={'w-full block'}>
+                <Icon icon={'ic:sharp-search'}/>
+            </PopoverButton>
             <PopoverPanel anchor="bottom" className="flex flex-col bg-white">
                 {filterComponent}
             </PopoverPanel>
@@ -64,7 +67,7 @@ export const Table = <T,>({ data, columns, rowExpandPanel }: TableProps<T>) => {
     const [expanded, setExpanded] = useState<ExpandedState>({})
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-
+    
     const table = useReactTable({
         data,
         columns,
@@ -86,16 +89,31 @@ export const Table = <T,>({ data, columns, rowExpandPanel }: TableProps<T>) => {
         // debugTable: true,
     })
 
+    const onClearFilter = (filterId: string) => {
+        setColumnFilters(columnFilters.filter(f => f.id !== filterId))
+    }
+
     return (<div>
-        <table className="w-full">
+        <div className="px-8 py-2 flex justify-between">
+            <div className="flex gap-2">
+                {columnFilters.map(filter => <div onClick={() => onClearFilter(filter.id)}>
+                    <div className="font-bold rounded-xl px-2 py-0.5 shadow">
+                        {flexRender(table.getColumn(filter.id)?.columnDef.cell, {getValue: () => filter.value})}
+                        </div>
+                </div>)}
+            </div>
+
+            <Icon className="text-2xl" onClick={() => table.resetColumnFilters()} icon={'mynaui:filter-solid'} />
+        </div>
+        <table className="w-full border-separate border-spacing-2">
             <thead>
                 {table.getHeaderGroups().map(headerGroup => <tr key={headerGroup.id}>
                     {headerGroup.headers.map(header => <th key={header.id}>
-                        <div className="w-full flex gap-2">
+                        <div className="w-full flex gap-2 items-center">
                             {header.column.getCanSort() && <button onClick={header.column.getToggleSortingHandler()}><SortingIcon column={header.column} /></button>}
-                            {header.column.getCanFilter() ?
-                                <Filter header={header} /> :
-                                flexRender(header.column.columnDef.header, header.getContext())}
+                            {flexRender(header.column.columnDef.header, header.getContext())}
+                            {header.column.getCanFilter() && <Filter header={header} />
+                                }
                         </div>
                     </th>)}
                 </tr>)}
