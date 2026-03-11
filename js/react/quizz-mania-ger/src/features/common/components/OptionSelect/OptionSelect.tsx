@@ -11,7 +11,7 @@ export const OptionSelect = ({value, onChange, options, placeholder, optionDispl
         
         return (<>
             <Listbox value={value} onChange={onChange}>
-                <ListboxButton className={"border-b-2 px-1 border-gray-200 w-full text-left"}>{value ?? defaultPlaceholder}</ListboxButton>
+                <ListboxButton className={"border-b-2 px-1 border-gray-200 w-full text-left"}>{value ? optionDisplay ? optionDisplay(value) : value : defaultPlaceholder}</ListboxButton>
                 <ListboxOptions className={"bg-gray-200 p-1.5 rounded-b-xl w-(--button-width)"} anchor="bottom">
                     {options.map((opt, idx) => (
                         <ListboxOption key={idx} value={opt} className="data-focus:bg-blue-200 rounded-lg p-1">

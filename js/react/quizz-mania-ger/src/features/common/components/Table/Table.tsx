@@ -41,7 +41,7 @@ const Filter = ({ header }: FilterProps) => {
                 .sort()
                 .slice(0, 5000)
             filterComponent = (<OptionSelect
-                value={columnFilterValue}
+                value={columnFilterValue ?? sortedUniqueValues[0]}
                 onChange={(e) => header.column.setFilterValue(e)}
                 options={sortedUniqueValues}
                 optionDisplay={optionDisplay}
@@ -97,7 +97,7 @@ export const Table = <T,>({ data, columns, rowExpandPanel }: TableProps<T>) => {
         <div className="px-8 py-2 flex justify-between">
             <div className="flex gap-2">
                 {columnFilters.map(filter => <div onClick={() => onClearFilter(filter.id)}>
-                    <div className="font-bold rounded-xl px-2 py-0.5 shadow">
+                    <div className="bg-cyan-200 font-bold rounded-xl px-2 py-0.5 shadow">
                         {flexRender(table.getColumn(filter.id)?.columnDef.cell, {getValue: () => filter.value})}
                         </div>
                 </div>)}
