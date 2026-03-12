@@ -5,7 +5,7 @@ import { sortOptionLabelTypes } from "../model/Options";
 import { UUIDTypes, v4 } from "uuid";
 
 /** change domain to contain the questions and questions should be the flattened */
-interface Game {
+export interface Game {
     id: UUIDTypes
     questions: GameQuestion[],
     setup: {
