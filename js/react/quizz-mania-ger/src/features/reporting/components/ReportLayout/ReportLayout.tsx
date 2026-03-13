@@ -63,7 +63,7 @@ export const ReportLayout = () => {
                         <GeneralReport game={game} />
                     </TabPanel>
                     <TabPanel>
-                        <div>
+                        <div className="flex">
                             <LabeledPieChart data={passedByDomain} />
                             <LabeledPieChart data={failedByDomain} />
                         </div>
