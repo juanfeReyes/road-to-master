@@ -3,7 +3,6 @@ import { Question, QuestionResult, QuestionState } from "@/src/features/common/m
 import { Game } from "@/src/features/common/store/GameStore";
 import { Icon } from "@iconify/react";
 import { createColumnHelper } from "@tanstack/react-table";
-import router from "next/router";
 
 interface QuestionRowPanelProps {
     question: Question
@@ -33,8 +32,7 @@ type GeneralReportProps = {
 }
 export const GeneralReport = ({ game }: GeneralReportProps) => {
     if (!game || !game.report || !game.report.answers) {
-        router.push("/")
-        return;
+        return <div></div>;
     }
 
     const columnHelper = createColumnHelper<QuestionResult>();
