@@ -4,7 +4,7 @@ import { Pie, PieChart, PieLabelRenderProps, PieSectorShapeProps, Sector } from 
 const RADIAN = Math.PI / 180;
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: PieLabelRenderProps) => {
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, name }: PieLabelRenderProps) => {
     if (cx == null || cy == null || innerRadius == null || outerRadius == null) {
         return null;
     }
@@ -16,7 +16,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 
     return (
         <text x={x} y={y} fill="white" textAnchor={x > ncx ? 'start' : 'end'} dominantBaseline="central">
-            {`${((percent ?? 1) * 100).toFixed(0)}%`}
+            {`${name} ${((percent ?? 1) * 100).toFixed(0)}%`}
         </text>
     );
 };
@@ -35,7 +35,7 @@ type LabeledPieChartProps = {
 
 export default function LabeledPieChart({ isAnimationActive = true, data }: LabeledPieChartProps) {
     return (
-        <PieChart style={{ width: '100%', maxWidth: '500px', maxHeight: '80vh', aspectRatio: 1 }} responsive>
+        <PieChart responsive style={{ width: '100%', maxWidth: '500px', maxHeight: '80vh', aspectRatio: 1 }}>
             <Pie
                 data={data}
                 labelLine={false}
