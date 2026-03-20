@@ -3,22 +3,6 @@ import { arrayToShuffled } from 'array-shuffle';
 import { useFetcher } from "./useFetcher";
 import { FileConfig, GameQuestion, Question, sortOptionType } from "@/src/features/common/model/Question";
 
-const sortByDomain = (domains: Domain[], maxQuestions: number) => {
-    const shuffledDomains = domains.map((domain, idx) => {
-        const quizWithDomain = domain.quiz.map(quiz => ({ ...quiz, domainIdx: idx }))
-        const questions = arrayToShuffled(quizWithDomain)
-        if (maxQuestions) {
-            questions.splice(maxQuestions)
-        }
-        return { domain, questions };
-    })
-    const shuffledQuestions = shuffledDomains.flatMap((dom) => dom.questions)
-
-    return { domains: shuffledDomains, questions: shuffledQuestions };
-}
-
-
-
 export const useShuffler = () => {
     const { fetchDomains } = useFetcher()
 

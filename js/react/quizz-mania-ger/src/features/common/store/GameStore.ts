@@ -15,7 +15,7 @@ export interface Game {
             minutes?: number,
             expireTime?: Date,
         }
-        questResume: Partial<Record<string | number, GameQuestion[]>>
+        questionsGrouped: Partial<Record<string | number, GameQuestion[]>>
     },
     report?: {
         startDate: Date,
@@ -63,7 +63,7 @@ export const useGameStore = create<GameState>(set => ({
                 id: setup.id ?? v4(),
                 setup: {
                     timer: { minutes: setup.timer },
-                    questResume: setup.resume,
+                    questionsGrouped: setup.resume,
                     totalQuestions: totalQuestions,
                     sortBy: setup.sortBy
                 },
@@ -92,7 +92,7 @@ export const useGameStore = create<GameState>(set => ({
                     answers: action.answers
                 }
                 s.lastGames.push(s.currentGame)
-                s.currentGame = null
+                // s.currentGame = null
             }
         })
     ),
