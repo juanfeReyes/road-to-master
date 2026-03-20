@@ -52,7 +52,7 @@ export const GameLayout = () => {
     if (currentGame === null) {
 
         router.push("/")
-        return;
+        return <div>loading</div>;
     }
     const { questions } = currentGame
     const { useStepper } = defineStepper(...questions.map((q, idx) => ({ id: idx.toString(), ...q })))
@@ -61,9 +61,9 @@ export const GameLayout = () => {
 
 
     const completeGame = () => {
+        router.push(`/game/report?id=${currentGame?.id}`)
         finishGame({ answers })
         toast('Game completed')
-        router.push(`/game/report?id=${currentGame?.id}`)
     }
 
     const nextQuestion = () => {

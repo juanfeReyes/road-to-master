@@ -39,7 +39,7 @@ export const QuizGenResume = ({ navigation, onClose }: QuizGenResumeProps) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {Object.entries(setup.questResume)
+                    {Object.entries(setup.questionsGrouped)
                         .map(([key, value]) => (<tr id="key" className="text-center hover:bg-slate-100">
                             <td className="text-left pl-3 rounded-l-lg">{key}</td>
                             <td>{value?.length}</td>
