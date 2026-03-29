@@ -84,22 +84,4 @@ public class Main {
             executeQuery(fallbackQuery);
         }
     }
-
-    private static Dataset<Row> loadTable(SparkSession spark, String table) {
-        Properties props = new Properties();
-        props.put("user", "postgres");
-        props.put("password", "password");
-        props.put("driver", "org.postgresql.Driver");
-        return spark.read().jdbc("jdbc:postgresql://localhost:5432/shipment_db", table, props);
-    }
-
-    private static void writeTable(Dataset<Row> df, String table) {
-        Properties props = new Properties();
-        props.put("user", "postgres");
-        props.put("password", "password");
-        props.put("driver", "org.postgresql.Driver");
-        df.write()
-                .mode(SaveMode.Overwrite)
-                .jdbc("jdbc:postgresql://localhost:5432/warehouse_db", table, props);
-    }
 }
