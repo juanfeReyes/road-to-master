@@ -1,6 +1,6 @@
 package functions
 
-class basics {
+class Basics {
 
     fun sum(a: Int, b: Int ): Int {
         return a + b;
