@@ -9,7 +9,7 @@ class CompanionObject {
     class Person(val name: String) {
 
         /**
-         * Can be user to create Builders   
+         * Can be user to create Builders
          */
         companion object {
             fun createAnonymous() = Person("Anonymous")
