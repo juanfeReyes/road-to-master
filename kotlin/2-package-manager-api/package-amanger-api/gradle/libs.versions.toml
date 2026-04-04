@@ -1,0 +1,2 @@
+[libraries]
+kotlin-semver = {group = "io.github.z4kn4fein", name = "semver", version = "3.0.0"}
