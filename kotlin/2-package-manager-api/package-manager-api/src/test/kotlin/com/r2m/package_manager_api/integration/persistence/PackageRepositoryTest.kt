@@ -34,4 +34,19 @@ class PackageRepositoryTest(
         val packages = packageRepository.findAll();
         assertThat(packages).hasSize(2)
     }
+
+    @Test
+    fun `should create package with existing package`() {
+        val innerContent = listOf(PartItemEntity(UUID.randomUUID().toString(), "Inner Test item"))
+        val innerPackage = PackageEntity(innerContent, UUID.randomUUID().toString())
+        packageRepository.save(innerPackage)
+        val savedPackage = packageRepository.findById(innerPackage.id).get()
+
+        val content = listOf(savedPackage, PartItemEntity(UUID.randomUUID().toString(), "Test item"))
+        val entity = PackageEntity(content, UUID.randomUUID().toString())
+        packageRepository.save(entity)
+
+        val packages = packageRepository.findAll();
+        assertThat(packages).hasSize(2)
+    }
 }
