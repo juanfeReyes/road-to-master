@@ -8,16 +8,18 @@ import com.r2m.package_manager_api.infrastructure.persistence.entity.PartItemEnt
 import com.r2m.package_manager_api.infrastructure.persistence.repositories.PackageRepository
 import com.r2m.package_manager_api.integration.IntegrationTestBase
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import java.util.UUID
+import java.util.*
 
 class PackageRepositoryTest(
     @Autowired val packageRepository: PackageRepository
-): IntegrationTestBase() {
+) : IntegrationTestBase() {
 
     @BeforeEach
-    fun setup(){
+    fun setup() {
         packageRepository.deleteAll()
     }
 
@@ -56,14 +58,34 @@ class PackageRepositoryTest(
         assertThat(packages).hasSize(2)
     }
 
-    @Test
-    fun `should search packages`() {
-        val innerContent = listOf(PartItemEntity(UUID.randomUUID().toString(), "Inner Test item"))
-        val innerPackage = PackageEntity(innerContent, UUID.randomUUID().toString())
-        val content = listOf(innerPackage, PartItemEntity(UUID.randomUUID().toString(), "Test item"))
-        val entity = PackageEntity(content, UUID.randomUUID().toString(), version = "0.2.1", category = "INDUSTRIAL")
-        packageRepository.save(entity)
-        val packages = packageRepository.search(SearchPackageCriteria(category = "INDUSTRIAL"));
-        assertThat(packages).hasSize(1)
+    @DisplayName("Search packages tests: ")
+    @Nested
+    inner class SearchTests {
+        @Test
+        fun `should search packages by category`() {
+            val innerContent = listOf(PartItemEntity(UUID.randomUUID().toString(), "Inner Test item"))
+            val innerPackage = PackageEntity(innerContent, UUID.randomUUID().toString())
+            val content = listOf(innerPackage, PartItemEntity(UUID.randomUUID().toString(), "Test item"))
+            val entity =
+                PackageEntity(content, UUID.randomUUID().toString(), version = "0.2.1", category = "INDUSTRIAL")
+            packageRepository.save(entity)
+            val packages = packageRepository.search(SearchPackageCriteria(category = "INDUSTRIAL"));
+            assertThat(packages).hasSize(1)
+        }
+
+        @Test
+        fun `should search packages with page`() {
+            val innerContent = listOf(PartItemEntity(UUID.randomUUID().toString(), "Inner Test item"))
+            val innerPackage = PackageEntity(innerContent, UUID.randomUUID().toString())
+            packageRepository.save(innerPackage)
+            val savedPackage = packageRepository.findById(innerPackage.id).get()
+
+            val content = listOf(savedPackage, PartItemEntity(UUID.randomUUID().toString(), "Test item"))
+            val entity = PackageEntity(content, UUID.randomUUID().toString())
+            packageRepository.save(entity)
+
+            val packages = packageRepository.search(SearchPackageCriteria(size = 1));
+            assertThat(packages).hasSize(1)
+        }
     }
 }
