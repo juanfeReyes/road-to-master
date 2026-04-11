@@ -26,10 +26,11 @@ class CustomPackageRepositoryImpl(
                     criteria.category?.let { path(PackageEntity::category).eq(criteria.category) }
                 )
             )
+
         }
-
-        return entityManager.createQuery(query, context).resultList
+        val tQuery = entityManager.createQuery(query, context)
+        tQuery.setFirstResult(criteria.page)
+        tQuery.setMaxResults(criteria.size)
+        return tQuery.resultList
     }
-
-
 }
