@@ -5,7 +5,7 @@ import java.util.UUID
 
 data class UpdatePackageRequest(
     val id: UUID,
-    var content: List<UUID>,
+    var content: List<String>,
     var category: PartCategory,
 ) {
 }

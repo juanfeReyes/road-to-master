@@ -17,20 +17,19 @@ import org.hibernate.annotations.ManyToAny
 
 @Entity
 @Table(name = "package")
-class PackageEntity(
+class PackageStorageEntity(
     @ManyToAny
     @Cascade(value = [CascadeType.ALL])
     @AnyDiscriminator(DiscriminatorType.STRING)
     @Column(name = "content_type")
     @AnyKeyJavaClass(String::class)
-    @AnyDiscriminatorValue(discriminator = "PACKAGE", entity = PackageEntity::class)
+    @AnyDiscriminatorValue(discriminator = "PACKAGE", entity = PackageStorageEntity::class)
     @AnyDiscriminatorValue(discriminator = "PART", entity = PartItemEntity::class)
     @AnyDiscriminatorImplicitValues(AnyDiscriminatorImplicitValues.Strategy.SHORT_NAME)
     @JoinTable(
         name = "package_content",
         joinColumns = [JoinColumn(name = "package_id")],
         inverseJoinColumns = [JoinColumn(name = "content_id")]
-
     )
     val items: List<IStorableEntity>,
     @Id
