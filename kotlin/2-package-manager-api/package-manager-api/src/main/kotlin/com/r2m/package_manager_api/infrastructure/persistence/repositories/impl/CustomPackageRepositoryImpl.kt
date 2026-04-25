@@ -1,29 +1,27 @@
 package com.r2m.package_manager_api.infrastructure.persistence.repositories.impl
 
 import com.linecorp.kotlinjdsl.dsl.jpql.jpql
-import com.linecorp.kotlinjdsl.querymodel.jpql.predicate.Predicatable
 import com.linecorp.kotlinjdsl.render.jpql.JpqlRenderContext
 import com.linecorp.kotlinjdsl.support.spring.data.jpa.extension.createQuery
 import com.r2m.package_manager_api.domain.request.SearchPackageCriteria
-import com.r2m.package_manager_api.infrastructure.persistence.entity.PackageEntity
+import com.r2m.package_manager_api.infrastructure.persistence.entity.PackageStorageEntity
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
-import jakarta.persistence.criteria.Predicate
 
 class CustomPackageRepositoryImpl(
     @PersistenceContext val entityManager: EntityManager
 ): CustomPackageRepository {
 
-    override fun search(criteria: SearchPackageCriteria): List<PackageEntity> {
+    override fun search(criteria: SearchPackageCriteria): List<PackageStorageEntity> {
         val context = JpqlRenderContext()
         val query = jpql {
             select(
-                entity(PackageEntity::class)
+                entity(PackageStorageEntity::class)
             ).from(
-                entity(PackageEntity::class)
+                entity(PackageStorageEntity::class)
             ).where(
                 and(
-                    criteria.category?.let { path(PackageEntity::category).eq(criteria.category) }
+                    criteria.category?.let { path(PackageStorageEntity::category).eq(criteria.category) }
                 )
             )
 

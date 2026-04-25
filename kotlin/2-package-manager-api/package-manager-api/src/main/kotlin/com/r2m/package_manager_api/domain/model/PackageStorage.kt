@@ -4,15 +4,15 @@ import io.github.z4kn4fein.semver.Version
 import io.github.z4kn4fein.semver.toVersion
 import java.util.*
 
-class Package(
-    val items: List<IStorable>,
+class PackageStorage(
+    var items: List<IStorable>,
     val id: UUID = UUID.randomUUID(),
     var version: Version = "0.0.1".toVersion(),
-    var category: PartCategory = PartCategory.UNKNOWN
+    var category: PartCategory = PartCategory.UNKNOWN,
 ) : IStorable {
 
     init {
-        check(items.isEmpty()) { "Package has to contain at least one item" }
+        check(!items.isEmpty()) { "Package has to contain at least one item" }
     }
 
 }
