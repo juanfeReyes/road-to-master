@@ -2,7 +2,8 @@ package com.r2m.package_manager_api.integration.persistence
 
 import assertk.assertThat
 import assertk.assertions.hasSize
-import com.r2m.package_manager_api.domain.request.SearchPackageCriteria
+import com.r2m.package_manager_api.domain.model.packages.SearchCriteria
+import com.r2m.package_manager_api.domain.request.SearchPackageCriteriaV1
 import com.r2m.package_manager_api.infrastructure.persistence.entity.PackageStorageEntity
 import com.r2m.package_manager_api.infrastructure.persistence.entity.PartItemEntity
 import com.r2m.package_manager_api.infrastructure.persistence.repositories.PackageRepository
@@ -69,7 +70,7 @@ class PackageRepositoryTest(
             val entity =
                 PackageStorageEntity(content, UUID.randomUUID().toString(), version = "0.2.1", category = "INDUSTRIAL")
             packageRepository.save(entity)
-            val packages = packageRepository.search(SearchPackageCriteria(category = "INDUSTRIAL"));
+            val packages = packageRepository.search(SearchCriteria(categories = mutableListOf("INDUSTRIAL")))
             assertThat(packages).hasSize(1)
         }
 
@@ -84,7 +85,7 @@ class PackageRepositoryTest(
             val entity = PackageStorageEntity(content, UUID.randomUUID().toString())
             packageRepository.save(entity)
 
-            val packages = packageRepository.search(SearchPackageCriteria(size = 1));
+            val packages = packageRepository.search(SearchCriteria(size = 1));
             assertThat(packages).hasSize(1)
         }
     }

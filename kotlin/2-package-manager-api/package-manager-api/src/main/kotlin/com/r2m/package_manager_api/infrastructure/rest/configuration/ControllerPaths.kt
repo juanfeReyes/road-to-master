@@ -1,4 +1,4 @@
-package com.r2m.package_manager_api.infrastructure.rest
+package com.r2m.package_manager_api.infrastructure.rest.configuration
 
 class ControllerPaths {
     companion object {

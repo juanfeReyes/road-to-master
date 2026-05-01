@@ -2,10 +2,11 @@ package com.r2m.package_manager_api.application.services.impl
 
 import com.r2m.package_manager_api.application.mapper.PackageMapper
 import com.r2m.package_manager_api.application.services.IPackageService
-import com.r2m.package_manager_api.domain.model.PackageStorage
+import com.r2m.package_manager_api.domain.model.packages.PackageStorage
+import com.r2m.package_manager_api.domain.model.packages.SearchCriteria
 import com.r2m.package_manager_api.domain.request.CreatePackageRequest
 import com.r2m.package_manager_api.domain.request.PublishPackageRequest
-import com.r2m.package_manager_api.domain.request.SearchPackageCriteria
+import com.r2m.package_manager_api.domain.request.SearchPackageCriteriaV1
 import com.r2m.package_manager_api.domain.request.UpdatePackageRequest
 import com.r2m.package_manager_api.infrastructure.persistence.repositories.PackageRepository
 import io.github.z4kn4fein.semver.Version
@@ -21,12 +22,12 @@ class PackagesService(
     val packageMapper: PackageMapper
 ): IPackageService {
 
-    override fun search(criteria: SearchPackageCriteria): List<PackageStorage> {
+    override fun search(criteria: SearchCriteria): List<PackageStorage> {
         return packageMapper.toDomainList(packageRepository.search(criteria))
     }
 
     override fun create(request: CreatePackageRequest) {
-        var contentItems = packageMapper.toDomainList(packageRepository.search(SearchPackageCriteria(ids = request.content)))
+        var contentItems = packageMapper.toDomainList(packageRepository.search(SearchCriteria(ids = request.content)))
         var pack = PackageStorage(items = contentItems,
             id = UUID.randomUUID(),
             category = request.category,
@@ -41,7 +42,7 @@ class PackagesService(
             else -> {packageMapper.toDomain(entity)}
         }
 
-        var contentItems = packageMapper.toDomainList(packageRepository.search(SearchPackageCriteria(ids = request.content)))
+        var contentItems = packageMapper.toDomainList(packageRepository.search(SearchCriteria(ids = request.content)))
         pack.category = request.category
         pack.version = pack.version.nextMinor()
         pack.items = contentItems

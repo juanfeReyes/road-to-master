@@ -3,22 +3,19 @@ package com.r2m.package_manager_api.integration.component.packages
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isNotNull
-import com.r2m.package_manager_api.application.mapper.PackageMapper
-import com.r2m.package_manager_api.domain.model.PackageStorage
-import com.r2m.package_manager_api.domain.model.PartCategory
-import com.r2m.package_manager_api.domain.request.SearchPackageCriteria
+import com.r2m.package_manager_api.domain.model.packages.PackageStorage
+import com.r2m.package_manager_api.domain.model.parts.PartCategory
 import com.r2m.package_manager_api.infrastructure.persistence.entity.PackageStorageEntity
 import com.r2m.package_manager_api.infrastructure.persistence.entity.PartItemEntity
 import com.r2m.package_manager_api.infrastructure.persistence.repositories.PackageRepository
-import com.r2m.package_manager_api.infrastructure.rest.ControllerPaths.Companion.PACKAGE_URL
+import com.r2m.package_manager_api.infrastructure.rest.configuration.ApiVersionConfiguration.Companion.VERSION_HEADER
+import com.r2m.package_manager_api.infrastructure.rest.configuration.ControllerPaths.Companion.PACKAGE_URL
 import com.r2m.package_manager_api.integration.IntegrationTestBase
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.web.servlet.client.RestTestClient
 import org.springframework.test.web.servlet.client.expectBody
-import org.springframework.util.LinkedMultiValueMap
-import tools.jackson.core.type.TypeReference
 import tools.jackson.databind.ObjectMapper
 
 import java.util.*
@@ -51,12 +48,29 @@ class SearchPackageTest(
     }
 
     @Test
-    fun `should search by category`() {
+    fun `should search V1 by category`() {
         client.get().uri { uriBuilder ->
             uriBuilder.path(PACKAGE_URL)
                 .queryParam("category", PartCategory.INDUSTRIAL.toString())
                 .build()
         }
+            .exchange()
+            .expectStatus()
+            .isOk()
+            .expectBody<List<PackageStorage>>()
+            .consumeWith { result ->
+                assertThat(result.responseBody).isNotNull().hasSize(1)
+            }
+    }
+
+    @Test
+    fun `should search V1_1 by category`() {
+        client.get().uri { uriBuilder ->
+            uriBuilder.path(PACKAGE_URL)
+                .queryParam("categories", PartCategory.INDUSTRIAL.toString())
+                .build()
+        }
+            .header(VERSION_HEADER, "1.1")
             .exchange()
             .expectStatus()
             .isOk()
