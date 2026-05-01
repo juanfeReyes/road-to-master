@@ -1,6 +1,6 @@
 package com.r2m.package_manager_api.application.mapper
 
-import com.r2m.package_manager_api.domain.model.Part
+import com.r2m.package_manager_api.domain.model.parts.Part
 import com.r2m.package_manager_api.infrastructure.persistence.entity.PartItemEntity
 import org.mapstruct.Mapper
 

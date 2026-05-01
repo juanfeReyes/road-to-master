@@ -1,9 +1,11 @@
 package com.r2m.package_manager_api.application.mapper
 
-import com.r2m.package_manager_api.domain.model.IStorable
-import com.r2m.package_manager_api.domain.model.PackageStorage
-import com.r2m.package_manager_api.domain.model.Part
-import com.r2m.package_manager_api.domain.request.SearchPackageCriteria
+import com.r2m.package_manager_api.domain.model.packages.IStorable
+import com.r2m.package_manager_api.domain.model.packages.PackageStorage
+import com.r2m.package_manager_api.domain.model.packages.SearchCriteria
+import com.r2m.package_manager_api.domain.model.parts.Part
+import com.r2m.package_manager_api.domain.request.SearchPackageCriteriaV1
+import com.r2m.package_manager_api.domain.request.SearchPackageCriteriaV2
 import com.r2m.package_manager_api.infrastructure.persistence.entity.IStorableEntity
 import com.r2m.package_manager_api.infrastructure.persistence.entity.PackageStorageEntity
 import com.r2m.package_manager_api.infrastructure.persistence.entity.PartItemEntity
@@ -42,7 +44,12 @@ interface PackageMapper {
 
     fun toStorableEntityList(list: List<IStorable>): List<IStorableEntity>
 
-    fun toMap(criteria: SearchPackageCriteria): LinkedMultiValueMap<String, String>
+    fun toMap(criteria: SearchPackageCriteriaV1): LinkedMultiValueMap<String, String>
+
+    @Mapping(source = "category", target = "categories")
+    fun toCriteria(request: SearchPackageCriteriaV1): SearchCriteria
+
+    fun toCriteria(request: SearchPackageCriteriaV2): SearchCriteria
 
     @Named("versionToString")
     fun versionToString(version: Version): String {
@@ -52,5 +59,13 @@ interface PackageMapper {
     @Named("stringToVersion")
     fun stringToVersion(version: String): Version {
         return Version.parse(version)
+    }
+
+    fun stringToList(value: String?): MutableList<String>? {
+        if (value == null) {
+            return null
+        }
+
+        return mutableListOf(value)
     }
 }

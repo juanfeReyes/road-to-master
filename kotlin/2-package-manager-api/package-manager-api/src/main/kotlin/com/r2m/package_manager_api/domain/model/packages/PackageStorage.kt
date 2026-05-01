@@ -1,8 +1,10 @@
-package com.r2m.package_manager_api.domain.model
+package com.r2m.package_manager_api.domain.model.packages
 
+import com.r2m.package_manager_api.domain.model.packages.IStorable
+import com.r2m.package_manager_api.domain.model.parts.PartCategory
 import io.github.z4kn4fein.semver.Version
 import io.github.z4kn4fein.semver.toVersion
-import java.util.*
+import java.util.UUID
 
 class PackageStorage(
     var items: List<IStorable>,
