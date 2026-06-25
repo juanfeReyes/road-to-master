@@ -21,7 +21,7 @@ export const TabCustom = ({tabs}: TabCustomProps) => {
             </TabList>
             <TabPanels className={'h-full'}>
                 {
-                    tabs.map((t, idx) => <TabPanel className={'h-full'} key={idx}>{t.content()}</TabPanel>)
+                    tabs.map((t, idx) => <TabPanel className={'h-full mt-5'} key={idx}>{t.content()}</TabPanel>)
                 }
             </TabPanels>
         </TabGroup>

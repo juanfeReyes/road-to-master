@@ -14,7 +14,14 @@ type DragAndDropProps = {
     card: (val: any) => ReactNode
 }
 
-const initialDragItem = { data: {} };
+const colStyle = {
+    2: 'grid-cols-2',
+    3: 'grid-cols-3',
+    4: 'grid-cols-4',
+    5: 'grid-cols-5',
+    6: 'grid-cols-6',
+    7: 'grid-cols-7',
+};
 
 export const DragAndDrop = ({ groups, data, groupBy, handleUpdateGroup, card }: DragAndDropProps) => {
     const [dragItem, setDragItem] = useState()
@@ -41,18 +48,18 @@ export const DragAndDrop = ({ groups, data, groupBy, handleUpdateGroup, card }: 
         setDragItem(e.target)
     }
 
-    return (<div className="flex gap-2 h-full">
+    return (<div className={`grid ${colStyle[groups.length]} place-items-center gap-6 h-full px-4`}>
         {
             groups.map((g, gidx) => (
                 <div
                     key={gidx}
-                    className="h-full"
+                    className="h-full w-full bg-gray-100 rounded-2xl shadow-inner shadow-gray-500"
                     onDragEnter={(e) => handleDragEnter(e, g)}
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={(e) => handleOnDrop(e)}
                 >
-                    <h1>{g}</h1>
-                    <div className="h-full">
+                    <h1 className="text-center mb-5 py-2 font-bold bg-white rounded-t-2xl">{g}</h1>
+                    <div className="h-full flex flex-col items-center gap-2">
                         {data
                             .filter(d => groupBy(d, g))
                             .map((gd, didx) => (
@@ -62,7 +69,6 @@ export const DragAndDrop = ({ groups, data, groupBy, handleUpdateGroup, card }: 
                                     draggable
                                     onDragStart={(e) => handleDragStart(e)}
                                     onDragOver={(e) => e.preventDefault()}
-                                    // onDragEnd={() => handleOnDragEnd()}
                                 >
                                     {card(gd)}
                                 </div>

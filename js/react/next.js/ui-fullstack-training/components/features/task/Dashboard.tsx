@@ -8,6 +8,7 @@ import { PriorityCell } from "./dashboard/PriorityHeader";
 import { TabCustom } from "@/components/common/TabCustom";
 import { Icon } from "@iconify/react";
 import { DragAndDrop } from "@/components/common/DragAndDrop";
+import { TaskBoardCard } from "./dashboard/TaskBoardCard";
 
 const tasks: Task[] = [
     {
@@ -43,10 +44,6 @@ const headers: TableHeader[] = [
         {
             name: 'name',
             label: 'Name'
-        },
-        {
-            name: 'description',
-            label: 'Description'
         },
         {
             name: 'dueDate',
@@ -85,7 +82,7 @@ export const TaskDashboard = () => {
                 data={tasks}
                 groupBy={(val: Task, group) => val.status === group}
                 handleUpdateGroup={(val: Task, group) => { console.log('update {}', group); val.status = group as TaskStatus }}
-                card={(val: Task) => <div>{val.name}</div>}
+                card={(val: Task) => <TaskBoardCard task={val} />}
             />
         },
         {
@@ -103,7 +100,7 @@ export const TaskDashboard = () => {
             <div>
                 <SearchBar />
             </div>
-            <div className="h-full">
+            <div className="h-full overflow-auto">
                 <TabCustom tabs={tabs} />
             </div>
         </div>
