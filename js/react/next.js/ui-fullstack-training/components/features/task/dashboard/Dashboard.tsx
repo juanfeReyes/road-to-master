@@ -87,6 +87,7 @@ export const TaskDashboard = () => {
             content: () => <DragAndDrop
                 groups={['Pending', 'In Progress', 'Completed']}
                 data={tasks}
+                add={add}
                 groupBy={(val: Task, group) => val.status === group}
                 handleUpdateGroup={(val: Task, group) => { console.log('update {}', group); val.status = group as TaskStatus }}
                 card={(val: Task) => <TaskBoardCard task={val} />}

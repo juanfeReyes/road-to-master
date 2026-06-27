@@ -8,6 +8,7 @@ type CreateTaskFormProps = {
     setIsOpen:  Dispatch<SetStateAction<boolean>>
 }
 
+// TODO: create dropdown for priority
 export const CreateTaskForm = ({setIsOpen}: CreateTaskFormProps) => {
 
     return (<div className="flex flex-col gap-3">
