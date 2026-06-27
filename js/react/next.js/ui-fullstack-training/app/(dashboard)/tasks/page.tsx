@@ -1,10 +1,8 @@
-import { TaskDashboard } from "@/components/features/task/Dashboard";
+import { TaskDashboard } from "@/components/features/task/dashboard/Dashboard";
 
 const TaskPage = () => {
     return (
-
         <TaskDashboard />
-
     )
 }
 

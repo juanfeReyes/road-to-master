@@ -1,5 +1,8 @@
 
 import { ReactNode } from "react";
+import { Button } from "../Button";
+import { Header } from "../Header";
+import { CustomDialog, CustomDialogProps } from "../CustomDialog";
 
 export type TableHeader = {
     name: string,
@@ -70,15 +73,19 @@ const colStyle = {
 
 type TableProps = {
     headers: TableHeader[]
-    data: Record<string, any>[]
+    data: Record<string, any>[],
+    add: CustomDialogProps
 };
 
-export const Table = ({ data, headers }: TableProps) => {
+export const Table = ({ data, headers, add }: TableProps) => {
     if (data.length === 0) {
         return ('No data provided')
     }
 
-    return (
+    return (<div className="p-3">
+        <div className="flex justify-end">
+            <CustomDialog {...add}/>
+        </div>
         <div className={`grid ${colStyle[headers.length]}`}>
             {headers.map((header, idx) => (<div key={header.name}
                 className={`col-start-${idx + 1} font-bold text-center m-1 my-5 rounded-md bg-white`} >
@@ -91,5 +98,6 @@ export const Table = ({ data, headers }: TableProps) => {
             </div>)))
             )}
         </div>
+    </div>
     )
 }

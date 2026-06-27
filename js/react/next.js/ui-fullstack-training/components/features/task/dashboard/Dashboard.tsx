@@ -4,11 +4,14 @@ import { Header } from "@/components/common/Header";
 import { SearchBar } from "@/components/common/input/SearchBar";
 import { TableHeader, Table } from "@/components/common/table/Table";
 import { Task, TaskStatus } from "@/types/Task";
-import { PriorityCell } from "./dashboard/PriorityHeader";
+import { PriorityCell } from "./PriorityHeader";
 import { TabCustom } from "@/components/common/TabCustom";
 import { Icon } from "@iconify/react";
 import { DragAndDrop } from "@/components/common/DragAndDrop";
-import { TaskBoardCard } from "./dashboard/TaskBoardCard";
+import { TaskBoardCard } from "./TaskBoardCard";
+import { TaskCalendarView } from "./dashboard/TaskCalendarView";
+import { CustomDialogProps } from "@/components/common/CustomDialog";
+import { CreateTaskForm } from "../form/CreateTaskForm";
 
 const tasks: Task[] = [
     {
@@ -68,12 +71,16 @@ export const TaskDashboard = () => {
         dateStyle: 'full'
     }).format(Date.now());
 
-
+    const add: CustomDialogProps = {
+        label: 'Add',
+        icon: 'material-symbols:add',
+        content: <CreateTaskForm />
+    }
     
     const tabs = [
         {
             title: <Header icon="cil:list" label="List" />,
-            content: () => <Table data={tasks} headers={headers} />
+            content: () => <Table data={tasks} headers={headers} add={add}/>
         },
         {
             title: <Header icon="mi:board" label="Board" />,
@@ -84,10 +91,6 @@ export const TaskDashboard = () => {
                 handleUpdateGroup={(val: Task, group) => { console.log('update {}', group); val.status = group as TaskStatus }}
                 card={(val: Task) => <TaskBoardCard task={val} />}
             />
-        },
-        {
-            title: <Header icon="icon-park-solid:pie" label="Graphics" />,
-            content: () => <div>Graphics</div>
         }
     ]
 
