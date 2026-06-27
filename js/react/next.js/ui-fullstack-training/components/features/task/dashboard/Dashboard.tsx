@@ -74,7 +74,7 @@ export const TaskDashboard = () => {
     const add: CustomDialogProps = {
         label: 'Add',
         icon: 'material-symbols:add',
-        content: <CreateTaskForm />
+        content: (setIsOpen) => <CreateTaskForm setIsOpen={setIsOpen}/>
     }
     
     const tabs = [
