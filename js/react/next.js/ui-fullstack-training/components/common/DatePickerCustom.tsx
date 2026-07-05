@@ -1,19 +1,23 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { Label } from "./input/Label";
+import { FormInputType } from "@/types/FormInputType";
 
 type DatePickerCustomProps = {
     label: string,
-}
+} & FormInputType
 
-export const DatePickerCustom = ({ label }: DatePickerCustomProps) => {
+export const DatePickerCustom = ({ label, form, setForm, inputKey }: DatePickerCustomProps) => {
 
-    const [startDate, setStartDate] = useState(new Date());
+    const handleOnChange = (date: Date) => {
+        setForm({ ...form, [inputKey]: date })
+    }
+
     return (
         <Label label={label}
-            content={<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />} />
+            content={<DatePicker selected={form[inputKey]} onChange={(date) => handleOnChange(date)} />} />
 
     )
 

@@ -6,14 +6,13 @@ import { TableHeader, Table } from "@/components/common/table/Table";
 import { Task, TaskStatus } from "@/types/Task";
 import { PriorityCell } from "./PriorityHeader";
 import { TabCustom } from "@/components/common/TabCustom";
-import { Icon } from "@iconify/react";
 import { DragAndDrop } from "@/components/common/DragAndDrop";
 import { TaskBoardCard } from "./TaskBoardCard";
-import { TaskCalendarView } from "./dashboard/TaskCalendarView";
 import { CustomDialogProps } from "@/components/common/CustomDialog";
 import { CreateTaskForm } from "../form/CreateTaskForm";
+import { useState } from "react";
 
-const tasks: Task[] = [
+const initialTasks: Task[] = [
     {
         id: crypto.randomUUID(),
         name: 'Task 1',
@@ -67,14 +66,20 @@ const headers: TableHeader[] = [
 
 
 export const TaskDashboard = () => {
+    const [tasks, setTasks] = useState(initialTasks)
+
     const todayDate = new Intl.DateTimeFormat('en-US', {
         dateStyle: 'full'
     }).format(Date.now());
 
+    const handleCreateSubmit = (task: Task) => {
+        setTasks((tasks) => [...tasks, task])
+    }
+
     const add: CustomDialogProps = {
         label: 'Add',
         icon: 'material-symbols:add',
-        content: (setIsOpen) => <CreateTaskForm setIsOpen={setIsOpen}/>
+        content: (setIsOpen) => <CreateTaskForm setIsOpen={setIsOpen} handleSubmit={handleCreateSubmit}/>
     }
     
     const tabs = [

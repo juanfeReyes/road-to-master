@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import logoImage from '@/public/favicon.png'
 import { Header } from '@/components/common/Header';
+import Link from 'next/link';
 
 export const LandingNav = () => {
 
@@ -21,7 +22,7 @@ export const LandingNav = () => {
         </div>
         <div className='flex gap-3 mr-5'>
             <button><Header icon='mdi:register' label='Register' /></button>
-            <button><Header icon='ant-design:login-outlined' label='Login' /></button>
+            <Link href={'/tasks'}><Header icon='ant-design:login-outlined' label='Login' /></Link>
         </div>
     </div>)
 }
