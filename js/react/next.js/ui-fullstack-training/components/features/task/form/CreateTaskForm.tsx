@@ -5,10 +5,11 @@ import { Dropdown } from "@/components/common/input/Dropdown"
 import { CustomInput } from "@/components/common/input/CustomInput"
 import { Dispatch, SetStateAction, useState } from "react"
 import { PriorityCell } from "../dashboard/PriorityHeader"
-import {TaskPriority, TaskStatus} from '@/types/Task'
+import { TaskPriority, TaskStatus } from '@/types/Task'
 
 import * as z from "zod"
 import { Task } from "@/types/Task"
+import { FormInputErrors } from "@/types/FormInputType"
 
 const priorityOptions = [
     {
@@ -36,10 +37,10 @@ type CreateTaskFormProps = {
 }
 
 const taskSchema = z.object({
-    name: z.string(),
-    description: z.string(),
+    name: z.string().min(3),
+    description: z.string().min(5),
     dueDate: z.date(),
-    priority: z.string()
+    priority: z.any() // TODO: improve schema to validate the options
 })
 
 const formInitialState = {
@@ -53,10 +54,16 @@ export const CreateTaskForm = ({ setIsOpen, handleSubmit }: CreateTaskFormProps)
 
     const [form, setForm] = useState(formInitialState)
     // TODO: Handle errors
-    const [errors, setErrors] = useState({})
+    const [errors, setErrors] = useState<FormInputErrors>()
 
     const validate = () => {
-        taskSchema.safeParse(form)
+        const result = taskSchema.safeParse(form)
+        if (result.error) {
+            const errors = z.treeifyError(result.error)
+            setErrors(errors)
+        }
+
+        return result;
     }
 
     const handlesubmit = () => {
@@ -69,9 +76,11 @@ export const CreateTaskForm = ({ setIsOpen, handleSubmit }: CreateTaskFormProps)
             priority: form.priority.id as TaskPriority,
             status: 'Pending' as TaskStatus
         }
-        validate()
-        handleSubmit(task)
-        setIsOpen(false)
+        const result = validate()
+        if(result.success) {
+            handleSubmit(task)
+            setIsOpen(false)
+        }
     }
 
     const handleCancel = () => {
@@ -79,14 +88,14 @@ export const CreateTaskForm = ({ setIsOpen, handleSubmit }: CreateTaskFormProps)
         setIsOpen(false)
     }
 
-    console.log(form)
+    console.log(errors)
 
     return (<div className="flex flex-col gap-3">
         <Header icon="ri:task-fill" label="Create task" />
-        <CustomInput label='Name' form={form} setForm={setForm} inputKey="name" />
-        <CustomInput label='Description' form={form} setForm={setForm} inputKey="description" />
-        <DatePickerCustom label="Due Date" form={form} setForm={setForm} inputKey="dueDate" />
-        <Dropdown label="Priorty" options={priorityOptions} form={form} setForm={setForm} inputKey="priority" />
+        <CustomInput label='Name' form={form} setForm={setForm} inputKey="name" errors={errors}/>
+        <CustomInput label='Description' form={form} setForm={setForm} inputKey="description" errors={errors}/>
+        <DatePickerCustom label="Due Date" form={form} setForm={setForm} inputKey="dueDate"errors={errors} />
+        <Dropdown label="Priorty" options={priorityOptions} form={form} setForm={setForm} inputKey="priority"  errors={errors}/>
         <div className="flex gap-5 justify-evenly">
             <Button label={'Cancel'} type="Neutral" onClick={handleCancel} />
             <Button label={'Save'} type="Primary" onClick={handlesubmit} />
