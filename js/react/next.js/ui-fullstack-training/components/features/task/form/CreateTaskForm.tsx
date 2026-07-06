@@ -37,8 +37,8 @@ type CreateTaskFormProps = {
 }
 
 const taskSchema = z.object({
-    name: z.string().min(3),
-    description: z.string().min(5),
+    name: z.string().min(3, 'name too short! at least 3 characters'),
+    description: z.string().min(5, 'description too short! at least 5 characters'),
     dueDate: z.date(),
     priority: z.any() // TODO: improve schema to validate the options
 })
