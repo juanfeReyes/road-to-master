@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env NEXT_PUBLIC_MSW_ENV=test next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -18,13 +18,22 @@
   },
   "devDependencies": {
     "@iconify/react": "^6.0.2",
+    "@msw/data": "^1.1.6",
+    "@mswjs/data": "^0.16.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "msw": "^2.14.6",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

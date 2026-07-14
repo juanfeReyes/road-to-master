@@ -1,11 +1,12 @@
+import * as z from "zod"
+
 export type Task = {
-    id: string,
+    id?: string,
     name: string,
     description: string,
     priority: TaskPriority,
-    status: TaskStatus,
+    status?: TaskStatus,
     dueDate: Date,
-    order: number
 }
 
 const TaskPriority = {
@@ -24,3 +25,13 @@ const TaskStatus = {
 } as const;
 
 export type TaskStatus = typeof TaskStatus[keyof typeof TaskStatus];
+
+export const TaskSchema = z.object({
+    id: z.uuid().optional(),
+    name: z.string().min(3, 'name too short! at least 3 characters'),
+    description: z.string().min(5, 'description too short! at least 5 characters'),
+    dueDate: z.date().or(z.string()),
+    priority: z.custom<TaskPriority>(), // TODO: improve schema to validate the options
+    status: z.custom<TaskStatus>().optional()
+})
+

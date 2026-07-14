@@ -1,9 +1,10 @@
 import { TaskDashboard } from "@/components/features/task/dashboard/Dashboard";
+import { getTasks, tasksDB } from "@/lib/mocks/TasksDB";
+import { Task } from "@/types/Task";
 
-const TaskPage = () => {
+export default async function TaskPage () {
+    const tasks = await getTasks()
     return (
-        <TaskDashboard />
+        <TaskDashboard initialData={tasks} />
     )
 }
-
-export default TaskPage;

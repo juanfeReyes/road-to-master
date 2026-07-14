@@ -11,81 +11,59 @@ import { TaskBoardCard } from "./TaskBoardCard";
 import { CustomDialogProps } from "@/components/common/CustomDialog";
 import { CreateTaskForm } from "../form/CreateTaskForm";
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 
-const initialTasks: Task[] = [
-    {
-        id: crypto.randomUUID(),
-        name: 'Task 1',
-        description: 'hehehehehe',
-        dueDate: new Date(),
-        order: 1,
-        priority: 'High',
-        status: 'In Progress'
-    },
-    {
-        id: crypto.randomUUID(),
-        name: 'Task 2',
-        description: 'kijuhyyg',
-        dueDate: new Date(),
-        order: 1,
-        priority: 'Low',
-        status: 'Completed'
-    },
-    {
-        id: crypto.randomUUID(),
-        name: 'Task 3',
-        description: 'awasdfasf',
-        dueDate: new Date(),
-        order: 1,
-        priority: 'Medium',
-        status: 'Pending'
-    }
-]
 
 const headers: TableHeader[] = [
-        {
-            name: 'name',
-            label: 'Name'
-        },
-        {
-            name: 'dueDate',
-            label: 'Due Date',
-            cell: (val: Date) => <>{new Intl.DateTimeFormat('en-US').format(val)}</>
-        },
-        {
-            name: 'priority',
-            label: 'Priority',
-            cell: (val) => <PriorityCell value={val} />
-        },
-        {
-            name: 'status',
-            label: 'Status'
-        },
-    ]
+    {
+        name: 'name',
+        label: 'Name'
+    },
+    {
+        name: 'dueDate',
+        label: 'Due Date',
+        cell: (val: string) => <>{new Intl.DateTimeFormat('en-US').format(Date.parse(val))}</>
+    },
+    {
+        name: 'priority',
+        label: 'Priority',
+        cell: (val) => <PriorityCell value={val} />
+    },
+    {
+        name: 'status',
+        label: 'Status'
+    },
+]
 
+type TaskDashboardProps = {
+    initialData: Task[]
+}
 
-
-export const TaskDashboard = () => {
-    const [tasks, setTasks] = useState(initialTasks)
+export const TaskDashboard = ({initialData}: TaskDashboardProps) => {
+    const [tasks, setTasks] = useState(initialData)
+    const router = useRouter();
 
     const todayDate = new Intl.DateTimeFormat('en-US', {
         dateStyle: 'full'
     }).format(Date.now());
 
-    const handleCreateSubmit = (task: Task) => {
-        setTasks((tasks) => [...tasks, task])
+    const handleCreateSubmit = async (task: Task) => {
+        const createResponse = await fetch('/api/tasks', {method: 'POST', body: JSON.stringify(task)})
+        const tasksResponse = await (await fetch('/api/tasks', {method: 'GET'})).json()
+        setTasks(tasksResponse)
     }
 
     const add: CustomDialogProps = {
         label: 'Add',
         icon: 'material-symbols:add',
-        content: (setIsOpen) => <CreateTaskForm setIsOpen={setIsOpen} handleSubmit={handleCreateSubmit}/>
+        content: (setIsOpen) => <CreateTaskForm setIsOpen={setIsOpen} handleSubmit={handleCreateSubmit} />
     }
-    
+
     const tabs = [
         {
-            title: <Header icon="cil:list" label="List" />,
-            content: () => <Table data={tasks} headers={headers} add={add}/>
+            title: <Header icon="cil:list" label="Table
+        " />,
+            content: () => <Table data={tasks} headers={headers} add={add} />
         },
         {
             title: <Header icon="mi:board" label="Board" />,

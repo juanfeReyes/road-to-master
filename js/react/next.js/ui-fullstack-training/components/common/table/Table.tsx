@@ -1,7 +1,5 @@
 
 import { ReactNode } from "react";
-import { Button } from "../Button";
-import { Header } from "../Header";
 import { CustomDialog, CustomDialogProps } from "../CustomDialog";
 
 export type TableHeader = {
@@ -92,7 +90,7 @@ export const Table = ({ data, headers, add }: TableProps) => {
                 <TableHeader header={header} />
             </div>))}
             {data.map(row =>
-            (headers.map((header, idx) => (<div key={row.id}
+            (headers.map((header, idx) => (<div key={`${row.id}-${idx}`}
                 className={`col-start-${idx + 1} bg-white m-1 rounded-md flex items-center px-2`}>
                 <TableCell row={row} header={header} />
             </div>)))
