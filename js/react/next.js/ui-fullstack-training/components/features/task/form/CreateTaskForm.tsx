@@ -43,7 +43,8 @@ const formInitialState = {
     name: '',
     description: '',
     dueDate: new Date(),
-    priority: priorityOptions[0]
+    priority: priorityOptions[0],
+    files: []
 }
 
 export const CreateTaskForm = ({ setIsOpen, handleSubmit }: CreateTaskFormProps) => {
@@ -68,7 +69,8 @@ export const CreateTaskForm = ({ setIsOpen, handleSubmit }: CreateTaskFormProps)
             description: form.description,
             dueDate: form.dueDate,
             priority: form.priority.id as TaskPriority,
-            status: 'Pending' as TaskStatus
+            status: 'Pending' as TaskStatus,
+            files: form.files
         }
         const result = validate()
         if(result.success) {
@@ -87,9 +89,9 @@ export const CreateTaskForm = ({ setIsOpen, handleSubmit }: CreateTaskFormProps)
         <Header icon="ri:task-fill" label="Create task" />
         <CustomInput label='Name' form={form} setForm={setForm} inputKey="name" errors={errors}/>
         <CustomInput label='Description' form={form} setForm={setForm} inputKey="description" errors={errors}/>
-        <DatePickerCustom label="Due Date" form={form} setForm={setForm} inputKey="dueDate"errors={errors} />
+        <DatePickerCustom label="Due Date" form={form} setForm={setForm} inputKey="dueDate" errors={errors} />
         <Dropdown label="Priorty" options={priorityOptions} form={form} setForm={setForm} inputKey="priority"  errors={errors}/>
-        <FileUploader />
+        <FileUploader form={form} setForm={setForm} inputKey="files" errors={errors} />
         <div className="flex gap-5 justify-evenly">
             <Button label={'Cancel'} type="Neutral" onClick={handleCancel} />
             <Button label={'Save'} type="Primary" onClick={handlesubmit} />

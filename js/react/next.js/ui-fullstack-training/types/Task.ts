@@ -7,6 +7,7 @@ export type Task = {
     priority: TaskPriority,
     status?: TaskStatus,
     dueDate: Date,
+    files?: File[]
 }
 
 const TaskPriority = {
@@ -31,7 +32,8 @@ export const TaskSchema = z.object({
     name: z.string().min(3, 'name too short! at least 3 characters'),
     description: z.string().min(5, 'description too short! at least 5 characters'),
     dueDate: z.date().or(z.string()),
-    priority: z.custom<TaskPriority>(), // TODO: improve schema to validate the options
-    status: z.custom<TaskStatus>().optional()
+    priority: z.custom<TaskPriority>(),
+    status: z.custom<TaskStatus>().optional(),
+    files: z.array(z.custom<File>()).optional()
 })
 

@@ -39,7 +39,7 @@ type TaskDashboardProps = {
     initialData: Task[]
 }
 
-export const TaskDashboard = ({initialData}: TaskDashboardProps) => {
+export const TaskDashboard = ({ initialData }: TaskDashboardProps) => {
     const [tasks, setTasks] = useState(initialData)
     const router = useRouter();
 
@@ -48,8 +48,16 @@ export const TaskDashboard = ({initialData}: TaskDashboardProps) => {
     }).format(Date.now());
 
     const handleCreateSubmit = async (task: Task) => {
-        const createResponse = await fetch('/api/tasks', {method: 'POST', body: JSON.stringify(task)})
-        const tasksResponse = await (await fetch('/api/tasks', {method: 'GET'})).json()
+        const createResponse = await fetch('/api/tasks', { method: 'POST', body: JSON.stringify(task) })
+
+        if (task.files) {
+            const formData = new FormData()
+            task.files.forEach((file) => {
+                formData.append("files", file)
+            })
+            await fetch('/api/tasks/upload', { method: 'POST', body: formData })
+        }
+        const tasksResponse = await (await fetch('/api/tasks', { method: 'GET' })).json()
         setTasks(tasksResponse)
     }
 

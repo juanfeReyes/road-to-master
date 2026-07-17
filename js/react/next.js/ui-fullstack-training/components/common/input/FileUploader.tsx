@@ -1,14 +1,17 @@
+import { FormInputType } from "@/types/FormInputType"
 import { Icon } from "@iconify/react"
 import { useState, DragEvent, ChangeEvent } from "react"
 
-export const FileUploader = () => {
+type FileUploader = {
+
+} & FormInputType
+
+export const FileUploader = ({form, setForm, inputKey, errors}: FileUploader) => {
     const acceptedFiles = ['.jpg', '.png', '.pdf', '.docx']
-    const [files, setFiles] = useState<File[]>([])
 
     const handleFileRemoval = (idx: number) => {
         const newFiles = files.toSpliced(idx, 1)
-        console.log(newFiles)
-        setFiles(newFiles)
+         setForm({ ...form, [inputKey]: newFiles })
     }
 
     const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -18,12 +21,12 @@ export const FileUploader = () => {
     const handleDrops = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         const droppedFiles = Array.from(e.dataTransfer.files)
-        setFiles((currentFiles) => [...currentFiles, ...droppedFiles])
+        setForm({ ...form, [inputKey]: [...form[inputKey], ...droppedFiles] })
     }
 
     const handleOnFileSelectChange = (e: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
-            setFiles((currentFiles) => [...currentFiles, ...Array.from(e.target.files)])
+            setForm({ ...form, [inputKey]: [...form[inputKey], ...Array.from(e.target.files)] })
         }
     }
 
@@ -47,7 +50,7 @@ export const FileUploader = () => {
             />
         </div>
         <ul>
-            {files.map((file, idx) => (<div
+            {form[inputKey].map((file, idx) => (<div
                 onClick={() => handleFileRemoval(idx)}
                 className="flex gap-2 flex-col  items-center">
                 <Icon icon={"mdi:file"} className="text-2xl" />
