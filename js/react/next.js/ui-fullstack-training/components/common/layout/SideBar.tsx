@@ -19,7 +19,7 @@ export const SideBar = ({ mainContent, barContent, position, isBarOpen }: SideBa
             <motion.div
                 className={`bg-white h-full absolute top-0 ${position}-0`}
                 initial={{ x: "100%" }}
-                animate={{ x: 0 }}
+                animate={{ x: '50%' }}
                 transition={{ type: 'spring', stiffness: 50 }}
             >
                 {barContent}
