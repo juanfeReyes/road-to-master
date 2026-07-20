@@ -1,4 +1,4 @@
-import { Header } from "@/components/common/Header"
+import { Header } from "@/components/common/layout/Header"
 import Link from "next/link"
 
 const navigationOptions = [

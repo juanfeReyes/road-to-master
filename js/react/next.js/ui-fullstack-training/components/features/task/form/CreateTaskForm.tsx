@@ -1,6 +1,6 @@
-import { Button } from "@/components/common/Button"
+import { Button } from "@/components/common/input/Button"
 import { DatePickerCustom } from "@/components/common/input/DatePickerCustom"
-import { Header } from "@/components/common/Header"
+import { Header } from "@/components/common/layout/Header"
 import { Dropdown } from "@/components/common/input/Dropdown"
 import { CustomInput } from "@/components/common/input/CustomInput"
 import { Dispatch, SetStateAction, useState } from "react"

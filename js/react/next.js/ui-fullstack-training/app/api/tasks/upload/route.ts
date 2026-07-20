@@ -7,7 +7,6 @@ export async function POST(req: NextRequest) {
     const formData = await req.formData();
     
     const files = formData.getAll("files") as File[] | null;
-    console.log('files ->', files)
 
     if (!files) {
       return NextResponse.json(
@@ -17,7 +16,6 @@ export async function POST(req: NextRequest) {
     }
 
     const uploadDir = path.join(process.cwd(), "public", "uploads");
-    console.log('check ->', files.length)
     for (let i = 0; i < files.length; i++) {
         const file = files[i]
         const bytes = await file.arrayBuffer();

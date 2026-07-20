@@ -1,10 +1,39 @@
 import { FormInputType } from "@/types/FormInputType"
 import { Icon } from "@iconify/react"
-import { useState, DragEvent, ChangeEvent } from "react"
+import { DragEvent, ChangeEvent } from "react"
+import { CustomDialog } from "../layout/CustomDialog"
+import { FileViewer } from "../layout/FileViewer"
 
 type FileUploader = {
 
 } & FormInputType
+
+
+type FileOptionProps = {
+    idx: number,
+    file: File,
+    handleFileRemoval: (idx: number) => void
+}
+const FileOption = ({ file, idx, handleFileRemoval }: FileOptionProps) => {
+
+    return (<li
+        key={`${file.name}`}
+        className="flex gap-2 flex-col items-center bg-slate-50 max-w-28 rounded-2xl px-2">
+        <CustomDialog
+            button={(setIsOpen) => <div onClick={() => setIsOpen(true)}>
+                <div className="flex w-full justify-center relative">
+                    <Icon icon={"mdi:file"} className="text-2xl" />
+                    <Icon icon={'typcn:delete'}
+                        onClick={() => handleFileRemoval(idx)}
+                        className="absolute top-0.5 right-0.5" />
+                </div>
+                {file.name}
+            </div>}
+            content={(setIsOpen) => <FileViewer file={file} />}
+        />
+
+    </li>)
+}
 
 export const FileUploader = ({ form, setForm, inputKey, errors }: FileUploader) => {
     const acceptedFiles = ['.jpg', '.png', '.pdf', '.docx']
@@ -31,7 +60,7 @@ export const FileUploader = ({ form, setForm, inputKey, errors }: FileUploader) 
     }
 
     return (<div
-        className="flex justify-evenly"
+        className="flex justify-evenly gap-2"
     >
         <div className="flex gap-3 w-2/3 border-2 rounded-2xl border-dashed p-1 justify-center items-center"
             onDrop={handleDrops}
@@ -49,15 +78,9 @@ export const FileUploader = ({ form, setForm, inputKey, errors }: FileUploader) 
                 multiple
             />
         </div>
-        <ul>
-            {form[inputKey].map((file, idx) => (<li
-                key={`${file.name}-${idx}`}
-                onClick={() => handleFileRemoval(idx)}
-                className="flex gap-2 flex-col  items-center">
-                <Icon icon={"mdi:file"} className="text-2xl" />
-                {file.name}
-            </li>
-            ))}
+        <ul className="flex flex-col gap-2">
+            {form[inputKey].map((file, idx) => (<FileOption idx={idx} file={file} handleFileRemoval={handleFileRemoval} />))
+            }
         </ul>
     </div>)
 
