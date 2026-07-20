@@ -6,12 +6,12 @@ type FileUploader = {
 
 } & FormInputType
 
-export const FileUploader = ({form, setForm, inputKey, errors}: FileUploader) => {
+export const FileUploader = ({ form, setForm, inputKey, errors }: FileUploader) => {
     const acceptedFiles = ['.jpg', '.png', '.pdf', '.docx']
 
     const handleFileRemoval = (idx: number) => {
-        const newFiles = files.toSpliced(idx, 1)
-         setForm({ ...form, [inputKey]: newFiles })
+        const newFiles = form[inputKey].toSpliced(idx, 1)
+        setForm({ ...form, [inputKey]: newFiles })
     }
 
     const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -31,13 +31,13 @@ export const FileUploader = ({form, setForm, inputKey, errors}: FileUploader) =>
     }
 
     return (<div
-        className="flex gap-3 border-2 rounded-2xl border-dashed p-1 justify-center items-center"
-        onDrop={handleDrops}
-        onDragOver={handleDragOver}
+        className="flex justify-evenly"
     >
-        <div>
+        <div className="flex gap-3 w-2/3 border-2 rounded-2xl border-dashed p-1 justify-center items-center"
+            onDrop={handleDrops}
+            onDragOver={handleDragOver}>
             <label
-                for="file-uploader"
+                htmlFor="file-uploader"
                 className="text-center"
             >Drop or select files</label>
             <input
@@ -50,15 +50,13 @@ export const FileUploader = ({form, setForm, inputKey, errors}: FileUploader) =>
             />
         </div>
         <ul>
-            {form[inputKey].map((file, idx) => (<div
+            {form[inputKey].map((file, idx) => (<li
+                key={`${file.name}-${idx}`}
                 onClick={() => handleFileRemoval(idx)}
                 className="flex gap-2 flex-col  items-center">
                 <Icon icon={"mdi:file"} className="text-2xl" />
-                <li
-                    key={`${file.name}-${idx}`}
-                    className="w-20 truncate"
-                >{file.name}</li>
-            </div>
+                {file.name}
+            </li>
             ))}
         </ul>
     </div>)
