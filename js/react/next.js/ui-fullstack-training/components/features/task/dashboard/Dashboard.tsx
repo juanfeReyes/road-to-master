@@ -1,19 +1,18 @@
 'use client'
 
-import { Header } from "@/components/common/Header";
+import { Header } from "@/components/common/layout/Header";
 import { SearchBar } from "@/components/common/input/SearchBar";
 import { TableHeader, Table } from "@/components/common/table/Table";
 import { Task, TaskStatus } from "@/types/Task";
 import { PriorityCell } from "./PriorityHeader";
-import { TabCustom } from "@/components/common/TabCustom";
-import { DragAndDrop } from "@/components/common/DragAndDrop";
+import { TabCustom } from "@/components/common/layout/TabCustom";
 import { TaskBoardCard } from "./TaskBoardCard";
-import { CustomDialogProps } from "@/components/common/CustomDialog";
+import { CustomDialogProps } from "@/components/common/layout/CustomDialog";
 import { CreateTaskForm } from "../form/CreateTaskForm";
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { SideBar } from "@/components/common/layout/SideBar";
-import { Button } from "@/components/common/Button";
+import { Button } from "@/components/common/input/Button";
 import { Icon } from "@iconify/react";
 
 
@@ -61,12 +60,6 @@ export const TaskDashboard = ({ initialData }: TaskDashboardProps) => {
         }
         const tasksResponse = await (await fetch('/api/tasks', { method: 'GET' })).json()
         setTasks(tasksResponse)
-    }
-
-    const add: CustomDialogProps = {
-        label: 'Add',
-        icon: 'material-symbols:add',
-        content: (setIsOpen) => <CreateTaskForm setIsOpen={setIsOpen} handleSubmit={handleCreateSubmit} />
     }
 
     const tabs = [

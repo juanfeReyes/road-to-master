@@ -1,6 +1,6 @@
 
 import { ReactNode } from "react";
-import { CustomDialog, CustomDialogProps } from "../CustomDialog";
+import { CustomDialog, CustomDialogProps } from "../layout/CustomDialog";
 
 export type TableHeader = {
     name: string,

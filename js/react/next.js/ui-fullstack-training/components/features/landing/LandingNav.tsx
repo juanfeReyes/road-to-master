@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import logoImage from '@/public/favicon.png'
-import { Header } from '@/components/common/Header';
+import { Header } from '@/components/common/layout/Header';
 import Link from 'next/link';
 
 export const LandingNav = () => {
