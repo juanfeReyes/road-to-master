@@ -17,9 +17,11 @@ export const SideBar = ({ mainContent, barContent, position, isBarOpen }: SideBa
         {mainContent}
         {isBarOpen &&
             <motion.div
-                className={`bg-white h-full absolute top-0 ${position}-0`}
-                initial={{ x: "100%" }}
-                animate={{ x: '50%' }}
+                layout
+                className={`bg-white h-full absolute top-0 ${position}-0 w-1/2`}
+                initial={{ x: "200%" }}
+                animate={{ x: '100%' }}
+                exit={{ x: "200%" }}
                 transition={{ type: 'spring', stiffness: 50 }}
             >
                 {barContent}

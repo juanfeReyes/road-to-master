@@ -85,7 +85,7 @@ export const CreateTaskForm = ({ setIsOpen, handleSubmit }: CreateTaskFormProps)
     }
 
 
-    return (<div className="flex flex-col gap-3 h-full p-3 min-w-2xl">
+    return (<div className="flex flex-col gap-3 h-full p-3 min-w-1/2">
         <Header icon="ri:task-fill" label="Create task" />
         <CustomInput label='Name' form={form} setForm={setForm} inputKey="name" errors={errors}/>
         <CustomInput label='Description' form={form} setForm={setForm} inputKey="description" errors={errors}/>
