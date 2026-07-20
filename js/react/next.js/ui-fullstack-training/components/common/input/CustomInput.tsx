@@ -20,7 +20,7 @@ export const CustomInput = ({ label, form, setForm, inputKey, errors }: CustomIn
                     onChange={(e) => handleOnChange(e)}
                 />} />
             {errors?.properties[inputKey] &&
-                errors.properties[inputKey].errors.map(e => (<div className="text-red-800">{e}</div>))}
+                errors.properties[inputKey].errors.map((e, idx) => (<div key={idx} className="text-red-800">{e}</div>))}
         </>
     )
 }

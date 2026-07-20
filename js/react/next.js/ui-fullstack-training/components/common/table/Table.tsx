@@ -72,17 +72,17 @@ const colStyle = {
 type TableProps = {
     headers: TableHeader[]
     data: Record<string, any>[],
-    add?: CustomDialogProps
+    headerContent: ReactNode
 };
 
-export const Table = ({ data, headers, add }: TableProps) => {
+export const Table = ({ data, headers, add, headerContent }: TableProps) => {
     if (data.length === 0) {
         return ('No data provided')
     }
 
     return (<div className="p-3 flex flex-col gap-2">
         <div className="flex justify-end">
-            {add && <CustomDialog {...add}/>}
+            {headerContent && headerContent}
         </div>
         <div className={`grid ${colStyle[headers.length]}`}>
             {headers.map((header, idx) => (<div key={header.name}
