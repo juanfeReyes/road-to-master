@@ -3,18 +3,16 @@
 import { Header } from "@/components/common/layout/Header";
 import { SearchBar } from "@/components/common/input/SearchBar";
 import { TableHeader, Table } from "@/components/common/table/Table";
-import { Task, TaskStatus } from "@/types/Task";
+import { Task } from "@/types/Task";
 import { PriorityCell } from "./PriorityHeader";
 import { TabCustom } from "@/components/common/layout/TabCustom";
-import { TaskBoardCard } from "./TaskBoardCard";
-import { CustomDialogProps } from "@/components/common/layout/CustomDialog";
 import { CreateTaskForm } from "../form/CreateTaskForm";
 import { useState } from "react";
-import { useRouter } from 'next/navigation';
 import { SideBar } from "@/components/common/layout/SideBar";
 import { Button } from "@/components/common/input/Button";
 import { Icon } from "@iconify/react";
 import { useNotification } from "@/components/common/interactivity/useNotification";
+import { useMutation } from "@tanstack/react-query";
 
 
 const headers: TableHeader[] = [
@@ -45,24 +43,34 @@ type TaskDashboardProps = {
 export const TaskDashboard = ({ initialData }: TaskDashboardProps) => {
     const [tasks, setTasks] = useState(initialData)
     const [isBarOpen, setIsBarOpen] = useState(false)
-    const {notify} = useNotification()
+    const { notify } = useNotification()
+    const taskMutation = useMutation({
+        mutationFn: (task: Task) => { return addTask(task) },
+        onError: (error) => { notify({ value: error.message, type: 'ERROR' }) }
+    })
+
     const todayDate = new Intl.DateTimeFormat('en-US', {
         dateStyle: 'full'
     }).format(Date.now());
 
-    const handleCreateSubmit = async (task: Task) => {
-        const createResponse = await fetch('/api/tasks', { method: 'POST', body: JSON.stringify(task) })
-
+    const addTask = async (task: Task) => {
+        const formData = new FormData()
+        formData.append("task", JSON.stringify(task))
         if (task.files) {
-            const formData = new FormData()
             task.files.forEach((file) => {
                 formData.append("files", file)
             })
-            await fetch('/api/tasks/upload', { method: 'POST', body: formData })
         }
+        const response = await fetch('/api/tasks', { method: 'POST', body: formData })
+        if (!response.ok) throw new Error(`Task creation failed - ${(await response.json()).error}`)
+        return response.json()
+    }
+
+    const handleCreateSubmit = async (task: Task) => {
+        await taskMutation.mutate(task)
         const tasksResponse = await (await fetch('/api/tasks', { method: 'GET' })).json()
         setTasks(tasksResponse)
-        notify({value: 'Task created succesfully', type: 'INFO'})
+        notify({ value: 'Task created succesfully', type: 'INFO' })
     }
 
     const tabs = [
