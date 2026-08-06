@@ -1,4 +1,11 @@
 import { tasksDB } from "@/lib/mocks/TasksDB"
+import { NextRequest, NextResponse } from "next/server";
+import path from "path";
+import fs from "fs";
+import { error } from "console";
+import { Task } from "@/types/Task";
+
+const validExtensions = ['.jpeg', 'jpg', 'pdf']
 
 export async function GET(request: Request) {
 
@@ -7,9 +14,62 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-    const task = await request.json()
-    const createdTask = await tasksDB.create(task)
-    return Response.json(createdTask)
+
+
+
+    try {
+        const formData = await request.formData();
+
+        const files = formData.getAll("files") as File[] | null;
+        const taskString = formData.get("task") as string | null
+
+        if (!taskString) {
+            return NextResponse.json(
+                { error: "No Task uploaded." },
+                { status: 400 }
+            );
+        }
+
+        if (files) {
+            const fileName = files.map(file => file.name);
+            const invalidFileNames = files
+                .filter(file => !validExtensions.includes(path.extname(file.name)))
+                .map(file => file.name);
+
+            if (invalidFileNames.length > 0) {
+                return NextResponse.json(
+                    { error: `Invalid extension files ${invalidFileNames} must be ${validExtensions}` },
+                    { status: 400 }
+                )
+            }
+
+            const uploadDir = path.join(process.cwd(), "public", "uploads");
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i]
+                const bytes = await file.arrayBuffer();
+                const buffer = Buffer.from(bytes);
+
+                if (!fs.existsSync(uploadDir)) {
+                    fs.mkdirSync(uploadDir, { recursive: true });
+                }
+
+                const filePath = path.join(uploadDir, file.name);
+                console.log('path ->', filePath)
+
+                fs.writeFileSync(filePath, buffer);
+            }
+        }
+        const createdTask = await tasksDB.create(JSON.parse(taskString))
+        return Response.json(createdTask)
+    } catch (error) {
+        console.error("Upload error:", error);
+        return NextResponse.json(
+            { error: "Internal Server Error" },
+            { status: 500 }
+        );
+    }
+
+
 }
 
 

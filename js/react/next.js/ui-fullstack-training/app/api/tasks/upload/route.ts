@@ -5,6 +5,7 @@ import { error } from "console";
 
 const validExtensions = ['.jpeg', 'jpg', 'pdf']
 
+// TODO: Enhance to allow register files to task
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
@@ -21,8 +22,9 @@ export async function POST(req: NextRequest) {
     const fileName = files.map(file => file.name);
     console.log(`File names ${fileName}`)
     const invalidFileNames = files
-      .filter(file => validExtensions.includes(path.extname(file.name)))
+      .filter(file => !validExtensions.includes(path.extname(file.name)))
       .map(file => file.name);
+      console.log(invalidFileNames)
 
     if(invalidFileNames.length > 0) {
       return NextResponse.json(
