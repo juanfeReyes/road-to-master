@@ -13,18 +13,26 @@ type SideBarProps = {
 
 export const SideBar = ({ mainContent, barContent, position, isBarOpen }: SideBarProps) => {
 
-    return (<div className="relative h-full" >
+    return (<div className="relative" >
         {mainContent}
         {isBarOpen &&
-            <motion.div
-                layout
-                className={`bg-white h-full absolute top-0 ${position}-0 w-1/2`}
-                initial={{ x: "200%" }}
-                animate={{ x: '100%' }}
-                exit={{ x: "200%" }}
-                transition={{ type: 'spring', stiffness: 50 }}
-            >
-                {barContent}
-            </motion.div>}
+            <div className="absolute top-0 right-0 h-dvh">
+                <motion.div
+                    layout
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        height: '95dvh'
+                    }}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    exit={{ x: "200%" }}
+                >
+                    {barContent}
+                </motion.div>
+            </div>
+        }
     </div>)
 }
