@@ -31,7 +31,6 @@ const FileOption = ({ file, idx, handleFileRemoval }: FileOptionProps) => {
             </div>}
             content={(setIsOpen) => <FileViewer file={file} />}
         />
-
     </li>)
 }
 

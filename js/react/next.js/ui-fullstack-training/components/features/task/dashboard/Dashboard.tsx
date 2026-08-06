@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { SideBar } from "@/components/common/layout/SideBar";
 import { Button } from "@/components/common/input/Button";
 import { Icon } from "@iconify/react";
+import { useNotification } from "@/components/common/interactivity/useNotification";
 
 
 const headers: TableHeader[] = [
@@ -44,6 +45,7 @@ type TaskDashboardProps = {
 export const TaskDashboard = ({ initialData }: TaskDashboardProps) => {
     const [tasks, setTasks] = useState(initialData)
     const [isBarOpen, setIsBarOpen] = useState(false)
+    const {notify} = useNotification()
     const todayDate = new Intl.DateTimeFormat('en-US', {
         dateStyle: 'full'
     }).format(Date.now());
@@ -60,6 +62,7 @@ export const TaskDashboard = ({ initialData }: TaskDashboardProps) => {
         }
         const tasksResponse = await (await fetch('/api/tasks', { method: 'GET' })).json()
         setTasks(tasksResponse)
+        notify({value: 'Task created succesfully', type: 'INFO'})
     }
 
     const tabs = [
