@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NotificationToast } from "@/components/common/interactivity/NotificationToast";
 import { CustomClientProvider } from "@/components/common/CustomClientProvider";
+import { SkeletonTheme } from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +36,9 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col">
         <CustomClientProvider>
           <NotificationToast>
-            {children}
+            <SkeletonTheme>
+              {children}
+            </SkeletonTheme>
           </NotificationToast>
         </CustomClientProvider>
       </body>
