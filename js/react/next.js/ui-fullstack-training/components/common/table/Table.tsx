@@ -1,6 +1,9 @@
 
 import { ReactNode } from "react";
 import { CustomDialog, CustomDialogProps } from "../layout/CustomDialog";
+import { ErrorBoundary } from "react-error-boundary";
+import { error } from "console";
+import { ErrorFallback } from "../interactivity/ErrorFallback";
 
 export type TableHeader = {
     name: string,
@@ -72,30 +75,32 @@ const colStyle = {
 type TableProps = {
     headers: TableHeader[]
     data: Record<string, any>[],
-    headerContent: ReactNode
+    headerContent: ReactNode,
+    isPending: boolean
 };
 
-export const Table = ({ data, headers, add, headerContent }: TableProps) => {
-    if (data.length === 0) {
+export const Table = ({ data, headers, isPending, headerContent }: TableProps) => {
+         if ( data.length === 0) {
         return ('No data provided')
     }
 
-    return (<div className="p-3 flex flex-col gap-2">
-        <div className="flex justify-end">
-            {headerContent && headerContent}
-        </div>
-        <div className={`grid ${colStyle[headers.length]}`}>
-            {headers.map((header, idx) => (<div key={header.name}
-                className={`col-start-${idx + 1} font-bold text-center m-1 my-5 rounded-md bg-white`} >
-                <TableHeader header={header} />
-            </div>))}
-            {data.map(row =>
-            (headers.map((header, idx) => (<div key={`${row.id}-${idx}`}
-                className={`col-start-${idx + 1} bg-white m-1 rounded-md flex items-center px-2`}>
-                <TableCell row={row} header={header} />
-            </div>)))
-            )}
-        </div>
-    </div>
+    return (
+            <div className="p-3 flex flex-col gap-2">
+                <div className="flex justify-end">
+                    {headerContent && headerContent}
+                </div>
+                <div className={`grid ${colStyle[headers.length]}`}>
+                    {headers.map((header, idx) => (<div key={header.name}
+                        className={`col-start-${idx + 1} font-bold text-center m-1 my-5 rounded-md bg-white`} >
+                        <TableHeader header={header} />
+                    </div>))}
+                    {data.map(row =>
+                    (headers.map((header, idx) => (<div key={`${row.id}-${idx}`}
+                        className={`col-start-${idx + 1} bg-white m-1 rounded-md flex items-center px-2`}>
+                        <TableCell row={row} header={header} />
+                    </div>)))
+                    )}
+                </div>
+            </div>
     )
 }
