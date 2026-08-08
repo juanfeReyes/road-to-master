@@ -1,14 +1,10 @@
 
 import { ReactNode } from "react";
-import { CustomDialog, CustomDialogProps } from "../layout/CustomDialog";
-import { ErrorBoundary } from "react-error-boundary";
-import { error } from "console";
-import { ErrorFallback } from "../interactivity/ErrorFallback";
 
 export type TableHeader = {
     name: string,
     label: string,
-    cell?: (val: any) => ReactNode
+    cell?: (val: any, row?: Record<string, any>) => ReactNode
     header?: (val: any) => ReactNode
 }
 
@@ -51,7 +47,7 @@ const TableCell = ({ row, header }: TableCellProps) => {
     if (header.cell !== undefined) {
         return (
             <>
-                {header.cell(cellValue)}
+                {header.cell(cellValue, row)}
             </>
         )
     }

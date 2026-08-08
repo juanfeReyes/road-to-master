@@ -13,7 +13,7 @@ type SideBarProps = {
 
 export const SideBar = ({ mainContent, barContent, position, isBarOpen }: SideBarProps) => {
 
-    return (<div className="relative" >
+    return (<div className="relative h-full" >
         {mainContent}
         {isBarOpen &&
             <div className="absolute top-0 right-0 h-dvh">

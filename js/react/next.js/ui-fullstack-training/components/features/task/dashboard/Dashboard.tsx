@@ -1,7 +1,6 @@
 'use client'
 
 import { Task } from "@/types/Task";
-import { CreateTaskForm } from "../form/CreateTaskForm";
 import { Suspense, useState } from "react";
 import { SideBar } from "@/components/common/layout/SideBar";
 import { useNotification } from "@/components/common/interactivity/useNotification";
@@ -10,6 +9,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from "@/components/common/interactivity/ErrorFallback";
 import { TaskDetail } from "./taskDetail/TaskDetail";
 import { TaskDetailSkeleton } from "./taskDetail/TaskDetailSkeleton";
+import { TaskForm } from "../form/TaskForm";
 
 
 type TaskDashboardProps = {
@@ -21,10 +21,24 @@ export const TaskDashboard = ({ }: TaskDashboardProps) => {
     const { notify } = useNotification()
     const queryClient = useQueryClient()
     const taskMutation = useMutation({
-        mutationFn: (task: Task) => { return addTask(task) },
+        mutationFn: (task: Task) => { return task.id ? updateTask(task) : addTask(task) },
         onError: (error) => { notify({ value: error.message, type: 'ERROR' }) },
         onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['tasks'] }) }
     })
+
+    const updateTask = async (task: Task) => {
+        const formData = new FormData()
+        formData.append("task", JSON.stringify(task))
+        if (task.files) {
+            task.files.forEach((file) => {
+                formData.append("files", file)
+            })
+        }
+        const response = await fetch('/api/tasks/'+task.id, { method: 'PUT', body: formData })
+        if (!response.ok) throw new Error(`Task creation failed - ${(await response.json()).error}`)
+        notify({ value: 'Task updated succesfully', type: 'INFO' })
+        return response.json()
+    }
 
     const addTask = async (task: Task) => {
         const formData = new FormData()
@@ -36,12 +50,12 @@ export const TaskDashboard = ({ }: TaskDashboardProps) => {
         }
         const response = await fetch('/api/tasks', { method: 'POST', body: formData })
         if (!response.ok) throw new Error(`Task creation failed - ${(await response.json()).error}`)
+        notify({ value: 'Task created succesfully', type: 'INFO' })
         return response.json()
     }
 
-    const handleCreateSubmit = async (task: Task) => {
+    const handleSubmit = async (task: Task) => {
         await taskMutation.mutateAsync(task)
-        notify({ value: 'Task created succesfully', type: 'INFO' })
     }
 
     return (
@@ -54,7 +68,7 @@ export const TaskDashboard = ({ }: TaskDashboardProps) => {
                         isBarOpen={isBarOpen}
                         position="right"
                         mainContent={<TaskDetail setIsBarOpen={setIsBarOpen} />}
-                        barContent={<CreateTaskForm setIsOpen={setIsBarOpen} handleSubmit={handleCreateSubmit} />}
+                        barContent={<TaskForm setIsOpen={setIsBarOpen} handleSubmit={handleSubmit} />}
                     />
                 </div>
             </Suspense>

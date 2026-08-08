@@ -1,17 +1,25 @@
-import { tasksDB } from "@/lib/mocks/TasksDB"
+import { tasksDB } from "@/lib/mocks/TasksDB";
 import { NextResponse } from "next/server";
 import path from "path";
 import fs from "fs";
+import { Task } from "@/types/Task";
+
+type RouteParams = {
+    params: Promise<{ id: string }>;
+};
 
 const validExtensions = ['.jpeg', 'jpg', 'pdf']
 
-export async function GET(request: Request) {
+export async function DELETE(request: Request, { params }: RouteParams) {
+    const { id } = await params;
 
-    const db = tasksDB.all()
-    return Response.json(db)
+    const task = tasksDB.findFirst((q) => q.where({ id: id }))
+    await tasksDB.delete(task)
+    return Response.json({msg: `Task with ID ${id} sucessfully deleted`}, { status: 200 })
 }
 
-export async function POST(request: Request) {
+export async function PUT(request: Request, { params }: RouteParams) {
+    const { id } = await params;
     try {
         const formData = await request.formData();
 
@@ -54,8 +62,15 @@ export async function POST(request: Request) {
                 fs.writeFileSync(filePath, buffer);
             }
         }
-        const createdTask = await tasksDB.create(JSON.parse(taskString))
-        return Response.json(createdTask)
+
+        const taskRequest = JSON.parse(taskString) as Task
+        const task = tasksDB.findFirst((q) => q.where({ id: taskRequest.id }))
+        const updatedTask = await tasksDB.update(task, {
+            data(task) {
+                Object.assign(task, taskRequest)
+            }
+        })
+        return Response.json(updatedTask, { status: 200 })
     } catch (error) {
         console.error("Upload error:", error);
         return NextResponse.json(
@@ -64,5 +79,3 @@ export async function POST(request: Request) {
         );
     }
 }
-
-
