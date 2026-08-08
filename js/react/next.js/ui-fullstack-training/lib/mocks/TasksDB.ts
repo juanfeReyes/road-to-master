@@ -13,7 +13,8 @@ tasksDB.create({
     description: 'hehehehehe',
     dueDate: new Date(),
     priority: 'High',
-    status: 'In Progress'
+    status: 'In Progress',
+    files: []
 })
 tasksDB.create({
     id: crypto.randomUUID(),
@@ -21,7 +22,8 @@ tasksDB.create({
     description: 'kijuhyyg',
     dueDate: new Date(),
     priority: 'Low',
-    status: 'Completed'
+    status: 'Completed',
+    files: []
 })
 tasksDB.create({
     id: crypto.randomUUID(),
@@ -29,7 +31,8 @@ tasksDB.create({
     description: 'awasdfasf',
     dueDate: new Date(),
     priority: 'Medium',
-    status: 'Pending'
+    status: 'Pending',
+    files: []
 })
 tasksDB.create({
     id: crypto.randomUUID(),
@@ -37,7 +40,8 @@ tasksDB.create({
     description: 'oijkkjjj',
     dueDate: new Date(),
     priority: 'High',
-    status: 'Pending'
+    status: 'Pending',
+    files: []
 })
 
 export const getTasks = () : Task[] => {

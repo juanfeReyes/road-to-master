@@ -5,7 +5,8 @@ import { CustomDialog } from "../layout/CustomDialog"
 import { FileViewer } from "../layout/FileViewer"
 
 type FileUploader = {
-
+    files: File[],
+    onChange: (files: File[]) => void
 } & FormInputType
 
 
@@ -34,12 +35,12 @@ const FileOption = ({ file, idx, handleFileRemoval }: FileOptionProps) => {
     </li>)
 }
 
-export const FileUploader = ({ form, setForm, inputKey, errors }: FileUploader) => {
+export const FileUploader = ({files, onChange }: FileUploader) => {
     const acceptedFiles = ['.jpg', '.png', '.pdf', '.docx']
 
     const handleFileRemoval = (idx: number) => {
-        const newFiles = form[inputKey].toSpliced(idx, 1)
-        setForm({ ...form, [inputKey]: newFiles })
+        const newFiles = files.toSpliced(idx, 1)
+        onChange(newFiles)
     }
 
     const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -49,12 +50,12 @@ export const FileUploader = ({ form, setForm, inputKey, errors }: FileUploader) 
     const handleDrops = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         const droppedFiles = Array.from(e.dataTransfer.files)
-        setForm({ ...form, [inputKey]: [...form[inputKey], ...droppedFiles] })
+        onChange([...files, ...droppedFiles])
     }
 
     const handleOnFileSelectChange = (e: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
-            setForm({ ...form, [inputKey]: [...form[inputKey], ...Array.from(e.target.files)] })
+            onChange([...files, ...Array.from(e.target.files)])
         }
     }
 
@@ -78,7 +79,7 @@ export const FileUploader = ({ form, setForm, inputKey, errors }: FileUploader) 
             />
         </div>
         <ul className="flex flex-col gap-2">
-            {form[inputKey].map((file, idx) => (<FileOption idx={idx} file={file} handleFileRemoval={handleFileRemoval} />))
+            {files.map((file, idx) => (<FileOption idx={idx} file={file} handleFileRemoval={handleFileRemoval} />))
             }
         </ul>
     </div>)

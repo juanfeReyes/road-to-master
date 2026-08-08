@@ -3,35 +3,39 @@ import { ReactNode, useState } from "react"
 import { Label } from "./Label"
 import { FormInputType } from "@/types/FormInputType"
 
-type DropdownOption = {
+export type DropdownOption = {
     id: string,
-    value: string | ReactNode
+    value: string | ReactNode,
+    onClick: (value: DropdownOption) => void
 }
 
 type DropdownProps = {
-    label: string,
-    options: DropdownOption[]
-} & FormInputType
+    buttonLabel: string | ReactNode
+    options: DropdownOption[],
+    label?: string,
+    className?: string
+}
 
-export const Dropdown = ({ label, options, form, setForm, inputKey }: DropdownProps) => {
+export const Dropdown = ({ label, options, buttonLabel, className }: DropdownProps) => {
     const [isOpen, setIsOpen] = useState(false)
 
     const toggleDropdown = () => setIsOpen((val) => !val)
 
     const handleOnClick = (value: DropdownOption) => {
-        setForm({ ...form, [inputKey]: value })
+        value.onClick(value)
         setIsOpen(false)
     }
 
     return (
-        <Label label={label}
+        <Label label={label} className={className}
             content={<div className="relative">
                 <button onClick={toggleDropdown}>
-                    {form[inputKey].value}
+                    {buttonLabel}
                 </button>
                 {isOpen &&
-                    <ul className="absolute bg-white rounded-2xl shadow top-full">
-                        {options.filter(o => o.id !== form[inputKey]).map(o => (<li
+                    <ul className="absolute bg-white rounded-2xl shadow top-full p-2 z-40">
+                        {options.filter(o => o.id !== buttonLabel).map((o, idx) => (<li
+                            key={idx}
                             className="cursor-pointer"
                             onClick={() => handleOnClick(o)}>{o.value}</li>))}
                     </ul>
