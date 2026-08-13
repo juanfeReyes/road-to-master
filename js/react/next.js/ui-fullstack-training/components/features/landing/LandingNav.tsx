@@ -21,7 +21,7 @@ export const LandingNav = () => {
             </ul>
         </div>
         <div className='flex gap-3 mr-5'>
-            <button><Header icon='mdi:register' label='Register' /></button>
+            <Link href={'/register'}><Header icon='mdi:register' label='Register' /></Link>
             <Link href={'/tasks'}><Header icon='ant-design:login-outlined' label='Login' /></Link>
         </div>
     </div>)

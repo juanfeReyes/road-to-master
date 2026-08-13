@@ -6,7 +6,7 @@ type CustomInputProps = {
     label?: string,
     value: any,
     onChange: (value: any) => void
-} & FormInputType
+}
 
 export const CustomInput = ({ label, inputKey, errors, onChange, value }: CustomInputProps) => {
 
