@@ -1,14 +1,14 @@
-import { ChangeEvent} from "react"
+import { ChangeEvent } from "react"
 import { Label } from "./Label"
-import { FormInputType } from "@/types/FormInputType"
 
 type CustomInputProps = {
     label?: string,
     value: any,
+    error: string,
     onChange: (value: any) => void
-} & FormInputType
+}
 
-export const CustomInput = ({ label, inputKey, errors, onChange, value }: CustomInputProps) => {
+export const CustomInput = ({ label, onChange, value, error }: CustomInputProps) => {
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
         onChange(e.target.value)
@@ -21,8 +21,9 @@ export const CustomInput = ({ label, inputKey, errors, onChange, value }: Custom
                     value={value}
                     onChange={(e) => handleOnChange(e)}
                 />} />
-            {errors?.properties[inputKey] &&
-                errors.properties[inputKey].errors.map((e, idx) => (<div key={idx} className="text-red-800">{e}</div>))}
+            {error &&
+                <div key={error} className="text-red-800">{error}</div>
+            }
         </>
     )
 }
