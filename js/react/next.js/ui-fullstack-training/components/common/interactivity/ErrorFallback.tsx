@@ -1,9 +1,12 @@
+'use client'
+
 import { Icon } from "@iconify/react"
 import somethingWentWrong from '@/public/something-went-wrong.png'
 import Image from 'next/image';
 
 
 export const ErrorFallback = ({ error, resetErrorBoundary, businessMessage }) => {
+    console.log(error)
 
     return (
         <div className="flex flex-col items-center mt-5 gap-3">

@@ -1,4 +1,4 @@
-import { TaskDashboard } from "@/components/features/task/dashboard/Dashboard";
+import { TaskDashboard } from "@/components/features/task/dashboard/TaskDashboard";
 
 export default async function TaskPage () {
     return (

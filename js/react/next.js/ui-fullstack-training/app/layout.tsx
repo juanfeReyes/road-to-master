@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { NotificationToast } from "@/components/common/interactivity/NotificationToast";
-import { CustomClientProvider } from "@/components/common/CustomClientProvider";
-import { SkeletonTheme } from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css'
+import { MainProvider } from "@/components/common/layout/mainProvider/mainProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,13 +32,9 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <CustomClientProvider>
-          <NotificationToast>
-            <SkeletonTheme>
-              {children}
-            </SkeletonTheme>
-          </NotificationToast>
-        </CustomClientProvider>
+        <MainProvider>
+          {children}
+        </MainProvider>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 import { Task } from '@/types/Task'
 import {http, HttpResponse} from 'msw'
-import { tasksDB } from './TasksDB'
+import { tasksDB } from '../mocks/TasksDB'
 
 export const handlers = [
     http.get('https://api.r2m.com/tasks', () => {
