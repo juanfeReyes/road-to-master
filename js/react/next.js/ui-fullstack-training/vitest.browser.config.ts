@@ -24,7 +24,7 @@ export default defineConfig({
       provider: 'v8', // or 'istanbul'
       reporter: ['text', 'html'],
       include: ['{src,lib,components,app}/**/*.{ts,tsx,js,jsx}'], 
-      exclude: ['src/**/*.d.ts', 'src/main.tsx']
+      exclude: ['src/**/*.d.ts', '**/test/**']
     },
   },
   define: {

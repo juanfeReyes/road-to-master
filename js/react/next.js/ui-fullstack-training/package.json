@@ -11,7 +11,7 @@
     "coverage": "vitest run --coverage",
     "test:browser": "vitest --config=vitest.browser.config.ts",
     "test:browser:ui": "vitest --config=vitest.browser.config.ts --ui",
-    "test:browser:debug": "vitest --config=vitest.browser.config.ts --ui --browser.headless=false"
+    "test:browser:debug": "vitest --config=vitest.browser.config.ts --browser.headless=false"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.10",

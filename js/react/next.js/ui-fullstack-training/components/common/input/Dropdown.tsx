@@ -1,7 +1,6 @@
 'use client'
 import { ReactNode, useState } from "react"
 import { Label } from "./Label"
-import { FormInputType } from "@/types/FormInputType"
 
 export type DropdownOption = {
     id: string,
@@ -10,26 +9,26 @@ export type DropdownOption = {
 }
 
 type DropdownProps = {
+    id?: string
     buttonLabel: string | ReactNode
     options: DropdownOption[],
     label?: string,
     className?: string
 }
 
-export const Dropdown = ({ label, options, buttonLabel, className }: DropdownProps) => {
+export const Dropdown = ({ id, label, options, buttonLabel, className }: DropdownProps) => {
     const [isOpen, setIsOpen] = useState(false)
 
     const toggleDropdown = () => setIsOpen((val) => !val)
 
-    const handleOnClick = (value: DropdownOption) => {
+    const handleOnClick = (value: DropdownOption) => {        
         value.onClick(value)
-        setIsOpen(false)
     }
 
     return (
         <Label label={label} className={className}
             content={<div className="relative">
-                <button onClick={toggleDropdown}>
+                <button onClick={() => toggleDropdown()} data-testid={`dropdown-${id}`}>
                     {buttonLabel}
                 </button>
                 {isOpen &&

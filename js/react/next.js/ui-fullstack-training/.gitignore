@@ -45,3 +45,4 @@ next-env.d.ts
 **/sqlite.db
 
 **/__screenshots__/**
+**/.vitest-attachments/**

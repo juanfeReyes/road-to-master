@@ -54,7 +54,9 @@ export async function POST(request: Request) {
                 fs.writeFileSync(filePath, buffer);
             }
         }
-        const createdTask = await tasksDB.create(JSON.parse(taskString))
+        const tasRequest = JSON.parse(taskString)
+        tasRequest.id = crypto.randomUUID();
+        const createdTask = await tasksDB.create(tasRequest)
         return Response.json(createdTask)
     } catch (error) {
         console.error("Upload error:", error);

@@ -52,6 +52,7 @@ export const TaskForm = ({ setIsOpen, handleSubmit }: TaskFormProps) => {
     const validate = () => {
         const result = TaskSchema.safeParse(form)
         if (result.error) {
+            console.log(result.error)
             const errors = z.treeifyError(result.error)
             setErrors(errors)
         }
@@ -61,7 +62,7 @@ export const TaskForm = ({ setIsOpen, handleSubmit }: TaskFormProps) => {
 
     const handlesubmit = () => {
         const task: Task = {
-            id: form.id ?? crypto.randomUUID(),
+            id: form.id,
             name: form.name,
             description: form.description,
             dueDate: form.dueDate,
@@ -88,14 +89,15 @@ export const TaskForm = ({ setIsOpen, handleSubmit }: TaskFormProps) => {
         <CustomInput label='Description' value={form.description} onChange={(value) => updateForm('description', value)} errors={errors} />
         <DatePickerCustom label="Due Date" value={form.dueDate} onChange={(date) => updateForm('dueDate', date)} errors={errors} />
         <Dropdown
-            label="Priorty"
+            id="priority"
+            label="Priority"
             buttonLabel={form.priority ? form.priority.value : "Select"}
             options={priorityOptions}
         />
         <FileUploader files={form.files} onChange={(files) => updateForm('files', files)} errors={errors} />
         <div className="flex gap-5 justify-evenly">
-            <Button label={'Cancel'} type="Neutral" onClick={handleCancel} />
             <Button label={'Save'} type="Primary" onClick={handlesubmit} />
+            <Button label={'Cancel'} type="Neutral" onClick={handleCancel} />
         </div>
     </div>)
 }

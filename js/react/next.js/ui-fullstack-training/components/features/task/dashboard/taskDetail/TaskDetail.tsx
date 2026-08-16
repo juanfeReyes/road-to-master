@@ -31,10 +31,10 @@ const buildHeaders = (handleUpdate, handleDelete) => {
         {
             name: 'name',
             label: 'Name',
-            cell: (val: string, row) => <div className="flex gap-2 justify-between w-full">
+            cell: (val: string, row: Task) => <div className="flex gap-2 justify-between w-full">
                 <p>{val}</p>
                 <Dropdown
-                    className=""
+                    id={row.id}
                     buttonLabel={<Icon icon={'mage:dots'} />}
                     options={buildRowOptions(() => handleUpdate(row), () => handleDelete(row))}
                 />
@@ -84,7 +84,6 @@ export const TaskDetail = ({ setIsBarOpen }: TaskDetailProps) => {
     })
 
     const handleUpdate = (task: Task) => {
-        console.log(task)
         loadTask(task)
         setIsBarOpen(true)
     }
