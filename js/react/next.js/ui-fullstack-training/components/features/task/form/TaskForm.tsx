@@ -1,17 +1,16 @@
-import { Button } from "@/components/common/input/Button"
 import { DatePickerCustom } from "@/components/common/input/DatePickerCustom"
 import { Header } from "@/components/common/layout/Header"
 import { Dropdown, DropdownOption } from "@/components/common/input/Dropdown"
-import { CustomInput } from "@/components/common/input/CustomInput"
 import { Dispatch, SetStateAction, useState } from "react"
 import { PriorityCell } from "../dashboard/PriorityHeader"
-import { TaskPriority, TaskSchema, TaskStatus } from '@/types/Task'
+import { Task, TaskPriority, TaskSchema, TaskStatus } from '@/types/Task'
 
 import * as z from "zod"
-import { Task } from "@/types/Task"
 import { FormInputErrors } from "@/types/FormInputType"
 import { FileUploader } from "@/components/common/input/FileUploader"
 import { useTaskForm } from "./TaskFormStore"
+import { CustomInput } from "@/components/common/input/customInput/CustomInput"
+import { Button } from "@/components/common/input/button/Button"
 
 
 type TaskFormProps = {
@@ -53,6 +52,7 @@ export const TaskForm = ({ setIsOpen, handleSubmit }: TaskFormProps) => {
     const validate = () => {
         const result = TaskSchema.safeParse(form)
         if (result.error) {
+            console.log(result.error)
             const errors = z.treeifyError(result.error)
             setErrors(errors)
         }
@@ -62,7 +62,7 @@ export const TaskForm = ({ setIsOpen, handleSubmit }: TaskFormProps) => {
 
     const handlesubmit = () => {
         const task: Task = {
-            id: form.id ?? crypto.randomUUID(),
+            id: form.id,
             name: form.name,
             description: form.description,
             dueDate: form.dueDate,
@@ -89,14 +89,15 @@ export const TaskForm = ({ setIsOpen, handleSubmit }: TaskFormProps) => {
         <CustomInput label='Description' value={form.description} onChange={(value) => updateForm('description', value)} errors={errors} />
         <DatePickerCustom label="Due Date" value={form.dueDate} onChange={(date) => updateForm('dueDate', date)} errors={errors} />
         <Dropdown
-            label="Priorty"
+            id="priority"
+            label="Priority"
             buttonLabel={form.priority ? form.priority.value : "Select"}
             options={priorityOptions}
         />
         <FileUploader files={form.files} onChange={(files) => updateForm('files', files)} errors={errors} />
         <div className="flex gap-5 justify-evenly">
-            <Button label={'Cancel'} type="Neutral" onClick={handleCancel} />
             <Button label={'Save'} type="Primary" onClick={handlesubmit} />
+            <Button label={'Cancel'} type="Neutral" onClick={handleCancel} />
         </div>
     </div>)
 }

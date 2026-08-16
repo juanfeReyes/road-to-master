@@ -5,7 +5,7 @@ import fs from "fs";
 import { Task } from "@/types/Task";
 
 type RouteParams = {
-    params: Promise<{ id: string }>;
+    params: Promise<{ id: string }>
 };
 
 const validExtensions = ['.jpeg', 'jpg', 'pdf']

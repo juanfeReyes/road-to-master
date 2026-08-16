@@ -55,6 +55,7 @@ export const TaskDashboard = ({ }: TaskDashboardProps) => {
     }
 
     const handleSubmit = async (task: Task) => {
+        console.log('Handle submit')
         await taskMutation.mutateAsync(task)
     }
 

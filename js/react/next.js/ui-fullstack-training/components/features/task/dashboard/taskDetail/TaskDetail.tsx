@@ -1,4 +1,3 @@
-import { Button } from "@/components/common/input/Button";
 import { Header } from "@/components/common/layout/Header";
 import { TabCustom } from "@/components/common/layout/TabCustom";
 import { Table, TableHeader } from "@/components/common/table/Table";
@@ -10,6 +9,7 @@ import { PriorityCell } from "../PriorityHeader";
 import { Dropdown, DropdownOption } from "@/components/common/input/Dropdown";
 import { useTaskForm } from "../../form/TaskFormStore";
 import { useNotification } from "@/components/common/interactivity/useNotification";
+import { Button } from "@/components/common/input/button/Button";
 
 const buildRowOptions = (handleUpdate, handleDelete) => {
     return [
@@ -31,10 +31,10 @@ const buildHeaders = (handleUpdate, handleDelete) => {
         {
             name: 'name',
             label: 'Name',
-            cell: (val: string, row) => <div className="flex gap-2 justify-between w-full">
+            cell: (val: string, row: Task) => <div className="flex gap-2 justify-between w-full">
                 <p>{val}</p>
                 <Dropdown
-                    className=""
+                    id={row.id}
                     buttonLabel={<Icon icon={'mage:dots'} />}
                     options={buildRowOptions(() => handleUpdate(row), () => handleDelete(row))}
                 />
@@ -84,7 +84,6 @@ export const TaskDetail = ({ setIsBarOpen }: TaskDetailProps) => {
     })
 
     const handleUpdate = (task: Task) => {
-        console.log(task)
         loadTask(task)
         setIsBarOpen(true)
     }

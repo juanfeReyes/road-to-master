@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from "@/components/common/input/Button"
-import { CustomInput } from "@/components/common/input/CustomInput"
+import { Button } from "@/components/common/input/button/Button"
+import { CustomInput } from "@/components/common/input/customInput/CustomInput"
 import { PasswordInput } from "@/components/common/input/PasswordInput"
 import { useNotification } from "@/components/common/interactivity/useNotification"
 import { Header } from "@/components/common/layout/Header"
