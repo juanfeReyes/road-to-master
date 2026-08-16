@@ -10,8 +10,11 @@ const formInitialState = {
     dueDate: new Date(),
     priority: null,
     status: 'Pending' as TaskStatus,
-    files: []
+    files: [],
+    importFile: []
 }
+
+export type TaskStoreType = typeof formInitialState; 
 
 export const useTaskForm = create(
     combine({ form: formInitialState },

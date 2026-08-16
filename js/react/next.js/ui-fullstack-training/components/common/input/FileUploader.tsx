@@ -3,8 +3,10 @@ import { Icon } from "@iconify/react"
 import { DragEvent, ChangeEvent } from "react"
 import { CustomDialog } from "../layout/CustomDialog"
 import { FileViewer } from "../layout/FileViewer"
+import { Label } from "./Label"
 
-type FileUploader = {
+type FileUploaderProps = {
+    label?: string
     files: File[],
     onChange: (files: File[]) => void
 } & FormInputType
@@ -35,7 +37,7 @@ const FileOption = ({ file, idx, handleFileRemoval }: FileOptionProps) => {
     </li>)
 }
 
-export const FileUploader = ({files, onChange }: FileUploader) => {
+export const FileUploader = ({ files, onChange, label }: FileUploaderProps) => {
     const acceptedFiles = ['.jpg', '.png', '.pdf', '.docx']
 
     const handleFileRemoval = (idx: number) => {
@@ -59,29 +61,36 @@ export const FileUploader = ({files, onChange }: FileUploader) => {
         }
     }
 
-    return (<div
-        className="flex justify-evenly gap-2"
-    >
-        <div className="flex gap-3 w-2/3 border-2 rounded-2xl border-dashed p-1 justify-center items-center"
-            onDrop={handleDrops}
-            onDragOver={handleDragOver}>
-            <label
-                htmlFor="file-uploader"
-                className="text-center"
-            >Drop or select files</label>
-            <input
-                className="hidden"
-                id="file-uploader"
-                type="file"
-                onChange={handleOnFileSelectChange}
-                accept={acceptedFiles.join(',')}
-                multiple
-            />
-        </div>
-        <ul className="flex flex-col gap-2">
-            {files.map((file, idx) => (<FileOption idx={idx} file={file} handleFileRemoval={handleFileRemoval} />))
+    return (
+        <Label
+            label={label}
+            content={
+                <div
+                    className="flex justify-evenly gap-2"
+                >
+                    <div className="flex gap-3 w-2/3 border-2 rounded-2xl border-dashed p-1 justify-center items-center"
+                        onDrop={handleDrops}
+                        onDragOver={handleDragOver}>
+                        <label
+                            htmlFor="file-uploader"
+                            className="text-center"
+                        >Drop or select files</label>
+                        <input
+                            className="hidden"
+                            id="file-uploader"
+                            type="file"
+                            onChange={handleOnFileSelectChange}
+                            accept={acceptedFiles.join(',')}
+                            multiple
+                        />
+                    </div>
+                    <ul className="flex flex-col gap-2">
+                        {files.map((file, idx) => (<FileOption idx={idx} file={file} handleFileRemoval={handleFileRemoval} />))
+                        }
+                    </ul>
+                </div>
             }
-        </ul>
-    </div>)
+        />
+    )
 
 }
