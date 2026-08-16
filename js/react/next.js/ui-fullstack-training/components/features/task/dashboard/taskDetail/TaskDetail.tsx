@@ -1,6 +1,6 @@
 import { Header } from "@/components/common/layout/Header";
 import { TabCustom } from "@/components/common/layout/TabCustom";
-import { Table, TableHeader } from "@/components/common/table/Table";
+import { Table } from "@/components/common/table/Table";
 import { Task } from "@/types/Task";
 import { Icon } from "@iconify/react";
 import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
@@ -9,7 +9,7 @@ import { PriorityCell } from "../PriorityHeader";
 import { Dropdown, DropdownOption } from "@/components/common/input/Dropdown";
 import { useTaskForm } from "../../form/TaskFormStore";
 import { useNotification } from "@/components/common/interactivity/useNotification";
-import { Button } from "@/components/common/input/button/Button";
+import { TableHeader } from "./TableHeader";
 
 const buildRowOptions = (handleUpdate, handleDelete) => {
     return [
@@ -66,7 +66,7 @@ export const TaskDetail = ({ setIsBarOpen }: TaskDetailProps) => {
     const queryClient = useQueryClient()
     const { notify } = useNotification()
     const taskMutation = useMutation({
-        mutationFn: (task: Task) => {return fetch('/api/tasks/'+task.id, { method: 'DELETE' })},
+        mutationFn: (task: Task) => { return fetch('/api/tasks/' + task.id, { method: 'DELETE' }) },
         onError: (error) => { notify({ value: error.message, type: 'ERROR' }) },
         onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['tasks'] }) }
     })
@@ -95,23 +95,12 @@ export const TaskDetail = ({ setIsBarOpen }: TaskDetailProps) => {
     const tabs = [
         {
             title: <Header icon="cil:list" label="Table" />,
-            content: () => <Table isPending={isLoading} data={data} headers={buildHeaders(handleUpdate, handleDelete)}
-                headerContent={<Button label={<p className="text-xl flex gap-1 items-center"><Icon icon={'basil:add-outline'} />Add</p>}
-                    type='Primary'
-                    onClick={() => setIsBarOpen(true)} />} />
-        },
-        // IN-PROGRESS
-        // {
-        //     title: <Header icon="mi:board" label="Board" />,
-        //     content: () => <DragAndDrop
-        //         groups={['Pending', 'In Progress', 'Completed']}
-        //         data={tasks}
-        //         add={add}
-        //         groupBy={(val: Task, group) => val.status === group}
-        //         handleUpdateGroup={(val: Task, group) => { console.log('update {}', group); val.status = group as TaskStatus }}
-        //         card={(val: Task) => <TaskBoardCard task={val} />}
-        //     />
-        // }
+            content: () => <Table
+                isPending={isLoading}
+                data={data}
+                headers={buildHeaders(handleUpdate, handleDelete)}
+                headerContent={<TableHeader setIsBarOpen={setIsBarOpen}/>} />
+        }
     ]
 
     return (

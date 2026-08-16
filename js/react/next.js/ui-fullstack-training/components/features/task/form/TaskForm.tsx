@@ -7,19 +7,20 @@ import { Task, TaskPriority, TaskSchema, TaskStatus } from '@/types/Task'
 
 import * as z from "zod"
 import { FormInputErrors } from "@/types/FormInputType"
-import { FileUploader } from "@/components/common/input/FileUploader"
-import { useTaskForm } from "./TaskFormStore"
+import { TaskStoreType, useTaskForm } from "./TaskFormStore"
 import { CustomInput } from "@/components/common/input/customInput/CustomInput"
 import { Button } from "@/components/common/input/button/Button"
+import { FileUploader } from "@/components/common/input/FileUploader"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useNotification } from "@/components/common/interactivity/useNotification"
 
 
 type TaskFormProps = {
     setIsOpen: Dispatch<SetStateAction<boolean>>
-    handleSubmit: (task: Task) => void
 }
 
 
-export const TaskForm = ({ setIsOpen, handleSubmit }: TaskFormProps) => {
+export const TaskForm = ({ setIsOpen }: TaskFormProps) => {
     const form = useTaskForm((state) => state.form)
     const updateForm = useTaskForm((state) => state.updateForm)
     const resetForm = useTaskForm((state) => state.resetForm)
@@ -29,25 +30,87 @@ export const TaskForm = ({ setIsOpen, handleSubmit }: TaskFormProps) => {
         {
             id: 'Critical',
             value: <PriorityCell value={'Critical'} />,
-            onClick: (value: DropdownOption) => { updateForm('priority', value ) }
+            onClick: (value: DropdownOption) => { updateForm('priority', value) }
         },
         {
             id: 'High',
             value: <PriorityCell value={'High'} />,
-            onClick: (value: DropdownOption) => { updateForm('priority', value ) }
+            onClick: (value: DropdownOption) => { updateForm('priority', value) }
         },
         {
             id: 'Medium',
             value: <PriorityCell value={'Medium'} />,
-            onClick: (value: DropdownOption) => { updateForm('priority', value ) }
+            onClick: (value: DropdownOption) => { updateForm('priority', value) }
         },
         {
             id: 'Low',
             value: <PriorityCell value={'Low'} />,
-            onClick: (value: DropdownOption) => { updateForm('priority', value ) }
+            onClick: (value: DropdownOption) => { updateForm('priority', value) }
         },
-
     ]
+
+    const { notify } = useNotification()
+    const queryClient = useQueryClient()
+    const taskMutation = useMutation({
+        mutationFn: (request: TaskStoreType) => {
+            if (request.importFile.length > 0) {
+                return importTasks(request.importFile)
+            }
+
+            const task: Task = {
+                id: request.id,
+                name: request.name,
+                description: request.description,
+                dueDate: request.dueDate,
+                priority: request.priority.id as TaskPriority,
+                status: (request.status ?? 'Pending') as TaskStatus,
+                files: request.files
+            }
+            if (request.id) return updateTask(task)
+            return addTask(task)
+        },
+        onError: (error) => { notify({ value: error.message, type: 'ERROR' }) },
+        onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['tasks'] }) }
+    })
+
+    const importTasks = async (file: File[]) => {
+        const formData = new FormData()
+        formData.append("file", file[0])
+
+        const response = await fetch('/api/tasks/bulk', { method: 'POST', body: formData })
+        if (!response.ok) throw new Error(`Task import failed - ${(await response.json()).error}`)
+        notify({ value: 'Task imported succesfully', type: 'INFO' })
+        return response.json()
+    }
+
+    const updateTask = async (task: Task) => {
+        const formData = new FormData()
+        formData.append("task", JSON.stringify(task))
+        if (task.files) {
+            task.files.forEach((file) => {
+                formData.append("files", file)
+            })
+        }
+        const response = await fetch('/api/tasks/' + task.id, { method: 'PUT', body: formData })
+        if (!response.ok) throw new Error(`Task creation failed - ${(await response.json()).error}`)
+        notify({ value: 'Task updated succesfully', type: 'INFO' })
+        return response.json()
+    }
+
+    const addTask = async (task: Task) => {
+        const formData = new FormData()
+        console.log(task)
+        formData.append("task", JSON.stringify(task))
+        if (task.files) {
+            task.files.forEach((file) => {
+                formData.append("files", file)
+            })
+        }
+        const response = await fetch('/api/tasks', { method: 'POST', body: formData })
+        if (!response.ok) throw new Error(`Task creation failed - ${(await response.json()).error}`)
+        notify({ value: 'Task created succesfully', type: 'INFO' })
+        return response.json()
+    }
 
     const validate = () => {
         const result = TaskSchema.safeParse(form)
@@ -60,21 +123,18 @@ export const TaskForm = ({ setIsOpen, handleSubmit }: TaskFormProps) => {
         return result;
     }
 
-    const handlesubmit = () => {
-        const task: Task = {
-            id: form.id,
-            name: form.name,
-            description: form.description,
-            dueDate: form.dueDate,
-            priority: form.priority.id as TaskPriority,
-            status: (form.status ?? 'Pending') as TaskStatus,
-            files: form.files
+    const handlesubmit = async () => {
+        if (form.importFile) {
+            await taskMutation.mutateAsync(form)
+            handleCancel()
+            return;
         }
+
+
         const result = validate()
         if (result.success) {
-            handleSubmit(task)
-            setIsOpen(false)
-            resetForm()
+            await taskMutation.mutateAsync(form)
+            handleCancel()
         }
     }
 
@@ -83,9 +143,19 @@ export const TaskForm = ({ setIsOpen, handleSubmit }: TaskFormProps) => {
         setIsOpen(false)
     }
 
+    console.log(form.id)
     return (<div className="flex flex-col gap-3 h-full p-3 min-w-1/2 bg-slate-50 ">
         <Header icon="ri:task-fill" label="Task" />
-        <CustomInput label='Name' value={form.name} onChange={(value) => updateForm('name', value)}  errors={errors} />
+        {
+            !form.id &&
+            <FileUploader
+                label="Import Task"
+                files={form.importFile}
+                onChange={(files) => updateForm('importFile', files)}
+                errors={errors}
+            />
+        }
+        <CustomInput label='Name' value={form.name} onChange={(value) => updateForm('name', value)} errors={errors} />
         <CustomInput label='Description' value={form.description} onChange={(value) => updateForm('description', value)} errors={errors} />
         <DatePickerCustom label="Due Date" value={form.dueDate} onChange={(date) => updateForm('dueDate', date)} errors={errors} />
         <Dropdown
@@ -94,10 +164,16 @@ export const TaskForm = ({ setIsOpen, handleSubmit }: TaskFormProps) => {
             buttonLabel={form.priority ? form.priority.value : "Select"}
             options={priorityOptions}
         />
-        <FileUploader files={form.files} onChange={(files) => updateForm('files', files)} errors={errors} />
+        <FileUploader
+            label="Attachments"
+            files={form.files}
+            onChange={(files) => updateForm('files', files)}
+            errors={errors}
+        />
+
         <div className="flex gap-5 justify-evenly">
-            <Button label={'Save'} type="Primary" onClick={handlesubmit} />
             <Button label={'Cancel'} type="Neutral" onClick={handleCancel} />
+            <Button label={'Save'} type="Primary" onClick={handlesubmit} />
         </div>
     </div>)
 }

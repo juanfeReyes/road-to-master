@@ -8,7 +8,7 @@ const validExtensions = ['.jpeg', 'jpg', 'pdf']
 export async function GET(request: Request) {
 
     const db = tasksDB.all()
-    return Response.json(db)
+    return NextResponse.json(db)
 }
 
 export async function POST(request: Request) {
