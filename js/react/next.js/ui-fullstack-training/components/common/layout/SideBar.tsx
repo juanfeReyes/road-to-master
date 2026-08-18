@@ -1,6 +1,6 @@
 'use client'
 
-import { Dispatch, ReactNode, SetStateAction, useState } from "react"
+import { ReactNode } from "react"
 import * as motion from "motion/react-client"
 
 type SideBarProps = {
@@ -23,12 +23,13 @@ export const SideBar = ({ mainContent, barContent, position, isBarOpen }: SideBa
                         position: "absolute",
                         top: 0,
                         right: 0,
-                        height: '95dvh'
+                        height: '95dvh',
+                        width: '40dvh'
                     }}
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    exit={{ x: "200%" }}
+                    exit={{ opacity: 0, y: -20 }}
                 >
                     {barContent}
                 </motion.div>

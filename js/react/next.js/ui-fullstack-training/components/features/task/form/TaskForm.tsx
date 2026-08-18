@@ -99,7 +99,6 @@ export const TaskForm = ({ setIsOpen }: TaskFormProps) => {
 
     const addTask = async (task: Task) => {
         const formData = new FormData()
-        console.log(task)
         formData.append("task", JSON.stringify(task))
         if (task.files) {
             task.files.forEach((file) => {
@@ -115,7 +114,6 @@ export const TaskForm = ({ setIsOpen }: TaskFormProps) => {
     const validate = () => {
         const result = TaskSchema.safeParse(form)
         if (result.error) {
-            console.log(result.error)
             const errors = z.treeifyError(result.error)
             setErrors(errors)
         }
@@ -143,8 +141,7 @@ export const TaskForm = ({ setIsOpen }: TaskFormProps) => {
         setIsOpen(false)
     }
 
-    console.log(form.id)
-    return (<div className="flex flex-col gap-3 h-full p-3 min-w-1/2 bg-slate-50 ">
+    return (<div className="flex flex-col gap-3 h-full p-3 w-full bg-slate-50 ">
         <Header icon="ri:task-fill" label="Task" />
         {
             !form.id &&

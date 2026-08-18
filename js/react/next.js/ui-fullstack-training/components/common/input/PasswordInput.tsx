@@ -3,6 +3,7 @@
 import { ChangeEvent, useState } from "react"
 import { Label } from "./Label"
 import { Icon } from "@iconify/react"
+import { ErrorMessage } from "../layout/ErrorMessage"
 
 type PasswordInputProps = {
     label?: string,
@@ -31,9 +32,7 @@ export const PasswordInput = ({ label, value, onChange, error }: PasswordInputPr
                     icon={showPass ? 'mage:eye-off-fill' : 'solar:eye-bold'} />
             </div>
             } />
-        {error &&
-            <div key={error} className="text-red-800">{error}</div>
-        }
+        <ErrorMessage error={error} />
     </>
     )
 }

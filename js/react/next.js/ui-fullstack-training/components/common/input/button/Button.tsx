@@ -9,7 +9,8 @@ type ButtonProps = ComponentPropsWithoutRef<'div'> & {
 const Button = ({ label, onClick, className }: ButtonProps) => {
     return (<button
         type="button"
-        className={`${className} px-2 rounded-lg text-white `}
+        className={`${className} px-2 rounded-lg text-white hover:contrast-125 transition-all duration-100 
+               active:brightness-90 active:shadow-inner`}
         onClick={onClick} >
         {label}
     </button>)
