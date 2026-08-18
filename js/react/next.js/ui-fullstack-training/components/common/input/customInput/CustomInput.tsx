@@ -1,5 +1,6 @@
 import { ChangeEvent } from "react"
 import { Label } from "../Label"
+import { ErrorMessage } from "../../layout/ErrorMessage"
 
 type CustomInputProps = {
     label?: string,
@@ -23,9 +24,7 @@ export const CustomInput = ({ label, onChange, value, error, placeholder }: Cust
                     onChange={(e) => handleOnChange(e)}
                     placeholder={placeholder}
                 />} />
-            {error &&
-                <div key={error} className="text-red-800">{error}</div>
-            }
+            <ErrorMessage error={error} />
         </>
     )
 }

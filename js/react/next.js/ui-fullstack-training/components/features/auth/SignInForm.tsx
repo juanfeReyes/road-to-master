@@ -8,26 +8,53 @@ import { Header } from "@/components/common/layout/Header"
 import { authClient } from "@/lib/auth-client"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import * as z from 'zod'
+
+const formSchema = z.object({
+    email: z.email(),
+    pass: z.string().min(9, 'Password is too short'),
+})
+
+type Form = z.infer<typeof formSchema>;
 
 export const SignInForm = () => {
-const [email, setEmail] = useState('')
-    const [pass, setPass] = useState('')
+    const [form, setForm] = useState<Form>({
+        pass: '',
+        email: ''
+    })
     const [errors, setErrors] = useState({})
     const router = useRouter()
     const { notify } = useNotification()
 
+    const validate = () => {
+        const result = formSchema.safeParse(form)
+        if (result.error) {
+            const errors = z.flattenError(result.error).fieldErrors
+            setErrors(errors)
+            return;
+        }
+
+        return result;
+    }
+
     const handleSubmit = async () => {
 
+         const result = validate()
+
+        if (!result) {
+            return;
+        } 
+
         const { data, error } = await authClient.signIn.email({
-            email: email,
-            password: pass,
+            email: result.data.email,
+            password: result.data.pass,
         }, {
             onSuccess: () => {
                 router.push('/tasks')
             },
             onError: (ctx) => {
                 console.log(ctx)
-                notify({type: 'ERROR', value: ctx.error.message})
+                notify({ type: 'ERROR', value: ctx.error.message })
             }
         })
     }
@@ -39,8 +66,8 @@ const [email, setEmail] = useState('')
     return (<div className="flex flex-col gap-4 rounded-xl max-w-xl shadow-2xl px-2 py-4 bg-white">
         <Header icon="ph:traffic-sign-thin" label="Sign In" />
         <div className="flex flex-col gap-2">
-            <CustomInput label="Email" value={email} onChange={(e) => setEmail(e)} error={errors['email']}/>
-            <PasswordInput label="Password" value={pass} onChange={(e) => setPass(e)} error={errors['pass']}/>
+            <CustomInput label="Email" value={form.email} onChange={(e) => setForm({...form, email: e})} error={errors['email']} />
+            <PasswordInput label="Password" value={form.pass} onChange={(e) => setForm({...form, pass: e})} error={errors['pass']} />
         </div>
 
         <div className="flex gap-4 justify-center">

@@ -34,7 +34,7 @@ const Toast = ({ msg }: ToastProps) => {
     } as const
     return (<div className="absolute top-0 right-0 ">
         <motion.div
-            className={`absolute top-0 right-0 bg-white w-xl p-2 my-3 mr-1 rounded-lg border-b-4 ${typeStyles[msg?.type]}`}
+            className={`absolute z-50 top-0 right-0 bg-white w-xl p-2 my-3 mr-1 rounded-lg border-r-8 border-b-4 ${typeStyles[msg?.type]}`}
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
