@@ -1,27 +1,20 @@
-import { ReactNode } from "react"
+import { ComponentPropsWithoutRef, ReactNode } from "react"
+import { PartialComponent } from "../../PartialComponent";
 
-const buttonType = {
-    Primary: 'Primary',
-    Secondary: 'Secondary',
-    Neutral: 'Neutral'
-} as const;
-
-type ButtonType = typeof buttonType[keyof typeof buttonType]
-
-type ButtonProps = {
+type ButtonProps = ComponentPropsWithoutRef<'div'> & {
     onClick: () => void,
     label: string | ReactNode
-    type: ButtonType
 }
 
-const style = {
-    Primary: '',
-    Secondary: '',
-    Neutral: ''
-}
-
-export const Button = ({label, type, onClick}: ButtonProps) => {
-    return (<button className={`${style[type]}`} onClick={onClick} >
+const Button = ({ label, onClick, className }: ButtonProps) => {
+    return (<button
+        type="button"
+        className={`${className} px-2 rounded-lg text-white `}
+        onClick={onClick} >
         {label}
     </button>)
 }
+
+export const PrimaryButton = PartialComponent(Button, { className: 'bg-blue-500 font-bold' })
+export const SecondaryButton = PartialComponent(Button, { className: 'bg-indigo-500' })
+export const NeutralButton = PartialComponent(Button, { className: ' bg-slate-500' })
