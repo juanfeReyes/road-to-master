@@ -9,7 +9,7 @@ import * as z from "zod"
 import { FormInputErrors } from "@/types/FormInputType"
 import { TaskStoreType, useTaskForm } from "./TaskFormStore"
 import { CustomInput } from "@/components/common/input/customInput/CustomInput"
-import { Button } from "@/components/common/input/button/Button"
+import { Button, NeutralButton, PrimaryButton } from "@/components/common/input/button/Button"
 import { FileUploader } from "@/components/common/input/FileUploader"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useNotification } from "@/components/common/interactivity/useNotification"
@@ -172,8 +172,8 @@ export const TaskForm = ({ setIsOpen }: TaskFormProps) => {
         />
 
         <div className="flex gap-5 justify-evenly">
-            <Button label={'Cancel'} type="Neutral" onClick={handleCancel} />
-            <Button label={'Save'} type="Primary" onClick={handlesubmit} />
+            <NeutralButton label={'Cancel'} onClick={handleCancel} />
+            <PrimaryButton label={'Save'} onClick={handlesubmit} />
         </div>
     </div>)
 }

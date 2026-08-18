@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from "@/components/common/input/button/Button"
+import { NeutralButton, PrimaryButton } from "@/components/common/input/button/Button"
 import { CustomInput } from "@/components/common/input/customInput/CustomInput"
 import { PasswordInput } from "@/components/common/input/PasswordInput"
 import { useNotification } from "@/components/common/interactivity/useNotification"
@@ -54,8 +54,8 @@ export const SignUpForm = () => {
         </div>
 
         <div className="flex gap-4 justify-center">
-            <Button type="Neutral" label={'Cancel'} onClick={handleOnCancel} />
-            <Button type="Primary" label={'Submit'} onClick={handleSubmit} />
+            <NeutralButton label={'Cancel'} onClick={handleOnCancel} />
+            <PrimaryButton label={'Submit'} onClick={handleSubmit} />
         </div>
     </div>)
 }
