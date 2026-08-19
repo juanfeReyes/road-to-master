@@ -20,6 +20,6 @@ export const useTaskForm = create(
     combine({ form: formInitialState },
         (set) => ({
             resetForm: () => set((_) => ({ form: formInitialState })),
-            loadTask: (task: Task) => set((_) => ({ form: {...task, priority: {id: task.priority, value: task.priority}} })),
+            loadTask: (task: Task) => set((_) => ({ form: {...task, priority: {id: task.priority, value: task.priority}, importFile: []} })),
             updateForm: (property: string, value: any) => set(produce((state) => { state.form[property] = value }))
         })))

@@ -1,6 +1,6 @@
 'use client'
 import { ReactNode, useState, DragEvent } from "react"
-import { CustomDialog, CustomDialogProps } from "./CustomDialog"
+import { CustomDialog, CustomDialogProps } from "../layout/CustomDialog"
 
 type Group = {
     title: string | ReactNode,

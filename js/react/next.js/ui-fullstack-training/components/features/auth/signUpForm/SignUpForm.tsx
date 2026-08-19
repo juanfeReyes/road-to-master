@@ -13,7 +13,7 @@ import * as z from 'zod'
 const formSchema = z.object({
     email: z.email(),
     pass: z.string().min(9, 'Password is too short'),
-    confirmPass: z.string().min(9, 'Password is too short'),
+    confirmPass: z.string().min(9, 'Confirm password is too short'),
     name: z.string().min(4, 'Name is too short')
 })
     .refine((data) => data.pass === data.confirmPass,
@@ -40,7 +40,6 @@ export const SignUpForm = () => {
         if (result.error) {
             const errors = z.flattenError(result.error).fieldErrors
             setErrors(errors)
-            return;
         }
 
         return result;
@@ -49,7 +48,7 @@ export const SignUpForm = () => {
     const handleSubmit = async () => {
         const result = validate()
 
-        if (!result) {
+        if (!result?.success) {
             return;
         }        
 
@@ -78,7 +77,7 @@ export const SignUpForm = () => {
             <CustomInput label="Name" value={form.name} onChange={(e) => setForm({...form, name: e})} error={errors['name']} />
             <CustomInput label="Email" value={form.email} onChange={(e) => setForm({...form, email: e})} error={errors['email']} />
             <PasswordInput label="Password" value={form.pass} onChange={(e) => setForm({...form, pass: e})} error={errors['pass']} />
-            <PasswordInput label="Confirm password" value={form.confirmPass} onChange={(e) => setForm({...form, confirmPass: e})} error={errors['passConfirm']} />
+            <PasswordInput label="Confirm password" value={form.confirmPass} onChange={(e) => setForm({...form, confirmPass: e})} error={errors['confirmPass']} />
         </div>
 
         <div className="flex gap-4 justify-center">

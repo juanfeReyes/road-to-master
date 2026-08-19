@@ -9,7 +9,7 @@ import * as z from "zod"
 import { FormInputErrors } from "@/types/FormInputType"
 import { TaskStoreType, useTaskForm } from "./TaskFormStore"
 import { CustomInput } from "@/components/common/input/customInput/CustomInput"
-import { Button, NeutralButton, PrimaryButton } from "@/components/common/input/button/Button"
+import { NeutralButton, PrimaryButton } from "@/components/common/input/button/Button"
 import { FileUploader } from "@/components/common/input/FileUploader"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useNotification } from "@/components/common/interactivity/useNotification"
@@ -24,7 +24,7 @@ export const TaskForm = ({ setIsOpen }: TaskFormProps) => {
     const form = useTaskForm((state) => state.form)
     const updateForm = useTaskForm((state) => state.updateForm)
     const resetForm = useTaskForm((state) => state.resetForm)
-    const [errors, setErrors] = useState<FormInputErrors>()
+    const [errors, setErrors] = useState({})
 
     const priorityOptions: DropdownOption[] = [
         {
@@ -114,7 +114,7 @@ export const TaskForm = ({ setIsOpen }: TaskFormProps) => {
     const validate = () => {
         const result = TaskSchema.safeParse(form)
         if (result.error) {
-            const errors = z.treeifyError(result.error)
+            const errors = z.flattenError(result.error).fieldErrors
             setErrors(errors)
         }
 
@@ -122,12 +122,11 @@ export const TaskForm = ({ setIsOpen }: TaskFormProps) => {
     }
 
     const handlesubmit = async () => {
-        if (form.importFile) {
+        if (form.importFile && form.importFile.length > 0) {
             await taskMutation.mutateAsync(form)
             handleCancel()
             return;
         }
-
 
         const result = validate()
         if (result.success) {
@@ -141,6 +140,9 @@ export const TaskForm = ({ setIsOpen }: TaskFormProps) => {
         setIsOpen(false)
     }
 
+    const priorityButton = form.priority ? priorityOptions.find((opt) => opt.id === form.priority?.id)?.value  : "Select"
+
+
     return (<div className="flex flex-col gap-3 h-full p-3 w-full bg-slate-50 ">
         <Header icon="ri:task-fill" label="Task" />
         {
@@ -149,23 +151,27 @@ export const TaskForm = ({ setIsOpen }: TaskFormProps) => {
                 label="Import Task"
                 files={form.importFile}
                 onChange={(files) => updateForm('importFile', files)}
-                errors={errors}
+                error={errors['importFile']}
             />
         }
-        <CustomInput label='Name' value={form.name} onChange={(value) => updateForm('name', value)} errors={errors} />
-        <CustomInput label='Description' value={form.description} onChange={(value) => updateForm('description', value)} errors={errors} />
-        <DatePickerCustom label="Due Date" value={form.dueDate} onChange={(date) => updateForm('dueDate', date)} errors={errors} />
+        <CustomInput label='Name' value={form.name}
+            onChange={(value) => updateForm('name', value)} error={errors['name']} />
+        <CustomInput label='Description' value={form.description}
+            onChange={(value) => updateForm('description', value)} error={errors['description']} />
+        <DatePickerCustom label="Due Date" value={form.dueDate}
+            onChange={(date) => updateForm('dueDate', date)} errors={errors['dueDate']} />
         <Dropdown
             id="priority"
             label="Priority"
-            buttonLabel={form.priority ? form.priority.value : "Select"}
+            buttonLabel={priorityButton}
             options={priorityOptions}
+            error={errors['priority']}
         />
         <FileUploader
             label="Attachments"
             files={form.files}
             onChange={(files) => updateForm('files', files)}
-            errors={errors}
+            error={errors['files']}
         />
 
         <div className="flex gap-5 justify-evenly">

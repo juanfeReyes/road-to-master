@@ -1,6 +1,7 @@
 'use client'
 import { ReactNode, useState } from "react"
 import { Label } from "./Label"
+import { ErrorMessage } from "../layout/ErrorMessage"
 
 export type DropdownOption = {
     id: string,
@@ -14,18 +15,19 @@ type DropdownProps = {
     options: DropdownOption[],
     label?: string,
     className?: string
+    error?: string,
 }
 
-export const Dropdown = ({ id, label, options, buttonLabel, className }: DropdownProps) => {
+export const Dropdown = ({ id, label, options, buttonLabel, className, error }: DropdownProps) => {
     const [isOpen, setIsOpen] = useState(false)
 
     const toggleDropdown = () => setIsOpen((val) => !val)
 
-    const handleOnClick = (value: DropdownOption) => {        
+    const handleOnClick = (value: DropdownOption) => {
         value.onClick(value)
     }
 
-    return (
+    return (<>
         <Label label={label} className={className}
             content={<div className="relative">
                 <button onClick={() => toggleDropdown()} data-testid={`dropdown-${id}`}>
@@ -40,5 +42,7 @@ export const Dropdown = ({ id, label, options, buttonLabel, className }: Dropdow
                     </ul>
                 }
             </div>} />
+        <ErrorMessage error={error} />
+    </>
     )
 }
