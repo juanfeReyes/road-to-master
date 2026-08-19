@@ -4,12 +4,14 @@ import { DragEvent, ChangeEvent } from "react"
 import { CustomDialog } from "../layout/CustomDialog"
 import { FileViewer } from "../layout/FileViewer"
 import { Label } from "./Label"
+import { ErrorMessage } from "../layout/ErrorMessage"
 
 type FileUploaderProps = {
     label?: string
     files: File[],
+    error?: string,
     onChange: (files: File[]) => void
-} & FormInputType
+}
 
 
 type FileOptionProps = {
@@ -37,7 +39,7 @@ const FileOption = ({ file, idx, handleFileRemoval }: FileOptionProps) => {
     </li>)
 }
 
-export const FileUploader = ({ files, onChange, label }: FileUploaderProps) => {
+export const FileUploader = ({ files, onChange, label, error }: FileUploaderProps) => {
     const acceptedFiles = ['.jpg', '.png', '.pdf', '.docx']
 
     const handleFileRemoval = (idx: number) => {
@@ -61,7 +63,7 @@ export const FileUploader = ({ files, onChange, label }: FileUploaderProps) => {
         }
     }
 
-    return (
+    return (<>
         <Label
             label={label}
             content={
@@ -91,6 +93,8 @@ export const FileUploader = ({ files, onChange, label }: FileUploaderProps) => {
                 </div>
             }
         />
+        <ErrorMessage error={error} />
+    </>
     )
 
 }
