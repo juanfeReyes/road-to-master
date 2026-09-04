@@ -1,0 +1,5 @@
+**/*.docx
+l1-assistant/var/
+l1-assistant/.cache/
+l1-assistant/__pycache__/
+l1-assistant/**/*.pyc
