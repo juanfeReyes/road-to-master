@@ -2,7 +2,8 @@ from hashlib import sha256
 from pathlib import Path
 import re
 
-from .models import DocumentPassage, SourceDocument
+from .chunking import build_splitter
+from .models import ChunkingConfig, DocumentPassage, SourceDocument
 
 
 def discover_documents(data_dir: Path) -> tuple[list[SourceDocument], list[str]]:
@@ -21,12 +22,33 @@ def discover_documents(data_dir: Path) -> tuple[list[SourceDocument], list[str]]
     return documents, errors
 
 
-def chunk_document(document: SourceDocument, strategy: str = "section",
-                   chunk_size: int = 800) -> list[DocumentPassage]:
-    if strategy == "fixed":
-        parts = [document.content[i:i + chunk_size] for i in range(0, len(document.content), chunk_size)]
-        return [DocumentPassage(f"{document.source_id}:{i}", document.source_id, "", text.strip(), i)
-                for i, text in enumerate(parts) if text.strip()]
+def chunk_document(
+    document: SourceDocument,
+    strategy: str = "section",
+    chunk_size: int = 800,
+    config: ChunkingConfig | None = None,
+    embeddings=None,
+) -> list[DocumentPassage]:
+    config = config or ChunkingConfig(strategy=strategy, chunk_size=chunk_size)
+    if config.strategy in {"fixed", "recursive", "semantic"}:
+        splitter = build_splitter(config, embeddings)
+        chunks = splitter.create_documents(
+            [document.content],
+            metadatas=[{"source_id": document.source_id, "source_hash": document.content_hash}],
+        )
+        return [
+            DocumentPassage(
+                f"{document.source_id}:{index}",
+                document.source_id,
+                "",
+                chunk.page_content.strip(),
+                index,
+                config.strategy,
+                document.content_hash,
+            )
+            for index, chunk in enumerate(chunks)
+            if chunk.page_content.strip()
+        ]
     sections = re.split(r"(?m)^(#{1,6}\s+.+)$", document.content)
     heading, passages, position = "", [], 0
     for part in sections:
@@ -35,7 +57,6 @@ def chunk_document(document: SourceDocument, strategy: str = "section",
         elif part.strip():
             text = part.strip()
             passages.append(DocumentPassage(f"{document.source_id}:{position}", document.source_id,
-                                             heading, text, position))
+                                             heading, text, position, "section", document.content_hash))
             position += 1
     return passages
-

@@ -27,3 +27,10 @@ def answer_question(question: str, retriever: LocalRetriever, chat_model: str) -
     sources = list(dict.fromkeys(p.source_id for p in passages))
     score, reason = score_response(question, answer, passages)
     return GroundedResponse(answer.strip(), sources, passages, score, reason)
+
+
+def answer_question_for_evaluation(
+    question: str, retriever: LocalRetriever, chat_model: str
+) -> GroundedResponse:
+    """Explicit evaluation entry point preserving answer and ordered passages."""
+    return answer_question(question, retriever, chat_model)

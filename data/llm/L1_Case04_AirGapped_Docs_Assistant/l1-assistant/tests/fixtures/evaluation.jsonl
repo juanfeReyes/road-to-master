@@ -1,0 +1,4 @@
+{"id":"Q01","input":"What safety checks are required before changing the liner?","expected_output":"Verify the equipment is isolated, depressurized, and safe before changing the liner.","expected_sources":["maintenance.md"]}
+{"id":"Q02","input":"What is not documented about lunar mining?","expected_output":"The documentation does not provide enough information to answer this question.","expected_sources":[]}
+{"id":"Q03","input":"Which documents describe inspection and shutdown?","expected_output":"Inspection and shutdown are described in the maintenance and safety documents.","expected_sources":["maintenance.md","safety.md"]}
+{"id":"Q04","input":"What local procedures are available?","expected_sources":["maintenance.md"]}

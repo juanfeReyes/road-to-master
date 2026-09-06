@@ -1,0 +1,3 @@
+question_id,engineer_question,expected_output
+Q01,"What must happen before maintenance?","Isolate the equipment."
+Q02,"What should be inspected?","Inspect the liner, fasteners, and seals."
