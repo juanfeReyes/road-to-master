@@ -9,6 +9,7 @@ class Settings:
     db_dir: Path
     embedding_model: str
     chat_model: str
+    judge_model: str
     top_k: int = 4
     min_relevance: float = 0.25
 
@@ -19,6 +20,7 @@ class Settings:
             db_dir=(db_dir or Path(os.getenv("L1_DB_DIR", "var/chroma"))).resolve(),
             embedding_model=os.getenv("L1_EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2"),
             chat_model=os.getenv("L1_CHAT_MODEL", "llama3.2"),
+            judge_model=os.getenv("L1_JUDGE_MODEL", os.getenv("L1_CHAT_MODEL", "llama3.2")),
         )
 
     def validate_data_dir(self) -> None:
