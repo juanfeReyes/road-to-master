@@ -3,3 +3,5 @@ l1-assistant/var/
 l1-assistant/.cache/
 l1-assistant/__pycache__/
 l1-assistant/**/*.pyc
+l1-assistant/var/reports/
+l1-assistant/tests/.pytest_cache/
