@@ -3,6 +3,7 @@ from dataclasses import asdict
 from typing import Any, Iterable
 
 from .models import (
+    EvaluationRuntimeModelConfig,
     EvaluationRecord,
     MetricDefinition,
     MetricResult,
@@ -58,6 +59,43 @@ class LocalJudge(DeepEvalBaseLLM):
 
     def get_model_name(self) -> str:
         return f"local:{self.model_name}"
+
+
+class PortkeyJudge(DeepEvalBaseLLM):
+    """DeepEval judge backed by a Portkey-routed LangChain chat model."""
+
+    def __init__(self, model_name: str, api_key: str, base_url: str, provider: str | None = None):
+        self.model_name = model_name
+        self.api_key = api_key
+        self.base_url = base_url
+        self.provider = provider
+        self._model = None
+
+    def load_model(self):
+        if self._model is None:
+            try:
+                from langchain_openai import ChatOpenAI
+                from portkey_ai import createHeaders
+                portkey_headers = createHeaders(api_key=self.api_key, provider="azure-openai-eus2")
+                self._model = ChatOpenAI(model=self.model_name, api_key=self.api_key, base_url=self.base_url, default_headers=portkey_headers)
+            except (ImportError, RuntimeError, OSError) as exc:
+                raise RuntimeError(
+                    f"Portkey judge model is unavailable: {self.model_name}"
+                ) from exc
+        return self._model
+
+    def generate(self, prompt: str, schema: Any = None) -> str:
+        return str(self.load_model().invoke(prompt).content)
+
+    async def a_generate(self, prompt: str, schema: Any = None) -> str:
+        model = self.load_model()
+        if hasattr(model, "ainvoke"):
+            response = await model.ainvoke(prompt)
+            return str(response.content)
+        return await asyncio.to_thread(self.generate, prompt, schema)
+
+    def get_model_name(self) -> str:
+        return f"portkey:{self.model_name}"
 
 
 def metric_definitions(groups: Iterable[str], thresholds: dict[str, float] | None = None):
@@ -199,6 +237,19 @@ def aggregate_results(results: list[QuestionEvaluation], definitions: list[Metri
             "total": len(results),
         }
     return aggregates
+
+
+def build_judge(runtime_config: EvaluationRuntimeModelConfig, portkey_api_key: str | None = None):
+    if runtime_config.model_source.source == "portkey":
+        if runtime_config.portkey is None or not portkey_api_key:
+            raise RuntimeError("Portkey judge configuration is incomplete.")
+        return PortkeyJudge(
+            runtime_config.judge_model.model_name,
+            portkey_api_key,
+            runtime_config.portkey.base_url,
+            runtime_config.portkey.provider_context,
+        )
+    return LocalJudge(runtime_config.judge_model.model_name)
 
 
 def serialize_metric(value):

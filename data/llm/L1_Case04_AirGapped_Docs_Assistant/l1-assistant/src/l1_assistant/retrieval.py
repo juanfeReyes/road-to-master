@@ -25,12 +25,13 @@ class LocalRetriever:
         embeddings = None
         if chunking.strategy == "semantic":
             try:
-                from langchain_huggingface import HuggingFaceEmbeddings
-                embeddings = HuggingFaceEmbeddings(
-                    model_name=chunking.embedding_model or self.embedding_model,
-                    model_kwargs={"local_files_only": True},
+                from langchain_ollama import OllamaEmbeddings
+                print(f"Using embedding model: {chunking.embedding_model or self.embedding_model}")
+                embeddings = OllamaEmbeddings(
+                    model=chunking.embedding_model or self.embedding_model,
                 )
             except (ImportError, OSError, RuntimeError, ValueError) as exc:
+                print(exc)
                 raise RuntimeError("Semantic chunking requires an available local embedding model.") from exc
         self._passages = [
             passage for doc in documents
@@ -47,9 +48,11 @@ class LocalRetriever:
         self.db_dir.mkdir(parents=True, exist_ok=True)
         try:
             from langchain_chroma import Chroma
-            from langchain_huggingface import HuggingFaceEmbeddings
-            embeddings = HuggingFaceEmbeddings(model_name=self.embedding_model,
-                                               model_kwargs={"local_files_only": True})
+            from langchain_ollama import OllamaEmbeddings
+            print(f"Using embedding model: {chunking.embedding_model or self.embedding_model}")
+            embeddings = OllamaEmbeddings(
+                model=chunking.embedding_model or self.embedding_model,
+            )
             self._store = Chroma(collection_name="l1_assistant", persist_directory=str(self.db_dir),
                                  embedding_function=embeddings)
             self._store.reset_collection()
@@ -61,6 +64,7 @@ class LocalRetriever:
                                   ids=[p.passage_id for p in self._passages])
         except (ImportError, OSError, RuntimeError, ValueError) as exc:
             if chunking.strategy == "semantic":
+                print(exc)
                 raise RuntimeError("Semantic chunking requires a working local vector index.") from exc
             self._store = None
         return len(documents), len(self._passages), errors

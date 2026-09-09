@@ -14,8 +14,11 @@ dependencies = [
     "langchain-community>=0.3.0",
     "langchain-huggingface>=0.1.0",
     "langchain-ollama>=0.2.0",
+    "langchain-openai>=0.3.0",
     "langchain-experimental>=0.3.0",
+    "portkey-ai>=1.12.0",
     "langchain-text-splitters>=0.3.0",
+    "sentence-transformers>=6.0.1",
 ]
 
 [dependency-groups]

@@ -25,6 +25,26 @@ def test_evaluate_parser_accepts_contract_options():
     assert args.dataset.name == "evaluation.jsonl"
 
 
+def test_evaluate_parser_accepts_portkey_contract_options():
+    args = build_parser().parse_args([
+        "evaluate",
+        "--output", "report.json",
+        "--model-source", "portkey",
+        "--chat-model", "@azure-openai-eus2/gpt-5.4",
+        "--judge-model", "phi3:mini",
+        "--portkey-url", "https://portkeygateway.perficient.com/v1",
+        "--portkey-provider", "azure-openai",
+        "--chunking-strategy", "recursive",
+        "--chunk-size", "800",
+        "--chunk-overlap", "100",
+    ])
+
+    assert args.model_source == "portkey"
+    assert args.chat_model == "@azure-openai-eus2/gpt-5.4"
+    assert args.portkey_url == "https://portkeygateway.perficient.com/v1"
+    assert args.chunking_strategy == "recursive"
+
+
 def test_evaluate_parser_allows_default_dataset():
     args = build_parser().parse_args(["evaluate", "--output", "report.json"])
     assert args.dataset is None
@@ -42,6 +62,20 @@ def test_evaluate_parser_accepts_chunking_options():
     assert args.chunk_size == 512
     assert args.chunk_overlap == 64
     assert args.embedding_model == "local-embeddings"
+
+
+def test_evaluate_parser_accepts_semantic_chunking_threshold_options():
+    args = build_parser().parse_args([
+        "evaluate", "--output", "report.json",
+        "--chunking-strategy", "semantic",
+        "--embedding-model", "nomic-embed-text",
+        "--breakpoint-threshold-type", "percentile",
+        "--breakpoint-threshold-amount", "95",
+    ])
+
+    assert args.chunking_strategy == "semantic"
+    assert args.breakpoint_threshold_type == "percentile"
+    assert args.breakpoint_threshold_amount == 95
 
 
 def test_load_evaluation_dataset_preserves_hash_and_order(tmp_path: Path):

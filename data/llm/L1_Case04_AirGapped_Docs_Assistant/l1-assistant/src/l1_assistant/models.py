@@ -5,6 +5,8 @@ from typing import Any, Literal
 
 
 ChunkingStrategy = Literal["section", "fixed", "recursive", "semantic"]
+ModelSource = Literal["local", "portkey"]
+SelectionOrigin = Literal["cli", "environment", "default"]
 
 
 @dataclass(frozen=True)
@@ -97,6 +99,69 @@ class EvaluationRecord:
     input: str
     expected_output: str | None = None
     expected_sources: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class EvaluationModelSource:
+    source: ModelSource
+    is_default: bool
+    selection_origin: SelectionOrigin
+
+
+@dataclass(frozen=True)
+class EvaluationModelRoleConfig:
+    role: Literal["chat", "judge"]
+    model_name: str
+    source: ModelSource
+    provided_by: SelectionOrigin
+
+
+@dataclass(frozen=True)
+class PortkeyConnectionConfig:
+    base_url: str
+    api_key_present: bool
+    virtual_key_present: bool = False
+    provider_context: str | None = None
+
+
+@dataclass(frozen=True)
+class EvaluationRuntimeModelConfig:
+    model_source: EvaluationModelSource
+    chat_model: EvaluationModelRoleConfig
+    judge_model: EvaluationModelRoleConfig
+    chunking_strategy: ChunkingStrategy = "section"
+    chunking_settings: dict[str, Any] = field(default_factory=dict)
+    portkey: PortkeyConnectionConfig | None = None
+    validation_status: Literal["valid", "invalid"] = "valid"
+    validation_messages: tuple[str, ...] = ()
+
+    def as_report_dict(self) -> dict[str, Any]:
+        payload = {
+            "model_source": self.model_source.source,
+            "chat_model_source": self.model_source.source,
+            "selection_origin": self.model_source.selection_origin,
+            "chat_model": self.chat_model.model_name,
+            "chat_model_name": self.chat_model.model_name,
+            "judge_model": self.judge_model.model_name,
+            "judge_model_name": self.judge_model.model_name,
+            "chunking_strategy": self.chunking_strategy,
+            "chunking_settings": self.chunking_settings,
+        }
+        if self.portkey is not None:
+            payload["portkey_context"] = {
+                "base_url": self.portkey.base_url,
+                "api_key_present": self.portkey.api_key_present,
+                "virtual_key_present": self.portkey.virtual_key_present,
+                "provider_context": self.portkey.provider_context,
+            }
+        return payload
+
+
+@dataclass(frozen=True)
+class StartupValidationResult:
+    status: Literal["valid", "invalid"]
+    messages: tuple[str, ...]
+    resolved_config: EvaluationRuntimeModelConfig | None = None
 
 
 @dataclass(frozen=True)

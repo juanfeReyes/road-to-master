@@ -7,11 +7,16 @@ from pathlib import Path
 from typing import Iterable
 
 from .answering import answer_question, answer_question_for_evaluation
-from .evaluation import aggregate_results, evaluate_case, metric_definitions
+from .evaluation import aggregate_results, build_judge, evaluate_case, metric_definitions
 from .models import (
+    EvaluationModelRoleConfig,
+    EvaluationModelSource,
     EvaluationRecord,
     EvaluationReport,
+    EvaluationRuntimeModelConfig,
+    PortkeyConnectionConfig,
     RetrievedPassage,
+    StartupValidationResult,
 )
 from .retrieval import LocalRetriever
 
@@ -237,23 +242,27 @@ def _retrieved_passages(response) -> list[RetrievedPassage]:
 def evaluate_dataset(
     records: list[EvaluationRecord],
     retriever: LocalRetriever,
-    chat_model: str,
-    judge_model: str,
+    runtime_config: EvaluationRuntimeModelConfig,
+    portkey_api_key: str | None = None,
     groups: Iterable[str] = ("generator", "retrieval"),
     thresholds: dict[str, float] | None = None,
     tracing_enabled: bool = False,
 ):
-    from .evaluation import LocalJudge
     from .tracing import evaluation_trace
 
     definitions = metric_definitions(groups, thresholds)
-    judge = LocalJudge(judge_model)
+    judge = build_judge(runtime_config, portkey_api_key)
     results = []
     for record in records:
         try:
             with evaluation_trace(tracing_enabled, f"evaluate:{record.id}"):
                 print(f"Evaluating question {record.input}...")
-                response = answer_question_for_evaluation(record.input, retriever, chat_model)
+                response = answer_question_for_evaluation(
+                    record.input,
+                    retriever,
+                    runtime_config.chat_model.model_name,
+                    runtime_config, portkey_api_key
+                )
                 results.append(evaluate_case(
                     record, response.answer, _retrieved_passages(response), judge, definitions
                 ))
@@ -263,6 +272,86 @@ def evaluate_dataset(
                 id=record.id, input=record.input, status="failed", error=str(exc)
             ))
     return definitions, results, aggregate_results(results, definitions)
+
+
+def resolve_runtime_model_config(
+    settings,
+    model_source: str | None = None,
+    chat_model: str | None = None,
+    judge_model: str | None = None,
+    portkey_url: str | None = None,
+    portkey_provider: str | None = None,
+    chunking_config=None,
+) -> StartupValidationResult:
+    source_value = (model_source or settings.model_source or "local").strip().lower()
+    messages: list[str] = []
+    if source_value not in {"local", "portkey"}:
+        return StartupValidationResult("invalid", (f"Unsupported model source: {source_value}",))
+
+    source_origin = "cli" if model_source else ("environment" if settings.model_source else "default")
+    chat_name = (chat_model or settings.chat_model).strip()
+    judge_name = (judge_model or settings.judge_model).strip()
+    if not chat_name:
+        messages.append("A chat model must be provided for evaluation runs.")
+    if not judge_name:
+        messages.append("A judge model must be provided for evaluation runs.")
+
+    chunking_strategy = getattr(chunking_config, "strategy", "section")
+    chunking_settings = chunking_config.as_dict() if chunking_config is not None else {}
+    if chunking_strategy in {"fixed", "recursive"}:
+        if chunking_config is None:
+            messages.append("Chunking configuration is required for fixed and recursive strategies.")
+        else:
+            if chunking_config.chunk_size <= 0:
+                messages.append("Chunk size must be positive.")
+            if chunking_config.chunk_overlap < 0 or chunking_config.chunk_overlap >= chunking_config.chunk_size:
+                messages.append("Chunk overlap must be non-negative and less than chunk size.")
+    if chunking_strategy == "semantic":
+        if chunking_config is None or not chunking_config.embedding_model:
+            messages.append("Semantic chunking requires an embedding model.")
+
+    portkey_config = None
+    if source_value == "portkey":
+        resolved_url = (portkey_url or settings.portkey_url or "").strip()
+        if not resolved_url:
+            messages.append("Portkey model source requires a gateway URL.")
+        if not settings.portkey_api_key:
+            messages.append("Portkey model source requires an API key in the environment.")
+        portkey_config = PortkeyConnectionConfig(
+            base_url=resolved_url,
+            api_key_present=bool(settings.portkey_api_key),
+            virtual_key_present=bool(settings.portkey_virtual_key),
+            provider_context=(portkey_provider or settings.portkey_provider or None),
+        )
+
+    if messages:
+        return StartupValidationResult("invalid", tuple(messages))
+
+    runtime_config = EvaluationRuntimeModelConfig(
+        model_source=EvaluationModelSource(
+            source=source_value,
+            is_default=not bool(model_source),
+            selection_origin=source_origin,
+        ),
+        chat_model=EvaluationModelRoleConfig(
+            role="chat",
+            model_name=chat_name,
+            source=source_value,
+            provided_by="cli" if chat_model else "environment",
+        ),
+        judge_model=EvaluationModelRoleConfig(
+            role="judge",
+            model_name=judge_name,
+            source="local" if source_value == "portkey" else source_value,
+            provided_by="cli" if judge_model else ("environment" if settings.judge_model else "default"),
+        ),
+        chunking_strategy=chunking_strategy,
+        chunking_settings=chunking_settings,
+        portkey=portkey_config,
+        validation_status="valid",
+        validation_messages=(),
+    )
+    return StartupValidationResult("valid", (), runtime_config)
 
 
 def write_evaluation_report(report: EvaluationReport, output_path: Path) -> None:

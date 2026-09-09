@@ -1,10 +1,18 @@
+from pathlib import Path
+
+import pytest
+
 from l1_assistant.evaluation import (
     aggregate_results,
+    build_judge,
     build_test_case,
     deterministic_checks,
     metric_definitions,
 )
 from l1_assistant.models import EvaluationRecord, MetricResult, QuestionEvaluation, RetrievedPassage
+from l1_assistant.pipeline import resolve_runtime_model_config
+from l1_assistant.chunking import config_from_args
+from l1_assistant.config import Settings
 
 
 def test_build_test_case_preserves_optional_reference(evaluation_record, retrieved_passage):
@@ -38,3 +46,34 @@ def test_aggregate_results_uses_only_available_scores():
     definition = metric_definitions(("generator",))[0]
     aggregate = aggregate_results([result], [definition])
     assert aggregate["answer_relevancy"] == {"score": 0.8, "eligible": 1, "total": 1}
+
+
+def test_build_judge_returns_local_judge_for_local_source():
+    settings = Settings.from_values()
+    runtime = resolve_runtime_model_config(settings, chunking_config=config_from_args())
+
+    judge = build_judge(runtime.resolved_config)
+
+    assert judge.get_model_name().startswith("local:")
+
+
+def test_build_judge_requires_complete_portkey_configuration():
+    settings = Settings(
+        data_dir=Path("../data"),
+        db_dir=Path("var/chroma"),
+        embedding_model="embed",
+        chat_model="phi3:mini",
+        judge_model="phi3:mini",
+        model_source="portkey",
+        portkey_url="https://portkey.example/v1",
+    )
+    runtime = resolve_runtime_model_config(
+        settings,
+        model_source="portkey",
+        portkey_url="https://portkey.example/v1",
+        chunking_config=config_from_args(),
+    )
+
+    assert runtime.status == "invalid"
+    assert runtime.resolved_config is None
+    assert "API key" in " ".join(runtime.messages)

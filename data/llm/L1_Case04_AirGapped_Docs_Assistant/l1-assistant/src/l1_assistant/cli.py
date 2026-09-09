@@ -13,6 +13,7 @@ from .pipeline import (
     format_report,
     load_evaluation_dataset,
     load_questions,
+    resolve_runtime_model_config,
     write_evaluation_report,
     write_report,
 )
@@ -52,7 +53,11 @@ def build_parser() -> argparse.ArgumentParser:
             command.add_argument("--dataset", type=Path, default=None)
             command.add_argument("--output", type=Path, required=True)
             command.add_argument("--metrics", default="generator,retrieval")
+            command.add_argument("--model-source", choices=("local", "portkey"), default=None)
+            command.add_argument("--chat-model", default=None)
             command.add_argument("--judge-model", default=None)
+            command.add_argument("--portkey-url", default=None)
+            command.add_argument("--portkey-provider", default=None)
             command.add_argument("--max-questions", type=int, default=None)
             command.add_argument("--trace", action="store_true")
             command.add_argument("--threshold", action="append", default=[])
@@ -122,11 +127,31 @@ def main(argv: list[str] | None = None) -> int:
                     thresholds[name] = float(value)
                 except ValueError as exc:
                     raise ValueError("Thresholds must use NAME=VALUE format.") from exc
+            runtime_validation = resolve_runtime_model_config(
+                settings,
+                args.model_source,
+                args.chat_model,
+                args.judge_model,
+                args.portkey_url,
+                args.portkey_provider,
+                chunking,
+            )
+            if runtime_validation.status != "valid" or runtime_validation.resolved_config is None:
+                raise ValueError(" ".join(runtime_validation.messages))
+            runtime_config = runtime_validation.resolved_config
+            print(
+                f"Model source: {runtime_config.model_source.source}\n"
+                f"Chat model: {runtime_config.chat_model.model_name}\n"
+                f"Judge model: {runtime_config.judge_model.model_name}\n"
+                f"Chunking strategy: {runtime_config.chunking_strategy}"
+            )
+            if runtime_config.portkey is not None:
+                print(f"Portkey URL: {runtime_config.portkey.base_url}")
             definitions, results, aggregates = evaluate_dataset(
                 records,
                 retriever,
-                settings.chat_model,
-                args.judge_model or settings.judge_model,
+                runtime_config,
+                settings.portkey_api_key,
                 groups,
                 thresholds,
                 args.trace,
@@ -154,13 +179,14 @@ def main(argv: list[str] | None = None) -> int:
                 },
                 configuration={
                     "metric_groups": list(groups),
-                    "judge_model": args.judge_model or settings.judge_model,
-                    "generator_model": settings.chat_model,
+                    "judge_model": runtime_config.judge_model.model_name,
+                    "generator_model": runtime_config.chat_model.model_name,
                     "top_k": settings.top_k,
                     "tracing_enabled": args.trace,
                     "chunking_strategy": chunking.strategy,
                     "chunking": chunking.as_dict(),
                     "embedding_model": embedding_model,
+                    **runtime_config.as_report_dict(),
                 },
                 metric_definitions=[{
                     "name": definition.name,

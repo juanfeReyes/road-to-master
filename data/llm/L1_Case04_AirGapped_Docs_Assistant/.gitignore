@@ -5,3 +5,14 @@ l1-assistant/__pycache__/
 l1-assistant/**/*.pyc
 l1-assistant/var/reports/
 l1-assistant/tests/.pytest_cache/
+l1-assistant/.venv/
+l1-assistant/venv/
+l1-assistant/**/*.egg-info/
+
+dist/
+build/
+Thumbs.db
+*.tmp
+*.swp
+
+**/.env

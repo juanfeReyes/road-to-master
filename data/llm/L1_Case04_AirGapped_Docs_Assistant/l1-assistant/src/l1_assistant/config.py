@@ -10,6 +10,11 @@ class Settings:
     embedding_model: str
     chat_model: str
     judge_model: str
+    model_source: str = "local"
+    portkey_api_key: str | None = None
+    portkey_virtual_key: str | None = None
+    portkey_url: str | None = None
+    portkey_provider: str | None = None
     top_k: int = 4
     min_relevance: float = 0.25
 
@@ -21,6 +26,11 @@ class Settings:
             embedding_model=os.getenv("L1_EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2"),
             chat_model=os.getenv("L1_CHAT_MODEL", "llama3.2"),
             judge_model=os.getenv("L1_JUDGE_MODEL", os.getenv("L1_CHAT_MODEL", "llama3.2")),
+            model_source=os.getenv("L1_MODEL_SOURCE", "local"),
+            portkey_api_key=os.getenv("PORTKEY_API_KEY") or os.getenv("PORT_KEY_KEY"),
+            portkey_virtual_key=os.getenv("PORTKEY_VIRTUAL_KEY"),
+            portkey_url=os.getenv("PORTKEY_URL") or os.getenv("PORT_KEY_URL"),
+            portkey_provider=os.getenv("PORTKEY_PROVIDER"),
         )
 
     def validate_data_dir(self) -> None:

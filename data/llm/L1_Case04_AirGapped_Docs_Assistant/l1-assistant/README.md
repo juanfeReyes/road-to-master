@@ -43,6 +43,7 @@ uv run l1-assistant evaluate `
   --output .\var\reports\evaluation.json `
   --data-dir ..\data `
   --db-dir .\var\chroma `
+  --model-source local `
   --judge-model phi3:mini `
   --chat-model phi3:mini `
   --metrics generator,retrieval
@@ -86,6 +87,24 @@ malformed rows fail before evaluation with a non-zero exit status. CSV reports
 use the same DeepEval metrics and report schema as JSONL reports and include
 dataset format, path, hash, and row count provenance.
 
+Portkey-backed evaluation can be selected per run without changing local defaults:
+
+```powershell
+uv run l1-assistant evaluate `
+  --dataset .\tests\fixtures\evaluation.jsonl `
+  --output .\var\reports\evaluation-portkey.json `
+  --data-dir ..\data `
+  --db-dir .\var\chroma `
+  --model-source portkey `
+  --chat-model gpt-4o-mini `
+  --judge-model gpt-4o-mini `
+  --portkey-url https://portkeygateway.perficient.com/v1 `
+  --metrics generator,retrieval
+```
+
+Set `PORTKEY_API_KEY` or `PORT_KEY_KEY` in the environment before Portkey-backed runs.
+The chat model can be Portkey-backed while the judge model remains local, and startup output reports the resolved model source, model identifiers, and chunking strategy.
+
 ### Evaluation chunking strategies
 
 The `index` and `evaluate` commands accept `--chunking-strategy` with
@@ -97,17 +116,43 @@ pipe-separated `--separators`:
 uv run l1-assistant evaluate `
   --chunking-strategy recursive --chunk-size 800 --chunk-overlap 100 `
   --separators "`n`n|`n| |" `
+  --model-source local `
+  --chat-model phi3:mini `
+  --judge-model phi3:mini `
   --output .\var\reports\recursive.json
+```
+
+```powershell
+uv run l1-assistant evaluate `
+  --chunking-strategy recursive --chunk-size 800 --chunk-overlap 100 `
+  --separators "`n`n|`n| |" `
+  --model-source portkey `
+  --chat-model @azure-openai-eus2/gpt-5.4 `
+  --judge-model @azure-openai-eus2/gpt-5.4 `
+  --portkey-url https://portkeygateway.perficient.com/v1 `
+  --output .\var\reports\recursive-portkey.json
 ```
 
 Semantic chunking uses `langchain-experimental` and a local embedding model:
 
 ```powershell
 uv run l1-assistant evaluate `
-  --chunking-strategy semantic --embedding-model .\models\embeddings `
+  --chunking-strategy semantic --embedding-model nomic-embed-text `
   --breakpoint-threshold-type percentile `
   --breakpoint-threshold-amount 95 `
   --output .\var\reports\semantic.json
+```
+
+```powershell
+uv run l1-assistant evaluate `
+  --chunking-strategy semantic --embedding-model nomic-embed-text `
+  --breakpoint-threshold-type percentile `
+  --breakpoint-threshold-amount 85 `
+  --model-source portkey `
+  --chat-model @azure-openai-eus2/gpt-5.4 `
+  --judge-model @azure-openai-eus2/gpt-5.4 `
+  --portkey-url https://portkeygateway.perficient.com/v1 `
+  --output .\var\reports\semantic-portkey.json
 ```
 
 Reports record the effective strategy, splitter settings, embedding model,

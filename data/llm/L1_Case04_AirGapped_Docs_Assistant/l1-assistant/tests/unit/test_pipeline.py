@@ -4,12 +4,15 @@ from pathlib import Path
 import pytest
 
 from l1_assistant.models import GroundedResponse
+from l1_assistant.chunking import config_from_args
+from l1_assistant.config import Settings
 from l1_assistant.pipeline import (
     QuestionRow,
     default_report_path,
     evaluate_questions,
     load_questions,
     EvaluationResult,
+    resolve_runtime_model_config,
     write_report,
 )
 
@@ -66,3 +69,55 @@ def test_write_report_uses_stable_header_and_timestamped_default_path(tmp_path: 
     assert output_path.name.startswith("question-report-")
     assert rows[0]["id"] == "Q01"
     assert "score_reason" in rows[0]
+
+
+def test_resolve_runtime_model_config_defaults_to_local_with_chunking():
+    settings = Settings.from_values(Path("../data"), Path("var/chroma"))
+    chunking = config_from_args(strategy="recursive", chunk_size=512, chunk_overlap=64, separators="\n\n|\n| ")
+
+    result = resolve_runtime_model_config(settings, chunking_config=chunking)
+
+    assert result.status == "valid"
+    assert result.resolved_config is not None
+    assert result.resolved_config.model_source.source == "local"
+    assert result.resolved_config.chunking_strategy == "recursive"
+    assert result.resolved_config.chunking_settings["chunk_size"] == 512
+
+
+def test_resolve_runtime_model_config_rejects_portkey_without_url_or_key():
+    settings = Settings(
+        data_dir=Path("../data"),
+        db_dir=Path("var/chroma"),
+        embedding_model="embed",
+        chat_model="phi3:mini",
+        judge_model="phi3:mini",
+        model_source="local",
+    )
+
+    result = resolve_runtime_model_config(settings, model_source="portkey")
+
+    assert result.status == "invalid"
+    assert "gateway URL" in " ".join(result.messages)
+    assert "API key" in " ".join(result.messages)
+
+
+def test_resolve_runtime_model_config_rejects_semantic_chunking_without_embedding():
+    settings = Settings.from_values(Path("../data"), Path("var/chroma"))
+    chunking = config_from_args(strategy="semantic", embedding_model=None)
+
+    result = resolve_runtime_model_config(settings, chunking_config=chunking)
+
+    assert result.status == "invalid"
+    assert "embedding model" in " ".join(result.messages)
+
+
+def test_runtime_report_dict_includes_chunking_and_model_context():
+    settings = Settings.from_values(Path("../data"), Path("var/chroma"))
+    chunking = config_from_args(strategy="recursive", chunk_size=800, chunk_overlap=100)
+    result = resolve_runtime_model_config(settings, chunking_config=chunking)
+
+    payload = result.resolved_config.as_report_dict()
+
+    assert payload["chat_model_source"] == "local"
+    assert payload["chat_model_name"] == settings.chat_model
+    assert payload["chunking_strategy"] == "recursive"
