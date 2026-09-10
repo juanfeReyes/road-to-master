@@ -5,9 +5,9 @@
 - [x] Working assistant over all three documents, answering every question in `data/engineer_questions.csv` with a document and section citation.
 - [x] **Chunking experiment**: at least two strategies, retrieval quality scored per question on whether the retrieved context contained what was needed, a table of results, and the questions each strategy got wrong.
 - [x] **Local-versus-gateway comparison**: the same pipeline with Ollama and through Portkey, measured latency, cost and answer quality on the same questions.
-- [ ] A recommendation for the air-gapped client that **states what the local option costs in quality**.
-- [ ] Your account of the questions the assistant gets wrong, and why.
-- [ ] A one-page design note, a short demo, and a declared-effort statement.
+- [x] A recommendation for the air-gapped client that **states what the local option costs in quality**.
+- [x] Your account of the questions the assistant gets wrong, and why.
+- [x] A one-page design note, a short demo, and a declared-effort statement.
 
 ## Evidence standard
 

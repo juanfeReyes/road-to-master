@@ -207,6 +207,7 @@ def main(argv: list[str] | None = None) -> int:
         if not settings.db_dir.exists():
             raise FileNotFoundError(f"Index does not exist: {settings.db_dir}; run index first.")
         retriever.build(settings.data_dir)
+        print(settings.chat_model)
         response = answer_question(args.question, retriever, settings.chat_model)
         print(f"Answer: {response.answer}")
         print(f"Sources: {', '.join(response.sources) if response.sources else 'none'}")

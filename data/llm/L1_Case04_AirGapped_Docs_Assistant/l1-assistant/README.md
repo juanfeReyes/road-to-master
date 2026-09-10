@@ -1,6 +1,26 @@
-Offline Markdown RAG assistant
+## Setup  
+  
+1. Install uv  
+```sh
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
 
-## Usage
+2. Install spec kit from GitHub  
+```sh
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+```
+
+3. Create project with uv  
+```sh
+ uv init l1-assistant
+```
+
+4. Setup specify   
+```sh
+specify init --here --integration copilot
+```
+
+## Quick Usage (Ollama Setup)
 
 Provision the configured local embedding and chat model artifacts before disconnecting
 from the network:
@@ -17,14 +37,78 @@ Questions without supporting passages are explicitly declined. Set `L1_EMBEDDING
 The pipeline prints one result per question and saves a timestamped CSV under
 `var/reports/`. Use `--output path\to\report.csv` for a deterministic output path.
 
+## Evaluation chunking strategies
+
+### Recursive Chunking strategy
+
+The `index` and `evaluate` commands accept `--chunking-strategy` with
+`section` (the compatibility default), `fixed`, `recursive`, or `semantic`.
+Fixed and recursive strategies accept `--chunk-size`, `--chunk-overlap`, and
+pipe-separated `--separators`:
+
+### Local  
+
+```powershell
+uv run l1-assistant evaluate `
+  --chunking-strategy recursive --chunk-size 800 --chunk-overlap 100 `
+  --separators "`n`n|`n| |" `
+  --model-source local `
+  --chat-model phi4:14b `
+  --judge-model phi4:14b `
+  --output .\var\reports\recursive.json
+```
+
+### Portkey
+
+```powershell
+uv run l1-assistant evaluate `
+  --chunking-strategy recursive --chunk-size 800 --chunk-overlap 100 `
+  --separators "`n`n|`n| |" `
+  --model-source portkey `
+  --chat-model @azure-openai-eus2/gpt-5.4 `
+  --judge-model @azure-openai-eus2/gpt-5.4 `
+  --portkey-url https://portkeygateway.perficient.com/v1 `
+  --output .\var\reports\recursive-portkey.json
+```
+
+### Semantic Chunking strategy  
+
+Semantic chunking uses `langchain-experimental` and a local embedding model:
+
+#### Local 
+
+```powershell
+uv run l1-assistant evaluate `
+  --chunking-strategy semantic --embedding-model nomic-embed-text `
+  --breakpoint-threshold-type percentile `
+  --breakpoint-threshold-amount 95 `
+  --output .\var\reports\semantic.json
+```
+
+#### Portkey  
+
+```powershell
+uv run l1-assistant evaluate `
+  --chunking-strategy semantic --embedding-model nomic-embed-text `
+  --breakpoint-threshold-type percentile `
+  --breakpoint-threshold-amount 85 `
+  --model-source portkey `
+  --chat-model @azure-openai-eus2/gpt-5.4 `
+  --judge-model @azure-openai-eus2/gpt-5.4 `
+  --portkey-url https://portkeygateway.perficient.com/v1 `
+  --output .\var\reports\semantic-portkey.json
+```
+
+Reports record the effective strategy, splitter settings, embedding model,
+source hashes, and row-order-preserving dataset provenance. Semantic indexing
+fails explicitly when its local dependency or model is unavailable; it does
+not fall back to another strategy.
+
 ## Development
 
 ```powershell
 uv run pytest
 ```
-
-The retrieval experiment and its reporting requirements are documented in
-`EXPERIMENT.md`.
 
 ## DeepEval evaluation
 
@@ -105,77 +189,5 @@ uv run l1-assistant evaluate `
 Set `PORTKEY_API_KEY` or `PORT_KEY_KEY` in the environment before Portkey-backed runs.
 The chat model can be Portkey-backed while the judge model remains local, and startup output reports the resolved model source, model identifiers, and chunking strategy.
 
-### Evaluation chunking strategies
 
-The `index` and `evaluate` commands accept `--chunking-strategy` with
-`section` (the compatibility default), `fixed`, `recursive`, or `semantic`.
-Fixed and recursive strategies accept `--chunk-size`, `--chunk-overlap`, and
-pipe-separated `--separators`:
 
-```powershell
-uv run l1-assistant evaluate `
-  --chunking-strategy recursive --chunk-size 800 --chunk-overlap 100 `
-  --separators "`n`n|`n| |" `
-  --model-source local `
-  --chat-model phi3:mini `
-  --judge-model phi3:mini `
-  --output .\var\reports\recursive.json
-```
-
-```powershell
-uv run l1-assistant evaluate `
-  --chunking-strategy recursive --chunk-size 800 --chunk-overlap 100 `
-  --separators "`n`n|`n| |" `
-  --model-source portkey `
-  --chat-model @azure-openai-eus2/gpt-5.4 `
-  --judge-model @azure-openai-eus2/gpt-5.4 `
-  --portkey-url https://portkeygateway.perficient.com/v1 `
-  --output .\var\reports\recursive-portkey.json
-```
-
-Semantic chunking uses `langchain-experimental` and a local embedding model:
-
-```powershell
-uv run l1-assistant evaluate `
-  --chunking-strategy semantic --embedding-model nomic-embed-text `
-  --breakpoint-threshold-type percentile `
-  --breakpoint-threshold-amount 95 `
-  --output .\var\reports\semantic.json
-```
-
-```powershell
-uv run l1-assistant evaluate `
-  --chunking-strategy semantic --embedding-model nomic-embed-text `
-  --breakpoint-threshold-type percentile `
-  --breakpoint-threshold-amount 85 `
-  --model-source portkey `
-  --chat-model @azure-openai-eus2/gpt-5.4 `
-  --judge-model @azure-openai-eus2/gpt-5.4 `
-  --portkey-url https://portkeygateway.perficient.com/v1 `
-  --output .\var\reports\semantic-portkey.json
-```
-
-Reports record the effective strategy, splitter settings, embedding model,
-source hashes, and row-order-preserving dataset provenance. Semantic indexing
-fails explicitly when its local dependency or model is unavailable; it does
-not fall back to another strategy.
-
-1. Install uv  
-```sh
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
-
-2. Install spec kit from GitHub  
-```sh
-uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
-```
-
-3. Create project with uv  
-```sh
- uv init l1-assistant
-```
-
-4. Setup specify   
-```sh
-specify init --here --integration copilot
-```

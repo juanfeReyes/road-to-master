@@ -5,7 +5,7 @@ from .retrieval import LocalRetriever
 from .scoring import score_response
 
 
-def answer_question(question: str, retriever: LocalRetriever, chat_model: str, runtime_config: EvaluationRuntimeModelConfig, portkey_api_key: str | None = None) -> GroundedResponse:
+def answer_question(question: str, retriever: LocalRetriever, chat_model: str, runtime_config: EvaluationRuntimeModelConfig | None = None, portkey_api_key: str | None = None) -> GroundedResponse:
     if not question.strip():
         raise ValueError("Question cannot be blank.")
     passages = retriever.search(question)
@@ -21,7 +21,7 @@ def answer_question(question: str, retriever: LocalRetriever, chat_model: str, r
                               "If unsupported, say so. Cite source filenames.\n"
                               f"Context:\n{context}\nQuestion: {question}")
         answer = ""
-        if runtime_config.model_source.source == "portkey":
+        if runtime_config != None and runtime_config.model_source.source == "portkey":
             from langchain_openai import ChatOpenAI
             from portkey_ai import createHeaders
             portkey_headers = createHeaders(api_key=portkey_api_key,provider="azure-openai-eus2")
