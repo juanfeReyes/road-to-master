@@ -208,6 +208,7 @@ def evaluate_case(record: EvaluationRecord, actual_output: str,
         result.status = "partial"
     try:
         test_case = build_test_case(record, actual_output, retrieval_context)
+        print(f"definitions: {definitions}")
         for definition in definitions:
             target = result.generator_metrics if definition.group == "generator" else result.retrieval_metrics
             if definition.requires_reference and not record.expected_output:

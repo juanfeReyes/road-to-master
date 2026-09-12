@@ -6,8 +6,10 @@ from datetime import datetime
 from pathlib import Path
 from typing import Iterable
 
+from sympy import evaluate
+
 from .answering import answer_question, answer_question_for_evaluation
-from .evaluation import aggregate_results, build_judge, evaluate_case, metric_definitions
+from .evaluation import aggregate_results, build_judge, build_test_case, evaluate_case, metric_definitions
 from .models import (
     EvaluationModelRoleConfig,
     EvaluationModelSource,
@@ -237,6 +239,62 @@ def _retrieved_passages(response) -> list[RetrievedPassage]:
         )
         for index, passage in enumerate(response.passages, start=1)
     ]
+
+def evaluate_dataset_bulk(
+    records: list[EvaluationRecord],
+    retriever: LocalRetriever,
+    runtime_config: EvaluationRuntimeModelConfig,
+    portkey_api_key: str | None = None,
+    groups: Iterable[str] = ("generator", "retrieval"),
+    thresholds: dict[str, float] | None = None,
+    tracing_enabled: bool = False,
+):
+    from .tracing import evaluation_trace
+    from deepeval.metrics import (
+        ContextualRelevancyMetric,
+        ContextualRecallMetric,
+        ContextualPrecisionMetric
+    )
+    from deepeval.metrics import GEval
+    from deepeval.test_case import LLMTestCase, SingleTurnParams
+    judge = build_judge(runtime_config, portkey_api_key)
+    relevancy = ContextualRelevancyMetric(model=judge)
+    recall = ContextualRecallMetric(model=judge)
+    precision = ContextualPrecisionMetric(model=judge)
+
+    answer_correctness = GEval(
+        name="Answer Correctness",
+        criteria="Evaluate if the actual output's 'answer' property is correct and complete from the input and retrieved context. If the answer is not correct or complete, reduce score.",
+        evaluation_params=[SingleTurnParams.INPUT, SingleTurnParams.ACTUAL_OUTPUT, SingleTurnParams.RETRIEVAL_CONTEXT],
+        model=judge
+    )
+    citation_accuracy = GEval(
+        name="Citation Accuracy",
+        criteria="Check if the citations in the actual output are correct and relevant based on input and retrieved context. If they're not correct, reduce score.",
+        evaluation_params=[SingleTurnParams.INPUT, SingleTurnParams.ACTUAL_OUTPUT, SingleTurnParams.RETRIEVAL_CONTEXT],
+        model=judge
+    )    
+
+    test_cases = []
+    for record in records:
+      try:
+          with evaluation_trace(tracing_enabled, f"evaluate:{record.id}"):
+              print(f"Evaluating question {record.input}...")
+              response = answer_question_for_evaluation(
+                  record.input,
+                  retriever,
+                  runtime_config.chat_model.model_name,
+                  runtime_config, portkey_api_key
+              )
+              test_case = build_test_case(record, response.answer, _retrieved_passages(response))
+              test_cases.append(test_case)
+      except (OSError, RuntimeError, ValueError, ConnectionError) as exc:
+          print(f"Failed to evaluate question {record.input}: {exc}")
+
+    from deepeval import evaluate
+    from deepeval.evaluate import DisplayConfig, AsyncConfig
+    metrics = [answer_correctness, citation_accuracy]
+    evaluate(test_cases, metrics, display_config=DisplayConfig(results_folder=f"var/reports"), async_config=AsyncConfig(run_async=False))
 
 
 def evaluate_dataset(

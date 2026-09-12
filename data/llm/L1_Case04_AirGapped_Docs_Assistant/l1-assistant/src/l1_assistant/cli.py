@@ -8,6 +8,7 @@ from .config import Settings
 from .pipeline import (
     default_report_path,
     evaluate_dataset,
+    evaluate_dataset_bulk,
     evaluate_questions,
     format_evaluation_report,
     format_report,
@@ -147,6 +148,16 @@ def main(argv: list[str] | None = None) -> int:
             )
             if runtime_config.portkey is not None:
                 print(f"Portkey URL: {runtime_config.portkey.base_url}")
+            evaluate_dataset_bulk(
+                records,
+                                retriever,
+                                runtime_config,
+                                settings.portkey_api_key,
+                                groups,
+                                thresholds,
+                                args.trace,
+            )
+            raise
             definitions, results, aggregates = evaluate_dataset(
                 records,
                 retriever,

@@ -53,9 +53,10 @@ uv run l1-assistant evaluate `
   --chunking-strategy recursive --chunk-size 800 --chunk-overlap 100 `
   --separators "`n`n|`n| |" `
   --model-source local `
-  --chat-model phi4:14b `
-  --judge-model phi4:14b `
-  --output .\var\reports\recursive.json
+  --chat-model llama3.2:3b `
+  --judge-model tensortemplar/prometheus2:7b-fp16 `
+  --embedding-model bge-m3 `
+  --output .\var\reports\retrieval_validation_fix.json
 ```
 
 ### Portkey

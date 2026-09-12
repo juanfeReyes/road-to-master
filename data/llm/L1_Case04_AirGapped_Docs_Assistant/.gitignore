@@ -16,3 +16,4 @@ Thumbs.db
 *.swp
 
 **/.env
+**/.deepeval
