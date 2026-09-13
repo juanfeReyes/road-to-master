@@ -5,6 +5,7 @@ from typing import Any, Iterable
 from .models import (
     EvaluationRuntimeModelConfig,
     EvaluationRecord,
+    GroundedResponse,
     MetricDefinition,
     MetricResult,
     QuestionEvaluation,
@@ -41,7 +42,7 @@ class LocalJudge(DeepEvalBaseLLM):
         if self._model is None:
             try:
                 from langchain_ollama import OllamaLLM
-                self._model = OllamaLLM(model=self.model_name)
+                self._model = OllamaLLM(model=self.model_name, temperature=0.0, format="json")
             except (ImportError, RuntimeError, OSError) as exc:
                 raise RuntimeError(
                     f"Local judge model is unavailable: {self.model_name}"
@@ -116,14 +117,17 @@ def metric_definitions(groups: Iterable[str], thresholds: dict[str, float] | Non
     return definitions
 
 
-def build_test_case(record: EvaluationRecord, actual_output: str,
+def build_test_case(record: EvaluationRecord, response: GroundedResponse,
                     retrieval_context: list[RetrievedPassage]):
     if LLMTestCase is None:
         raise RuntimeError("DeepEval is not installed.")
     values = {
         "input": record.input,
-        "actual_output": actual_output,
+        "actual_output": response.answer,
         "retrieval_context": [passage.text for passage in retrieval_context],
+        "completion_time": response.latency,
+        "input_token_count": response.input_tokens,
+        "output_token_count": response.output_tokens,
     }
     if record.expected_output is not None:
         values["expected_output"] = record.expected_output

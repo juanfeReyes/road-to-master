@@ -240,12 +240,23 @@ def _retrieved_passages(response) -> list[RetrievedPassage]:
         for index, passage in enumerate(response.passages, start=1)
     ]
 
+from deepeval.metrics.g_eval import GEvalTemplate
+import textwrap
+class CustomTemplate(GEvalTemplate):
+    @staticmethod
+    def generate_evaluation_steps(parameters: str, criteria: str):
+        return textwrap.dedent(f"""
+            Evaluate {parameters} based on: {criteria}.
+            You must return strictly valid JSON. Do not include markdown codeblocks.
+            Format: {{ "steps": [ "step 1", "step 2" ] }}
+        """)
+
 def evaluate_dataset_bulk(
     records: list[EvaluationRecord],
     retriever: LocalRetriever,
     runtime_config: EvaluationRuntimeModelConfig,
     portkey_api_key: str | None = None,
-    groups: Iterable[str] = ("generator", "retrieval"),
+    output_path: str | Path | None = None,
     thresholds: dict[str, float] | None = None,
     tracing_enabled: bool = False,
 ):
@@ -253,27 +264,36 @@ def evaluate_dataset_bulk(
     from deepeval.metrics import (
         ContextualRelevancyMetric,
         ContextualRecallMetric,
-        ContextualPrecisionMetric
+        ContextualPrecisionMetric,
+        FaithfulnessMetric,
+        AnswerRelevancyMetric,
     )
     from deepeval.metrics import GEval
     from deepeval.test_case import LLMTestCase, SingleTurnParams
     judge = build_judge(runtime_config, portkey_api_key)
-    relevancy = ContextualRelevancyMetric(model=judge)
-    recall = ContextualRecallMetric(model=judge)
-    precision = ContextualPrecisionMetric(model=judge)
-
-    answer_correctness = GEval(
-        name="Answer Correctness",
-        criteria="Evaluate if the actual output's 'answer' property is correct and complete from the input and retrieved context. If the answer is not correct or complete, reduce score.",
-        evaluation_params=[SingleTurnParams.INPUT, SingleTurnParams.ACTUAL_OUTPUT, SingleTurnParams.RETRIEVAL_CONTEXT],
-        model=judge
+    faithfulness_metric = FaithfulnessMetric(threshold=0.5,
+                                              model=judge,
+                                              async_mode=False,
+                                              truths_extraction_limit=5)  
+    answer_relevancy_metric = AnswerRelevancyMetric(threshold=0.5, model=judge)
+    contextual_relevancy_metric = ContextualRelevancyMetric(
+        threshold=0.5,
+        model=judge,
+        include_reason=True,
+        async_mode=False,
     )
-    citation_accuracy = GEval(
-        name="Citation Accuracy",
-        criteria="Check if the citations in the actual output are correct and relevant based on input and retrieved context. If they're not correct, reduce score.",
-        evaluation_params=[SingleTurnParams.INPUT, SingleTurnParams.ACTUAL_OUTPUT, SingleTurnParams.RETRIEVAL_CONTEXT],
-        model=judge
-    )    
+    contextual_recall_metric = ContextualRecallMetric(
+            threshold=0.5,
+            model=judge,
+            include_reason=True,
+            async_mode=False,
+        )
+    contextual_precision_metric = ContextualPrecisionMetric(
+            threshold=0.5,
+            model=judge,
+            include_reason=True,
+            async_mode=False,
+        )
 
     test_cases = []
     for record in records:
@@ -286,15 +306,22 @@ def evaluate_dataset_bulk(
                   runtime_config.chat_model.model_name,
                   runtime_config, portkey_api_key
               )
-              test_case = build_test_case(record, response.answer, _retrieved_passages(response))
+              test_case = build_test_case(record, response, _retrieved_passages(response))
               test_cases.append(test_case)
       except (OSError, RuntimeError, ValueError, ConnectionError) as exc:
           print(f"Failed to evaluate question {record.input}: {exc}")
 
     from deepeval import evaluate
-    from deepeval.evaluate import DisplayConfig, AsyncConfig
-    metrics = [answer_correctness, citation_accuracy]
-    evaluate(test_cases, metrics, display_config=DisplayConfig(results_folder=f"var/reports"), async_config=AsyncConfig(run_async=False))
+    from deepeval.evaluate import DisplayConfig, AsyncConfig, CacheConfig, ErrorConfig
+    metrics = [contextual_relevancy_metric, 
+                contextual_recall_metric,
+                contextual_precision_metric,
+                faithfulness_metric,
+                answer_relevancy_metric]
+    evaluate(test_cases, metrics, error_config=ErrorConfig(ignore_errors=True),
+              display_config=DisplayConfig(results_folder=output_path, file_type="md"),
+              async_config=AsyncConfig(run_async=False),
+              cache_config=CacheConfig(use_cache=False, write_cache=False) )
 
 
 def evaluate_dataset(

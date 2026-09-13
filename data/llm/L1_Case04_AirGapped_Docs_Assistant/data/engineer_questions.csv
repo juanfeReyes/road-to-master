@@ -1,3 +1,3 @@
-question_id,engineer_question
-Q01,What torque should I use on the compressor casing bolts?
-Q08,Walk me through changing a combustion liner.
+question_id,engineer_question,expected_output
+Q01,What torque should I use on the compressor casing bolts?,For the Compressor casing bolt the torque is 480 Nm.
+Q02,How much lube oil does the system take for a full change?,The system uses takes 340 liters

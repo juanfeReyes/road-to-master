@@ -150,71 +150,15 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"Portkey URL: {runtime_config.portkey.base_url}")
             evaluate_dataset_bulk(
                 records,
-                                retriever,
-                                runtime_config,
-                                settings.portkey_api_key,
-                                groups,
-                                thresholds,
-                                args.trace,
+                  retriever,
+                  runtime_config,
+                  settings.portkey_api_key,
+                  args.output,
+                  thresholds,
+                  args.trace,
             )
-            raise
-            definitions, results, aggregates = evaluate_dataset(
-                records,
-                retriever,
-                runtime_config,
-                settings.portkey_api_key,
-                groups,
-                thresholds,
-                args.trace,
-            )
-            now = datetime.now(timezone.utc).isoformat()
-            counts = {
-                "total": len(results),
-                "evaluated": sum(result.status == "evaluated" for result in results),
-                "partial": sum(result.status == "partial" for result in results),
-                "failed": sum(result.status == "failed" for result in results),
-                "skipped": sum(result.status == "skipped" for result in results),
-            }
-            report = EvaluationReport(
-                schema_version="1.0",
-                run_id=uuid4().hex,
-                started_at=now,
-                finished_at=datetime.now(timezone.utc).isoformat(),
-                dataset={
-                    "id": dataset_path.stem,
-                    "version": "1",
-                    "format": dataset_path.suffix.lower().lstrip("."),
-                    "path": str(dataset_path),
-                    "hash": dataset_hash,
-                    "row_count": len(records),
-                },
-                configuration={
-                    "metric_groups": list(groups),
-                    "judge_model": runtime_config.judge_model.model_name,
-                    "generator_model": runtime_config.chat_model.model_name,
-                    "top_k": settings.top_k,
-                    "tracing_enabled": args.trace,
-                    "chunking_strategy": chunking.strategy,
-                    "chunking": chunking.as_dict(),
-                    "embedding_model": embedding_model,
-                    **runtime_config.as_report_dict(),
-                },
-                metric_definitions=[{
-                    "name": definition.name,
-                    "group": definition.group,
-                    "threshold": definition.threshold,
-                    "scale": "0.0-1.0",
-                    "requires_reference": definition.requires_reference,
-                } for definition in definitions],
-                aggregates=aggregates,
-                counts=counts,
-                results=results,
-                traces={"enabled": args.trace} if args.trace else None,
-            )
-            write_evaluation_report(report, args.output)
-            print(format_evaluation_report(report))
             print(f"Report saved to: {args.output}")
-            return 1 if counts["failed"] or counts["partial"] else 0
+            return 0
         if not settings.db_dir.exists():
             raise FileNotFoundError(f"Index does not exist: {settings.db_dir}; run index first.")
         retriever.build(settings.data_dir)

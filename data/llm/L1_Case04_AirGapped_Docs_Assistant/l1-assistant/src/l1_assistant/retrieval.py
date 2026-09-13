@@ -26,7 +26,6 @@ class LocalRetriever:
         if chunking.strategy == "semantic":
             try:
                 from langchain_ollama import OllamaEmbeddings
-                print(f"Using embedding model: {chunking.embedding_model or self.embedding_model}")
                 embeddings = OllamaEmbeddings(
                     model=chunking.embedding_model or self.embedding_model,
                 )

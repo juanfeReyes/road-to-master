@@ -81,7 +81,10 @@ class GroundedResponse:
     sources: list[str]
     passages: list[DocumentPassage]
     score: float | None = None
-    score_reason: str = ""
+    score_reason: str = "",
+    latency: float | None = None
+    input_tokens: int | None = None
+    output_tokens: int | None = None
 
 
 @dataclass(frozen=True)

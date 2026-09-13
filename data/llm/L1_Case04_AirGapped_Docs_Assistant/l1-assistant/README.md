@@ -39,6 +39,32 @@ The pipeline prints one result per question and saves a timestamped CSV under
 
 ## Evaluation chunking strategies
 
+### Fixed Chunking strategy
+
+### Local  
+
+```powershell
+uv run l1-assistant evaluate `
+  --chunking-strategy fixed --chunk-size 500 --chunk-overlap 100 `
+  --model-source local `
+  --chat-model llama3.2:3b `
+  --judge-model gemma:7b `
+  --embedding-model bge-m3 `
+  --output .\var\reports\fixed-local\
+```
+
+### Portkey
+
+```powershell
+uv run l1-assistant evaluate `
+  --chunking-strategy fixed --chunk-size 500 --chunk-overlap 100 `
+  --model-source portkey `
+  --chat-model @azure-openai-eus2/gpt-5.4 `
+  --judge-model @azure-openai-eus2/gpt-5.4 `
+  --portkey-url https://portkeygateway.perficient.com/v1 `
+  --output .\var\reports\recursive-portkey\
+```
+
 ### Recursive Chunking strategy
 
 The `index` and `evaluate` commands accept `--chunking-strategy` with
@@ -54,9 +80,9 @@ uv run l1-assistant evaluate `
   --separators "`n`n|`n| |" `
   --model-source local `
   --chat-model llama3.2:3b `
-  --judge-model tensortemplar/prometheus2:7b-fp16 `
+  --judge-model gemma:7b `
   --embedding-model bge-m3 `
-  --output .\var\reports\retrieval_validation_fix.json
+  --output .\var\reports\recursive_local\
 ```
 
 ### Portkey
@@ -69,7 +95,7 @@ uv run l1-assistant evaluate `
   --chat-model @azure-openai-eus2/gpt-5.4 `
   --judge-model @azure-openai-eus2/gpt-5.4 `
   --portkey-url https://portkeygateway.perficient.com/v1 `
-  --output .\var\reports\recursive-portkey.json
+  --output .\var\reports\recursive_portkey\
 ```
 
 ### Semantic Chunking strategy  
@@ -80,24 +106,29 @@ Semantic chunking uses `langchain-experimental` and a local embedding model:
 
 ```powershell
 uv run l1-assistant evaluate `
-  --chunking-strategy semantic --embedding-model nomic-embed-text `
+  --chunking-strategy semantic `
   --breakpoint-threshold-type percentile `
   --breakpoint-threshold-amount 95 `
-  --output .\var\reports\semantic.json
+  --model-source local `
+  --chat-model llama3.2:3b `
+  --judge-model gemma:7b `
+  --embedding-model mxbai-embed-large `
+  --output .\var\reports\semantic_local\
 ```
 
 #### Portkey  
 
 ```powershell
 uv run l1-assistant evaluate `
-  --chunking-strategy semantic --embedding-model nomic-embed-text `
+  --chunking-strategy semantic `
   --breakpoint-threshold-type percentile `
   --breakpoint-threshold-amount 85 `
   --model-source portkey `
   --chat-model @azure-openai-eus2/gpt-5.4 `
   --judge-model @azure-openai-eus2/gpt-5.4 `
+  --embedding-model mxbai-embed-large `
   --portkey-url https://portkeygateway.perficient.com/v1 `
-  --output .\var\reports\semantic-portkey.json
+  --output .\var\reports\semantic_portkey\
 ```
 
 Reports record the effective strategy, splitter settings, embedding model,

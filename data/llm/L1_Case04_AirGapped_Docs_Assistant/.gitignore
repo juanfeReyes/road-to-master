@@ -8,6 +8,7 @@ l1-assistant/tests/.pytest_cache/
 l1-assistant/.venv/
 l1-assistant/venv/
 l1-assistant/**/*.egg-info/
+l1-assistant/**/var/
 
 dist/
 build/
