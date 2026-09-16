@@ -2,7 +2,7 @@ import re
 
 from .models import DocumentPassage
 
-
+# TODO: Delete this
 def score_response(question: str, answer: str, passages: list[DocumentPassage]) -> tuple[float, str]:
     if not passages:
         return 0.0, "No supporting passages were retrieved."

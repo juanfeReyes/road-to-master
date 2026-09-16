@@ -8,7 +8,7 @@ from typing import Iterable
 
 from sympy import evaluate
 
-from .answering import answer_question, answer_question_for_evaluation
+from .answering import answer_question
 from .evaluation import aggregate_results, build_judge, build_test_case, evaluate_case, metric_definitions
 from .models import (
     EvaluationModelRoleConfig,
@@ -21,6 +21,7 @@ from .models import (
     StartupValidationResult,
 )
 from .retrieval import LocalRetriever
+from langchain_core.documents import Document
 
 
 REPORT_FIELDS = ("id", "question", "answer", "sources", "score", "score_reason", "error")
@@ -257,7 +258,6 @@ def evaluate_dataset_bulk(
     runtime_config: EvaluationRuntimeModelConfig,
     portkey_api_key: str | None = None,
     output_path: str | Path | None = None,
-    thresholds: dict[str, float] | None = None,
     tracing_enabled: bool = False,
 ):
     from .tracing import evaluation_trace
@@ -297,20 +297,16 @@ def evaluate_dataset_bulk(
 
     test_cases = []
     for record in records:
-      try:
-          with evaluation_trace(tracing_enabled, f"evaluate:{record.id}"):
-              print(f"Evaluating question {record.input}...")
-              response = answer_question_for_evaluation(
-                  record.input,
-                  retriever,
-                  runtime_config.chat_model.model_name,
-                  runtime_config, portkey_api_key
-              )
-              test_case = build_test_case(record, response, _retrieved_passages(response))
-              test_cases.append(test_case)
-      except (OSError, RuntimeError, ValueError, ConnectionError) as exc:
-          print(f"Failed to evaluate question {record.input}: {exc}")
-
+      with evaluation_trace(tracing_enabled, f"evaluate:{record.id}"):
+          response = answer_question(
+              record.input,
+              retriever,
+              runtime_config.chat_model.model_name,
+              runtime_config, portkey_api_key
+          )
+          test_case = build_test_case(record, response, response.passages)
+          test_cases.append(test_case)
+      
     from deepeval import evaluate
     from deepeval.evaluate import DisplayConfig, AsyncConfig, CacheConfig, ErrorConfig
     metrics = [contextual_relevancy_metric, 
@@ -322,42 +318,6 @@ def evaluate_dataset_bulk(
               display_config=DisplayConfig(results_folder=output_path, file_type="md"),
               async_config=AsyncConfig(run_async=False),
               cache_config=CacheConfig(use_cache=False, write_cache=False) )
-
-
-def evaluate_dataset(
-    records: list[EvaluationRecord],
-    retriever: LocalRetriever,
-    runtime_config: EvaluationRuntimeModelConfig,
-    portkey_api_key: str | None = None,
-    groups: Iterable[str] = ("generator", "retrieval"),
-    thresholds: dict[str, float] | None = None,
-    tracing_enabled: bool = False,
-):
-    from .tracing import evaluation_trace
-
-    definitions = metric_definitions(groups, thresholds)
-    judge = build_judge(runtime_config, portkey_api_key)
-    results = []
-    for record in records:
-        try:
-            with evaluation_trace(tracing_enabled, f"evaluate:{record.id}"):
-                print(f"Evaluating question {record.input}...")
-                response = answer_question_for_evaluation(
-                    record.input,
-                    retriever,
-                    runtime_config.chat_model.model_name,
-                    runtime_config, portkey_api_key
-                )
-                results.append(evaluate_case(
-                    record, response.answer, _retrieved_passages(response), judge, definitions
-                ))
-        except (OSError, RuntimeError, ValueError, ConnectionError) as exc:
-            from .models import QuestionEvaluation
-            results.append(QuestionEvaluation(
-                id=record.id, input=record.input, status="failed", error=str(exc)
-            ))
-    return definitions, results, aggregate_results(results, definitions)
-
 
 def resolve_runtime_model_config(
     settings,

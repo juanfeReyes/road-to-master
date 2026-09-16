@@ -118,13 +118,13 @@ def metric_definitions(groups: Iterable[str], thresholds: dict[str, float] | Non
 
 
 def build_test_case(record: EvaluationRecord, response: GroundedResponse,
-                    retrieval_context: list[RetrievedPassage]):
+                    retrieval_context: list[Document]):
     if LLMTestCase is None:
         raise RuntimeError("DeepEval is not installed.")
     values = {
         "input": record.input,
         "actual_output": response.answer,
-        "retrieval_context": [passage.text for passage in retrieval_context],
+        "retrieval_context": [passage.page_content for passage in retrieval_context],
         "completion_time": response.latency,
         "input_token_count": response.input_tokens,
         "output_token_count": response.output_tokens,

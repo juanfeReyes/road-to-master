@@ -45,6 +45,7 @@ The pipeline prints one result per question and saves a timestamped CSV under
 
 ```powershell
 uv run l1-assistant evaluate `
+  --data-dir ..\data --db-dir .\var\chroma `
   --chunking-strategy fixed --chunk-size 500 --chunk-overlap 100 `
   --model-source local `
   --chat-model llama3.2:3b `
@@ -57,10 +58,12 @@ uv run l1-assistant evaluate `
 
 ```powershell
 uv run l1-assistant evaluate `
+  --data-dir ..\data --db-dir .\var\chroma `
   --chunking-strategy fixed --chunk-size 500 --chunk-overlap 100 `
   --model-source portkey `
   --chat-model @azure-openai-eus2/gpt-5.4 `
   --judge-model @azure-openai-eus2/gpt-5.4 `
+  --embedding-model bge-m3 `
   --portkey-url https://portkeygateway.perficient.com/v1 `
   --output .\var\reports\recursive-portkey\
 ```
@@ -76,6 +79,7 @@ pipe-separated `--separators`:
 
 ```powershell
 uv run l1-assistant evaluate `
+  --data-dir ..\data --db-dir .\var\chroma `
   --chunking-strategy recursive --chunk-size 800 --chunk-overlap 100 `
   --separators "`n`n|`n| |" `
   --model-source local `
@@ -89,16 +93,18 @@ uv run l1-assistant evaluate `
 
 ```powershell
 uv run l1-assistant evaluate `
+  --data-dir ..\data --db-dir .\var\chroma `
   --chunking-strategy recursive --chunk-size 800 --chunk-overlap 100 `
   --separators "`n`n|`n| |" `
   --model-source portkey `
   --chat-model @azure-openai-eus2/gpt-5.4 `
   --judge-model @azure-openai-eus2/gpt-5.4 `
+  --embedding-model bge-m3 `
   --portkey-url https://portkeygateway.perficient.com/v1 `
   --output .\var\reports\recursive_portkey\
 ```
 
-### Semantic Chunking strategy  
+### Section-Aware Chunking strategy  
 
 Semantic chunking uses `langchain-experimental` and a local embedding model:
 
@@ -106,29 +112,27 @@ Semantic chunking uses `langchain-experimental` and a local embedding model:
 
 ```powershell
 uv run l1-assistant evaluate `
-  --chunking-strategy semantic `
-  --breakpoint-threshold-type percentile `
-  --breakpoint-threshold-amount 95 `
+  --data-dir ..\data --db-dir .\var\chroma `
+  --chunking-strategy section --chunk-size 100 --chunk-overlap 25 `
   --model-source local `
   --chat-model llama3.2:3b `
   --judge-model gemma:7b `
-  --embedding-model mxbai-embed-large `
-  --output .\var\reports\semantic_local\
+  --embedding-model bge-m3 `
+  --output .\var\reports\section_local\
 ```
 
 #### Portkey  
 
 ```powershell
 uv run l1-assistant evaluate `
-  --chunking-strategy semantic `
-  --breakpoint-threshold-type percentile `
-  --breakpoint-threshold-amount 85 `
+  --data-dir ..\data --db-dir .\var\chroma `
+  --chunking-strategy section `
   --model-source portkey `
   --chat-model @azure-openai-eus2/gpt-5.4 `
   --judge-model @azure-openai-eus2/gpt-5.4 `
-  --embedding-model mxbai-embed-large `
+  --embedding-model bge-m3 `
   --portkey-url https://portkeygateway.perficient.com/v1 `
-  --output .\var\reports\semantic_portkey\
+  --output .\var\reports\sectionc_portkey\
 ```
 
 Reports record the effective strategy, splitter settings, embedding model,

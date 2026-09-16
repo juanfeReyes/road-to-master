@@ -34,7 +34,7 @@ class ChunkingConfig:
     strategy: ChunkingStrategy = "section"
     chunk_size: int = 800
     chunk_overlap: int = 100
-    separators: tuple[str, ...] = ("\n\n", "\n", " ", "")
+    separators: str = ("\n\n", "\n", " ", "")
     breakpoint_threshold_type: str = "percentile"
     breakpoint_threshold_amount: float = 95.0
     embedding_model: str | None = None

@@ -7,7 +7,6 @@ from .chunking import config_from_args
 from .config import Settings
 from .pipeline import (
     default_report_path,
-    evaluate_dataset,
     evaluate_dataset_bulk,
     evaluate_questions,
     format_evaluation_report,
@@ -98,36 +97,15 @@ def main(argv: list[str] | None = None) -> int:
             for error in errors:
                 print(f"Warning: {error}", file=sys.stderr)
             return 0
-        if args.command == "pipeline":
-            if not settings.db_dir.exists():
-                raise FileNotFoundError(f"Index does not exist: {settings.db_dir}; run index first.")
-            retriever.build(settings.data_dir, chunking=chunking)
-            questions = load_questions(args.questions)
-            results = evaluate_questions(questions, retriever, settings.chat_model)
-            output_path = args.output or default_report_path()
-            write_report(results, output_path)
-            print(format_report(results))
-            print(f"\nReport saved to: {output_path}")
-            return 0
-        if args.command == "evaluate":
+        if args.command == "evaluate":            
             if args.max_questions is not None and args.max_questions <= 0:
                 raise ValueError("--max-questions must be positive.")
             configure_offline()
             dataset_path = args.dataset or (settings.data_dir / "engineer_questions.csv")
             records, dataset_hash = load_evaluation_dataset(dataset_path, args.max_questions)
-            if not settings.db_dir.exists():
-                raise FileNotFoundError(f"Index does not exist: {settings.db_dir}; run index first.")
+            # 1. Index documents
             retriever.build(settings.data_dir, chunking=chunking)
-            groups = tuple(group.strip() for group in args.metrics.split(",") if group.strip())
-            if not set(groups).issubset({"generator", "retrieval"}) or not groups:
-                raise ValueError("--metrics must contain generator, retrieval, or both.")
-            thresholds = {}
-            for item in args.threshold:
-                try:
-                    name, value = item.split("=", 1)
-                    thresholds[name] = float(value)
-                except ValueError as exc:
-                    raise ValueError("Thresholds must use NAME=VALUE format.") from exc
+            
             runtime_validation = resolve_runtime_model_config(
                 settings,
                 args.model_source,
@@ -148,13 +126,14 @@ def main(argv: list[str] | None = None) -> int:
             )
             if runtime_config.portkey is not None:
                 print(f"Portkey URL: {runtime_config.portkey.base_url}")
+
+            # 2. Evaluate dataset
             evaluate_dataset_bulk(
                 records,
                   retriever,
                   runtime_config,
                   settings.portkey_api_key,
                   args.output,
-                  thresholds,
                   args.trace,
             )
             print(f"Report saved to: {args.output}")
