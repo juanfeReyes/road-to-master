@@ -273,19 +273,21 @@ def evaluate_dataset_bulk(
                                               model=judge,
                                               async_mode=False,
                                               truths_extraction_limit=5)  
-    answer_relevancy_metric = AnswerRelevancyMetric(threshold=threshold, model=judge )
+    answer_relevancy_metric = AnswerRelevancyMetric(threshold=threshold, model=judge, flaky=True )
     contextual_recall_metric = ContextualRecallMetric(
 
             threshold=threshold,
             model=judge,
             include_reason=True,
             async_mode=False,
+            flaky=True
         )
     contextual_precision_metric = ContextualPrecisionMetric(
             threshold=threshold,
             model=judge,
             include_reason=True,
             async_mode=False,
+            flaky=True
         )
 
     test_cases = []

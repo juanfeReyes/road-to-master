@@ -113,13 +113,17 @@ def agent_answer_question(record: EvaluationRecord,
     output_tokens = 0
     sanitized_question = sanitize_question(question)
     print(f"Evaluate question: {sanitized_question}")
+    improved_question = f"""
+    Add the sources you used to answer the question in the response.
+    query: {question}
+    """
     for chunk in graph.stream(
         {
             "count": 0,
             "messages": [
                 {
                     "role": "user",
-                    "content": question,
+                    "content": improved_question,
                 }
             ]
         },

@@ -69,7 +69,8 @@ def main(argv: list[str] | None = None) -> int:
         if args.max_questions is not None and args.max_questions <= 0:
             raise ValueError("--max-questions must be positive.")
         configure_offline()
-        dataset_path = args.dataset or (settings.data_dir / "engineer_questions.csv")
+        dataset_path = args.questions or (settings.data_dir / "engineer_questions.csv")
+        print(f"Reading questions from: {dataset_path}")
         records, dataset_hash = load_evaluation_dataset(dataset_path, args.max_questions)
         # 1. Index documents
         retriever.build(settings.data_dir, getattr(args, "chunking_strategy", "section"), chunking=chunking)

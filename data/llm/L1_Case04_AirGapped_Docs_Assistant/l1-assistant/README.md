@@ -26,20 +26,14 @@ Provision the configured local embedding and chat model artifacts before disconn
 from the network:
 
 ```powershell
-uv run l1-assistant index --data-dir ..\data --db-dir .\var\chroma
-uv run l1-assistant ask "What safety checks are required before changing the liner?" --data-dir ..\data --db-dir .\var\chroma
-uv run l1-assistant pipeline --questions ..\data\engineer_questions.csv --data-dir ..\data --db-dir .\var\chroma
+ollama pull llama3.2:3b
+ollama pull gemma:7b
+ollama pull bge-m3
 ```
 
 ```powershell
 uv run l1-assistant pipeline --questions ..\data\engineer_questions.csv --data-dir ..\data --db-dir .\var\chroma --output .\var\reports\questions\
 ```
-
-Answers include source filenames and an evidence-support score from `0.00` to `1.00`.
-Questions without supporting passages are explicitly declined. Set `L1_EMBEDDING_MODEL`,
-`L1_CHAT_MODEL`, `L1_DATA_DIR`, and `L1_DB_DIR` to configure local paths/models.
-The pipeline prints one result per question and saves a timestamped CSV under
-`var/reports/`. Use `--output path\to\report.csv` for a deterministic output path.
 
 ## Evaluation chunking strategies
 

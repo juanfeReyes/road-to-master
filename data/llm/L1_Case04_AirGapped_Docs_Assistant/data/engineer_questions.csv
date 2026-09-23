@@ -1,4 +1,5 @@
-question_id,engineer_question,expected_output
-Q01,What torque should I use on the compressor casing bolts?,For the Compressor casing bolt the torque is 480 Nm.
-Q02,How much lube oil does the system take for a full change?,To fill the system to the total capacity the recommended amount is given in section 4 as 340 litres
-Q07,Can I touch the turbine casing two hours after shutdown?,No. The turbine casing remains above 60°C for approximately four hours after shutdown and touching it within that period can cause burns.
+question_id,engineer_question
+Q01,What torque should I use on the compressor casing bolts?
+Q02,How much lube oil does the system take for a full change?
+Q07,Can I touch the turbine casing two hours after shutdown?
+Q016,When was michael jackson born?

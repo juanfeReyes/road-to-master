@@ -1,0 +1,1034 @@
+{
+  "testCases": [
+    {
+      "name": "test_case_0",
+      "input": "What torque should I use on the compressor casing bolts?",
+      "actualOutput": "Use **480 Nm** on the **compressor casing bolts (M20)** for **clean, dry threads**. Tighten in the **section 6.3 sequence**: four passes at **25%, 50%, 75%, and 100%**, working **diametrically opposite across the flange**.",
+      "expectedOutput": "For the Compressor casing bolt the torque is 480 Nm.",
+      "retrievalContext": [
+        "[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n### 2.1 Confined space\n\nThe air intake plenum and the exhaust duct are confined spaces. Entry requires a\npermit, a gas test, and a standby person outside the space.\n\n---\n\n## 3. Torque Specifications\n\nValues are for clean, dry threads unless a lubricant is specified. Over-torquing\ncompressor casing bolts distorts the casing and is not recoverable in the field.\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n### 6.3 Compressor casing bolt tightening sequence\n\nTighten in four passes: 25% of final torque, 50%, 75%, then 100%. Work\ndiametrically opposite across the flange, not sequentially around it. The final pass\nmust be completed within 30 minutes of the third to avoid uneven relaxation.\n\n---\n\n## 7. Combustion Section Procedures\n\n### 7.1 Combustion liner removal\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n| Fastener | Size | Torque | Notes |\n|---|---|---|---|\n| Compressor casing bolt | M20 | 480 Nm | Tighten in the sequence in section 6.3 |\n| Combustion liner bolt | M12 | 95 Nm | Replace on every removal |\n| Lube pump flange bolt | M10 | 45 Nm | Anti-seize on threads |\n| Bearing cap bolt | M16 | 210 Nm | Do not reuse |\n| Exhaust diffuser bolt | M16 | 190 Nm | Nickel anti-seize required |\n| Inlet guide vane pivot nut | M8 | 22 Nm | Do not exceed; alloy component |\n\n---\n\n## 4. Fluid Specifications\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n### 6.2 Inlet guide vane linkage adjustment\n\n1. Confirm the unit is shut down and isolated.\n2. Slacken the pivot nut on the linkage arm.\n3. Set the vane angle using the alignment gauge, referring to the vane schedule in\n   the commissioning record.\n4. Retighten the pivot nut to the torque given in section 3.\n5. Rotate the linkage by hand through its full travel to confirm free movement.\n\n### 6.3 Compressor casing bolt tightening sequence"
+      ],
+      "inputTokenCount": 896,
+      "outputTokenCount": 147,
+      "completionTime": 6.810628900006122,
+      "flaky": false,
+      "success": true,
+      "metricsData": [
+        {
+          "name": "Contextual Recall",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because sentence 1 is fully supported by node 1 in retrieval context, which directly states that the Compressor casing bolt torque is 480 Nm\u2014an exact match, great job.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Attributed to the 1st node: the table states \\\"Compressor casing bolt ... 480 Nm...\\\" which directly supports the sentence.\",\n        \"expected_output\": \"For the Compressor casing bolt the torque is 480 Nm.\"\n    }\n]"
+        },
+        {
+          "name": "Contextual Precision",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the first node in the retrieval contexts is directly relevant and contains the exact answer: \"It directly contains the needed value in the table: '| Compressor casing bolt | M20 | 480 Nm |', which supports the expected output 'For the Compressor casing bolt the torque is 480 Nm.'\" Since the top-ranked node already provides the precise torque value and there are no irrelevant nodes ranked above relevant ones, this is a perfect result.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Yes. It directly contains the needed value in the table: '| Compressor casing bolt | M20 | 480 Nm |', which supports the expected output 'For the Compressor casing bolt the torque is 480 Nm.' The surrounding note about 'Torque Specifications' and 'compressor casing bolt tightening sequence' is also relevant context.\"\n    }\n]"
+        },
+        {
+          "name": "Faithfulness",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions, so the actual output appears fully consistent with the retrieval context\u2014great job keeping it accurate and faithful.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Truths (limit=5):\n[\n    \"The air intake plenum and the exhaust duct are classified as confined spaces.\",\n    \"Entry into those confined spaces requires a permit, a gas test, and a standby person outside the space.\",\n    \"Torque values in the manual are specified for clean, dry threads unless a lubricant is specified.\",\n    \"Compressor casing bolts must be tightened in four passes at 25%, 50%, 75%, and 100% of final torque, working diametrically opposite across the flange rather than sequentially around it.\",\n    \"The compressor casing bolt is an M20 fastener with a specified torque of 480 Nm, and it must be tightened using the sequence described in section 6.3.\"\n] \n \nClaims:\n[\n    \"Use 480 Nm on the compressor casing bolts (M20) for clean, dry threads.\",\n    \"Tighten the compressor casing bolts in the section 6.3 sequence: four passes at 25%, 50%, 75%, and 100%, working diametrically opposite across the flange.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        },
+        {
+          "name": "Answer Relevancy",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the response appears fully relevant to the user's question about compressor casing bolt torque, with no irrelevant statements noted. Nice job staying focused and on-topic.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Statements:\n[\n    \"Use 480 Nm on the compressor casing bolts (M20) for clean, dry threads.\",\n    \"Tighten in the section 6.3 sequence.\",\n    \"Use four passes at 25%, 50%, 75%, and 100%.\",\n    \"Work diametrically opposite across the flange.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        }
+      ],
+      "runDuration": 18.580278200002795,
+      "order": 0
+    },
+    {
+      "name": "test_case_1",
+      "input": "How much lube oil does the system take for a full change?",
+      "actualOutput": "The system takes **340 litres** of lube oil for a full change. That is the **total system capacity**, including the reservoir and coolers.",
+      "expectedOutput": "To fill the system to the total capacity the recommended amount is given in section 4 as 340 litres",
+      "retrievalContext": [
+        "[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\nLube oil capacity is the **total system** figure including the reservoir and coolers.\nThe reservoir alone holds 210 litres. Filling to the reservoir figure will leave the\nsystem underfilled and trip the low-level alarm on start.\n\n---\n\n## 5. Scheduled Maintenance Intervals\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n### 8.1 Lube oil change\n\n1. Confirm the unit is shut down.\n2. Wait for the lube system to depressurise as described in section 2 before\n   breaking any connection.\n3. Drain the reservoir and the coolers separately; the coolers retain\n   approximately 60 litres which will not drain through the reservoir point.\n4. Replace both filter elements.\n5. Refill to the total system capacity given in section 4, not the reservoir figure.\n6. Run the auxiliary lube pump for ten minutes and recheck the level.\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n---\n\n## 4. Fluid Specifications\n\n| Fluid | Specification | Capacity | Change interval |\n|---|---|---|---|\n| Lube oil | ISO VG 32 turbine grade | 340 litres | 8000 running hours |\n| Hydraulic fluid | ISO VG 46 | 45 litres | 12000 running hours |\n| Coolant | 40% glycol premix | 120 litres | 24 months |\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n---\n\n## 10. Revision History\n\n| Revision | Date | Change |\n|---|---|---|\n| D | 2024-03-02 | Initial field issue |\n| E | 2025-05-14 | Lube oil change interval revised from 6000 to 8000 hours |\n| F | 2026-01-12 | Exhaust diffuser bolt torque revised from 165 Nm to 190 Nm following field reports of joint leakage. Nickel anti-seize now mandatory. |"
+      ],
+      "inputTokenCount": 849,
+      "outputTokenCount": 119,
+      "completionTime": 3.7255784000008134,
+      "flaky": false,
+      "success": true,
+      "metricsData": [
+        {
+          "name": "Contextual Recall",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because sentence 1 is fully supported by node 1 in retrieval context, which states to refill to the total system capacity given in section 4, and section 4 lists the lube oil capacity as 340 litres. Great match.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Supported by the 1st node: it says \\\"Refill to the total system capacity given in section 4...\\\" and section 4 lists lube oil \\\"Capacity | 340 litres\\\"; this matches the sentence's claim about total capacity and section 4.\",\n        \"expected_output\": \"To fill the system to the total capacity the recommended amount is given in section 4 as 340 litres\"\n    }\n]"
+        },
+        {
+          "name": "Contextual Precision",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the first node in retrieval contexts is directly relevant and provides the exact answer: for a full change, you should \"Refill to the total system capacity given in section 4, not the reservoir figure,\" and that capacity is \"340 litres.\" Since the relevant information appears immediately and there are no irrelevant nodes ranked above it, this is a perfect result.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Yes. This context directly supports the expected output by stating that for a change you should 'Refill to the total system capacity given in section 4, not the reservoir figure' and section 4 gives 'Lube oil ... Capacity ... 340 litres.' It also clarifies that 'Lube oil capacity is the total system figure including the reservoir and coolers.'\"\n    }\n]"
+        },
+        {
+          "name": "Faithfulness",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions, so the actual output appears fully consistent with the retrieval context\u2014great job staying faithful to the source.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Truths (limit=5):\n[\n    \"The lube oil capacity refers to the total system, including the reservoir and coolers.\",\n    \"The reservoir alone holds 210 litres, and filling only to that amount will leave the system underfilled and trigger a low-level alarm on start.\",\n    \"The specified lube oil capacity is 340 litres and the required lube oil specification is ISO VG 32 turbine grade.\",\n    \"During a lube oil change, the reservoir and the coolers must be drained separately because the coolers retain about 60 litres that will not drain through the reservoir point.\",\n    \"Revision E, dated 2025-05-14, revised the lube oil change interval from 6000 to 8000 running hours.\"\n] \n \nClaims:\n[\n    \"The system takes 340 litres of lube oil for a full change.\",\n    \"340 litres is the total system capacity, including the reservoir and coolers.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        },
+        {
+          "name": "Answer Relevancy",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the response appears fully focused on answering how much lube oil the system takes for a full change, with no irrelevant statements noted. Nice, direct relevance.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Statements:\n[\n    \"The system takes 340 litres of lube oil for a full change.\",\n    \"340 litres is the total system capacity.\",\n    \"The total system capacity includes the reservoir and coolers.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"This provides supporting detail about what the total system capacity includes, but it does not directly answer how much lube oil the system takes for a full change.\"\n    }\n]"
+        }
+      ],
+      "runDuration": 18.871340300000156,
+      "order": 1
+    },
+    {
+      "name": "test_case_2",
+      "input": "How long after shutdown before I can break a lube oil connection?",
+      "actualOutput": "Wait until the lube oil system has depressurized, which can take up to 20 minutes after shutdown. Do not break any lube oil connection until the system pressure gauge reads zero.",
+      "expectedOutput": "Wait until the lube oil system has depressurised; which can take up to 20 minutes after shutdown. Do not break any lube oil connection until the system pressure gauge reads zero.",
+      "retrievalContext": [
+        "[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n- Isolate and lock off electrical supply at the local isolator before removing any\n  guard or cover. Attach a personal lock and retain the key.\n- Confirm zero energy state before starting work. A closed valve is not an\n  isolation.\n- The lube oil system remains pressurised for up to **20 minutes** after shutdown.\n  Do not break any lube oil connection until the system pressure gauge reads zero.\n- Turbine casing surfaces exceed 300 degrees C during operation and remain above\n  60 degrees C for approximately **four hours** after shutdown. Contact with casing\n  surfaces inside this period causes burns.\n- Two people are required for any lifting operation above 25 kg.\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n### 8.1 Lube oil change\n\n1. Confirm the unit is shut down.\n2. Wait for the lube system to depressurise as described in section 2 before\n   breaking any connection.\n3. Drain the reservoir and the coolers separately; the coolers retain\n   approximately 60 litres which will not drain through the reservoir point.\n4. Replace both filter elements.\n5. Refill to the total system capacity given in section 4, not the reservoir figure.\n6. Run the auxiliary lube pump for ten minutes and recheck the level.\n\n[{'source': 'quick_reference_liner_change.md', 'source_hash': 'f5f3fa58cdf8c81b96dbb40a64bcaf17e721aeaadab90cc370a4cceaddd19ede'}]\n# HT-400 Quick Reference Card - Combustion Liner Change (Synthetic)\n\n> Laminated card for field use. Not a substitute for the maintenance manual.\n\n## Before you start\n\nConfirm shutdown and isolation. Check the manual for general safety requirements.\n\n## Steps\n\n1. Remove combustion casing cover bolts.\n2. Support the liner.\n3. Remove final fixings and withdraw the liner squarely.\n4. Inspect the transition piece seal.\n5. Fit the new liner with new bolts.\n6. Torque to 95 Nm.\n7. Refit the cover.\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n| Symptom | Probable cause | Action |\n|---|---|---|\n| Low lube oil pressure at start | Underfilled system, or pump not primed | Check level against total system capacity; prime pump |\n| High filter differential | Filter blocked | Replace element at next opportunity; do not exceed 2 bar differential |\n| Vibration above alarm | Bearing wear, or rotor imbalance | Carry out vibration survey; do not continue above trip level |\n| Exhaust temperature spread high | Fuel nozzle fouling, or liner damage | Borescope combustion section |\n| Slow guide vane response | Hydraulic fluid contamination, or linkage binding | Check fluid condition; rotate linkage by hand |"
+      ],
+      "inputTokenCount": 1000,
+      "outputTokenCount": 150,
+      "completionTime": 4.730042600000161,
+      "flaky": false,
+      "success": true,
+      "metricsData": [
+        {
+          "name": "Contextual Recall",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because both parts of the expected output are fully covered by node 1 in retrieval context: sentence 1 matches the instruction to wait for the lube oil system to depressurise and that this can take up to 20 minutes after shutdown, and sentence 2 is directly stated by node 1 with the warning not to break any lube oil connection until the pressure gauge reads zero. Great alignment.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Supported by the 1st node: \\\"remains pressurised for up to 20 minutes after shutdown...\\\" and later in the same node: \\\"Wait for the lube system to depressurise...\\\".\",\n        \"expected_output\": \"Wait until the lube oil system has depressurised; which can take up to 20 minutes after shutdown. Do not break any lube oil connection until the system pressure gauge reads zero.\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Directly supported by the 1st node: \\\"Do not break any lube oil connection until the system pressure gauge reads zero.\\\"\",\n        \"expected_output\": \"Wait until the lube oil system has depressurised; which can take up to 20 minutes after shutdown. Do not break any lube oil connection until the system pressure gauge reads zero.\"\n    }\n]"
+        },
+        {
+          "name": "Contextual Precision",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the first node in retrieval contexts is directly relevant and contains the exact answer, stating that 'The lube oil system remains pressurised for up to **20 minutes** after shutdown' and 'Do not break any lube oil connection until the system pressure gauge reads zero.' There are no irrelevant nodes ranked above relevant ones, so this is a perfect result.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"This context directly contains the answer: 'The lube oil system remains pressurised for up to **20 minutes** after shutdown. Do not break any lube oil connection until the system pressure gauge reads zero.' It also reinforces this in section 8.1: 'Wait for the lube system to depressurise ... before breaking any connection.'\"\n    }\n]"
+        },
+        {
+          "name": "Faithfulness",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions\u2014the actual output appears fully consistent with the retrieval context, which is great.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Truths (limit=5):\n[\n    \"Before removing any guard or cover, the electrical supply must be isolated and locked off at the local isolator, with a personal lock attached and the key retained.\",\n    \"A zero energy state must be confirmed before starting work, and a closed valve alone is not considered an isolation.\",\n    \"The lube oil system can remain pressurised for up to 20 minutes after shutdown, so no lube oil connection should be broken until the pressure gauge reads zero.\",\n    \"Turbine casing surfaces exceed 300 degrees C during operation and can remain above 60 degrees C for about four hours after shutdown, creating a burn hazard during that period.\",\n    \"For a lube oil change, the reservoir and coolers must be drained separately because the coolers retain about 60 litres that will not drain through the reservoir point.\"\n] \n \nClaims:\n[\n    \"The lube oil system can take up to 20 minutes after shutdown to depressurize.\",\n    \"No lube oil connection should be broken until the system pressure gauge reads zero.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        },
+        {
+          "name": "Answer Relevancy",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the response stayed fully focused on when it is safe to break a lube oil connection after shutdown, with no irrelevant statements. Nice and directly on topic.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Statements:\n[\n    \"Wait until the lube oil system has depressurized.\",\n    \"The lube oil system can take up to 20 minutes to depressurize after shutdown.\",\n    \"Do not break any lube oil connection until the system pressure gauge reads zero.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        }
+      ],
+      "runDuration": 18.489897300001758,
+      "order": 2
+    },
+    {
+      "name": "test_case_3",
+      "input": "What is the borescope inspection interval?",
+      "actualOutput": "The borescope inspection interval is every 4000 hours.",
+      "expectedOutput": "The borescope inspection interval is 4000 hours",
+      "retrievalContext": [
+        "[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n### 7.2 Borescope inspection\n\nInsert the borescope through the igniter port. Record any crack indication longer\nthan 6 mm, any coating loss exceeding 20% of a panel, and any distortion of the\ntransition piece. Findings above these limits require engineering review before the\nunit is returned to service.\n\n---\n\n## 8. Lube System Procedures\n\n### 8.1 Lube oil change\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n---\n\n## 5. Scheduled Maintenance Intervals\n\n| Interval | Task group |\n|---|---|\n| 500 hours | Visual inspection, filter differential check |\n| 4000 hours | Borescope inspection of combustion section |\n| 8000 hours | Lube oil and filter change, vibration survey |\n| 24000 hours | Hot gas path inspection |\n| 48000 hours | Major overhaul, compressor rotor removal |\n\n---\n\n## 6. Compressor Section Procedures\n\n### 6.1 Inlet filter element replacement\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n---\n\n## 1. Scope\n\nThis manual covers field maintenance of the HT-400 industrial gas turbine package,\nincluding the compressor section, combustion section, and auxiliary lube system. It\ndoes not cover the generator, the switchgear, or the fuel skid; those are covered by\nseparate manuals HT-400-GEN and HT-400-FS.\n\n---\n\n## 2. General Safety Requirements\n\nThe following apply to **every** procedure in this manual and are not repeated at\neach step.\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n### 2.1 Confined space\n\nThe air intake plenum and the exhaust duct are confined spaces. Entry requires a\npermit, a gas test, and a standby person outside the space.\n\n---\n\n## 3. Torque Specifications\n\nValues are for clean, dry threads unless a lubricant is specified. Over-torquing\ncompressor casing bolts distorts the casing and is not recoverable in the field."
+      ],
+      "inputTokenCount": 845,
+      "outputTokenCount": 95,
+      "completionTime": 4.558713300000818,
+      "flaky": false,
+      "success": true,
+      "metricsData": [
+        {
+          "name": "Contextual Recall",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because sentence 1 is fully supported by node 1 in retrieval context, which explicitly states in the scheduled maintenance table that the borescope inspection interval is 4000 hours\u2014an exact match, great coverage.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Attributed to the 1st node: in '## 5. Scheduled Maintenance Intervals', the table states '4000 hours | Borescope inspection of combustion section ...', which supports 'The borescope inspection interval is 4000 hours'.\",\n        \"expected_output\": \"The borescope inspection interval is 4000 hours\"\n    }\n]"
+        },
+        {
+          "name": "Contextual Precision",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the first node in the retrieval contexts directly answers the question with \"the scheduled maintenance table: '| 4000 hours | Borescope inspection of combustion section |'\", so the relevant information is ranked at the top with no irrelevant nodes ahead of it. Great retrieval quality.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Yes. The context directly states in the scheduled maintenance table: '| 4000 hours | Borescope inspection of combustion section |', which supports the expected output that the borescope inspection interval is 4000 hours.\"\n    }\n]"
+        },
+        {
+          "name": "Faithfulness",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions, so the actual output appears fully consistent with the retrieval context\u2014great job keeping it faithful and aligned.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Truths (limit=5):\n[\n    \"The manual covers field maintenance of the HT-400 industrial gas turbine package, including the compressor section, combustion section, and auxiliary lube system.\",\n    \"The manual does not cover the generator, switchgear, or fuel skid, which are covered by separate manuals HT-400-GEN and HT-400-FS.\",\n    \"The scheduled maintenance intervals include a borescope inspection of the combustion section at 4000 hours, a lube oil and filter change with vibration survey at 8000 hours, a hot gas path inspection at 24000 hours, and a major overhaul with compressor rotor removal at 48000 hours.\",\n    \"During borescope inspection, the borescope is inserted through the igniter port, and crack indications longer than 6 mm, coating loss exceeding 20% of a panel, or any distortion of the transition piece must be recorded.\",\n    \"Any borescope findings above the stated limits require engineering review before the unit is returned to service.\"\n] \n \nClaims:\n[\n    \"The borescope inspection interval is every 4000 hours.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        },
+        {
+          "name": "Answer Relevancy",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the response appears fully relevant to the question about the borescope inspection interval, with no irrelevant statements noted. Nice and focused.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Statements:\n[\n    \"The borescope inspection interval is every 4000 hours.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        }
+      ],
+      "runDuration": 17.04976919999899,
+      "order": 3
+    },
+    {
+      "name": "test_case_4",
+      "input": "What torque for the inlet guide vane pivot nut on a unit with serial HT400-1850?",
+      "actualOutput": "For serial HT400-1850, the inlet guide vane pivot nut torque is **28 Nm**. This applies because the service bulletin covers HT-400 units with serial numbers below **HT400-2200**.",
+      "expectedOutput": "The torque for the inlet guide vane pivot nut on a unit with serial HT400-1850 should be 28 Nm.",
+      "retrievalContext": [
+        "[{'source_hash': '83871f3063a587478d2a709320e8d43e5731279b9752223968f87717a5bf3db1', 'source': 'service_bulletin_SB-2026-04.md'}]\n## Action required\n\nFor affected units, the inlet guide vane pivot nut torque is revised **from 22 Nm to\n28 Nm**. This supersedes the value in section 3 of the maintenance manual for\naffected units only. Units at or above serial HT400-2200 retain the 22 Nm value.\n\nAdditionally, inspect the pivot nut for witness-mark movement at every 500 hour\ninterval, not only at linkage adjustment.\n\n## Note for maintenance planners\n\n[{'source_hash': '83871f3063a587478d2a709320e8d43e5731279b9752223968f87717a5bf3db1', 'source': 'service_bulletin_SB-2026-04.md'}]\n# Halcyon Turbine Systems - Service Bulletin SB-2026-04 (Synthetic)\n\n> Issued 3 March 2026. Applies to HT-400 units with serial numbers below HT400-2200.\n> Read in conjunction with the HT-400 Field Maintenance Manual.\n\n## Subject\n\nInlet guide vane pivot nut - revised torque and inspection requirement.\n\n## Background\n\nField reports have identified pivot nut loosening on units operating with frequent\nload changes. Investigation found the existing torque value insufficient for\nhigh-cycle duty.\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n---\n\n## 1. Scope\n\nThis manual covers field maintenance of the HT-400 industrial gas turbine package,\nincluding the compressor section, combustion section, and auxiliary lube system. It\ndoes not cover the generator, the switchgear, or the fuel skid; those are covered by\nseparate manuals HT-400-GEN and HT-400-FS.\n\n---\n\n## 2. General Safety Requirements\n\nThe following apply to **every** procedure in this manual and are not repeated at\neach step.\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n### 6.2 Inlet guide vane linkage adjustment\n\n1. Confirm the unit is shut down and isolated.\n2. Slacken the pivot nut on the linkage arm.\n3. Set the vane angle using the alignment gauge, referring to the vane schedule in\n   the commissioning record.\n4. Retighten the pivot nut to the torque given in section 3.\n5. Rotate the linkage by hand through its full travel to confirm free movement.\n\n### 6.3 Compressor casing bolt tightening sequence"
+      ],
+      "inputTokenCount": 929,
+      "outputTokenCount": 144,
+      "completionTime": 6.849612699996214,
+      "flaky": false,
+      "success": true,
+      "metricsData": [
+        {
+          "name": "Contextual Recall",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because sentence 1 is fully supported by nodes in retrieval context: node 1 gives the inlet guide vane pivot nut torque as revised to 28 Nm and notes only units at or above serial HT400-2200 keep 22 Nm, while node 2 states this applies to HT-400 units below HT400-2200. Since HT400-1850 is below that threshold, the 28 Nm value is directly confirmed.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Supported by the 1st and 2nd nodes: 1st node says the pivot nut torque is revised \\\"from 22 Nm to 28 Nm\\\" and \\\"Units at or above serial HT400-2200 retain the 22 Nm value\\\"; 2nd node says it \\\"Applies to HT-400 units with serial numbers below HT400-2200.\\\" Since HT400-1850 is below HT400-2200, 28 Nm applies.\",\n        \"expected_output\": \"The torque for the inlet guide vane pivot nut on a unit with serial HT400-1850 should be 28 Nm.\"\n    }\n]"
+        },
+        {
+          "name": "Contextual Precision",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the first node in the retrieval contexts is directly relevant and provides the exact answer: it states that \"the inlet guide vane pivot nut torque is revised from 22 Nm to 28 Nm\" and that \"Units at or above serial HT400-2200 retain the 22 Nm value,\" which clearly supports that serial HT400-1850 uses 28 Nm. With the relevant node ranked first and no irrelevant nodes appearing above it, this is excellent retrieval.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Yes. This context directly supports the expected output by stating that for affected units, 'the inlet guide vane pivot nut torque is revised from 22 Nm to 28 Nm' and that 'Units at or above serial HT400-2200 retain the 22 Nm value.' Since serial 'HT400-1850' is below HT400-2200, 28 Nm applies.\"\n    }\n]"
+        },
+        {
+          "name": "Faithfulness",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions listed, so the actual output appears fully consistent with the retrieval context\u2014great job keeping it faithful and aligned.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Truths (limit=5):\n[\n    \"Service Bulletin SB-2026-04 was issued on 3 March 2026 for HT-400 units with serial numbers below HT400-2200.\",\n    \"The bulletin revises the inlet guide vane pivot nut torque for affected units from 22 Nm to 28 Nm.\",\n    \"Units with serial numbers at or above HT400-2200 retain the 22 Nm pivot nut torque value.\",\n    \"The revised torque value supersedes the value in section 3 of the maintenance manual, but only for affected units.\",\n    \"The bulletin also requires inspection of the pivot nut for witness-mark movement at every 500-hour interval, not only during linkage adjustment.\"\n] \n \nClaims:\n[\n    \"For serial HT400-1850, the inlet guide vane pivot nut torque is 28 Nm.\",\n    \"This applies because the service bulletin covers HT-400 units with serial numbers below HT400-2200.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        },
+        {
+          "name": "Answer Relevancy",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the response stayed fully focused on the requested torque specification for the inlet guide vane pivot nut on serial HT400-1850, with no irrelevant statements. Nice, precise relevance.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Statements:\n[\n    \"For serial HT400-1850, the inlet guide vane pivot nut torque is 28 Nm.\",\n    \"The service bulletin covers HT-400 units with serial numbers below HT400-2200.\",\n    \"This torque specification applies to serial HT400-1850 because it is below HT400-2200.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"This provides serial-number applicability context but does not itself state the torque for the inlet guide vane pivot nut.\"\n    },\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"This supports why the specification would apply to serial HT400-1850, but it still does not directly provide the torque value.\"\n    }\n]"
+        }
+      ],
+      "runDuration": 19.605023700001766,
+      "order": 4
+    },
+    {
+      "name": "test_case_5",
+      "input": "What torque for the inlet guide vane pivot nut on serial HT400-2450?",
+      "actualOutput": "For serial HT400-2450, the inlet guide vane pivot nut torque is **22 Nm**. The revised **28 Nm** value applies only to units **below HT400-2200**.",
+      "expectedOutput": "For serial HT400-2450; the inlet guide vane pivot nut torque is **22 Nm**. The revised **28 Nm** value applies only to units **below HT400-2200**.",
+      "retrievalContext": [
+        "[{'source': 'service_bulletin_SB-2026-04.md', 'source_hash': '83871f3063a587478d2a709320e8d43e5731279b9752223968f87717a5bf3db1'}]\n## Action required\n\nFor affected units, the inlet guide vane pivot nut torque is revised **from 22 Nm to\n28 Nm**. This supersedes the value in section 3 of the maintenance manual for\naffected units only. Units at or above serial HT400-2200 retain the 22 Nm value.\n\nAdditionally, inspect the pivot nut for witness-mark movement at every 500 hour\ninterval, not only at linkage adjustment.\n\n## Note for maintenance planners\n\n[{'source_hash': '83871f3063a587478d2a709320e8d43e5731279b9752223968f87717a5bf3db1', 'source': 'service_bulletin_SB-2026-04.md'}]\n# Halcyon Turbine Systems - Service Bulletin SB-2026-04 (Synthetic)\n\n> Issued 3 March 2026. Applies to HT-400 units with serial numbers below HT400-2200.\n> Read in conjunction with the HT-400 Field Maintenance Manual.\n\n## Subject\n\nInlet guide vane pivot nut - revised torque and inspection requirement.\n\n## Background\n\nField reports have identified pivot nut loosening on units operating with frequent\nload changes. Investigation found the existing torque value insufficient for\nhigh-cycle duty.\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n---\n\n## 1. Scope\n\nThis manual covers field maintenance of the HT-400 industrial gas turbine package,\nincluding the compressor section, combustion section, and auxiliary lube system. It\ndoes not cover the generator, the switchgear, or the fuel skid; those are covered by\nseparate manuals HT-400-GEN and HT-400-FS.\n\n---\n\n## 2. General Safety Requirements\n\nThe following apply to **every** procedure in this manual and are not repeated at\neach step.\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n### 6.2 Inlet guide vane linkage adjustment\n\n1. Confirm the unit is shut down and isolated.\n2. Slacken the pivot nut on the linkage arm.\n3. Set the vane angle using the alignment gauge, referring to the vane schedule in\n   the commissioning record.\n4. Retighten the pivot nut to the torque given in section 3.\n5. Rotate the linkage by hand through its full travel to confirm free movement.\n\n### 6.3 Compressor casing bolt tightening sequence"
+      ],
+      "inputTokenCount": 917,
+      "outputTokenCount": 141,
+      "completionTime": 4.239267299999483,
+      "flaky": false,
+      "success": true,
+      "metricsData": [
+        {
+          "name": "Contextual Recall",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because sentence 1 is fully supported by node 1 in retrieval context: it states that units at or above serial HT400-2200 retain 22 Nm, so serial HT400-2450 uses 22 Nm, and it also says the revised 28 Nm value applies only to HT-400 units below HT400-2200. Great match.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Supported by the 1st node: it says \\\"Units at or above serial HT400-2200 retain the 22 Nm value,\\\" so serial HT400-2450 keeps 22 Nm.\",\n        \"expected_output\": \"For serial HT400-2450; the inlet guide vane pivot nut torque is **22 Nm**. The revised **28 Nm** value applies only to units **below HT400-2200**.\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Supported by the 1st node: \\\"Applies to HT-400 units with serial numbers below HT400-2200\\\" and torque is revised \\\"from 22 Nm to 28 Nm\\\" for affected units only.\",\n        \"expected_output\": \"For serial HT400-2450; the inlet guide vane pivot nut torque is **22 Nm**. The revised **28 Nm** value applies only to units **below HT400-2200**.\"\n    }\n]"
+        },
+        {
+          "name": "Contextual Precision",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the first node in retrieval contexts is directly relevant and states that 'Units at or above serial HT400-2200 retain the 22 Nm value,' which matches serial HT400-2450. All retrieved nodes are relevant, so there are no irrelevant nodes ranked above useful ones\u2014great retrieval.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"This context was useful because it directly states the torque change applies only to certain serials: 'Applies to HT-400 units with serial numbers below HT400-2200' and 'Units at or above serial HT400-2200 retain the 22 Nm value.' Since the input serial is 'HT400-2450' (above HT400-2200), this supports the expected output that the torque is '22 Nm' and that '28 Nm' applies only below HT400-2200.\"\n    }\n]"
+        },
+        {
+          "name": "Faithfulness",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions, indicating the actual output aligns fully with the retrieval context\u2014great job keeping it completely faithful.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Truths (limit=5):\n[\n    \"Service Bulletin SB-2026-04 was issued on 3 March 2026 and applies to HT-400 units with serial numbers below HT400-2200.\",\n    \"For affected units, the inlet guide vane pivot nut torque is revised from 22 Nm to 28 Nm.\",\n    \"The revised 28 Nm torque supersedes the value in section 3 of the maintenance manual for affected units only, while units at or above serial HT400-2200 retain the 22 Nm value.\",\n    \"For affected units, the pivot nut must be inspected for witness-mark movement at every 500 hour interval, not only during linkage adjustment.\",\n    \"The bulletin states that field reports identified pivot nut loosening on units operating with frequent load changes, and the investigation found the existing torque value insufficient for high-cycle duty.\"\n] \n \nClaims:\n[\n    \"For serial HT400-2450, the inlet guide vane pivot nut torque is 22 Nm.\",\n    \"The revised 28 Nm value applies only to units below HT400-2200.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        },
+        {
+          "name": "Answer Relevancy",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the response appears fully relevant to the user's torque question, with no irrelevant statements noted. Great job staying focused and directly on topic.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Statements:\n[\n    \"For serial HT400-2450, the inlet guide vane pivot nut torque is 22 Nm.\",\n    \"The revised 28 Nm value applies only to units below HT400-2200.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        }
+      ],
+      "runDuration": 19.37812539999868,
+      "order": 5
+    },
+    {
+      "name": "test_case_6",
+      "input": "Can I touch the turbine casing two hours after shutdown?",
+      "actualOutput": "No. The turbine casing remains above 60\u00b0C for about four hours after shutdown, so touching it two hours after shutdown can cause burns.",
+      "expectedOutput": "No. The turbine casing remains above 60\u00b0C for approximately four hours after shutdown and touching it within that period can cause burns.",
+      "retrievalContext": [
+        "[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n- Isolate and lock off electrical supply at the local isolator before removing any\n  guard or cover. Attach a personal lock and retain the key.\n- Confirm zero energy state before starting work. A closed valve is not an\n  isolation.\n- The lube oil system remains pressurised for up to **20 minutes** after shutdown.\n  Do not break any lube oil connection until the system pressure gauge reads zero.\n- Turbine casing surfaces exceed 300 degrees C during operation and remain above\n  60 degrees C for approximately **four hours** after shutdown. Contact with casing\n  surfaces inside this period causes burns.\n- Two people are required for any lifting operation above 25 kg.\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n---\n\n## 1. Scope\n\nThis manual covers field maintenance of the HT-400 industrial gas turbine package,\nincluding the compressor section, combustion section, and auxiliary lube system. It\ndoes not cover the generator, the switchgear, or the fuel skid; those are covered by\nseparate manuals HT-400-GEN and HT-400-FS.\n\n---\n\n## 2. General Safety Requirements\n\nThe following apply to **every** procedure in this manual and are not repeated at\neach step.\n\n[{'source_hash': 'f5f3fa58cdf8c81b96dbb40a64bcaf17e721aeaadab90cc370a4cceaddd19ede', 'source': 'quick_reference_liner_change.md'}]\n# HT-400 Quick Reference Card - Combustion Liner Change (Synthetic)\n\n> Laminated card for field use. Not a substitute for the maintenance manual.\n\n## Before you start\n\nConfirm shutdown and isolation. Check the manual for general safety requirements.\n\n## Steps\n\n1. Remove combustion casing cover bolts.\n2. Support the liner.\n3. Remove final fixings and withdraw the liner squarely.\n4. Inspect the transition piece seal.\n5. Fit the new liner with new bolts.\n6. Torque to 95 Nm.\n7. Refit the cover.\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n---\n\n## 4. Fluid Specifications\n\n| Fluid | Specification | Capacity | Change interval |\n|---|---|---|---|\n| Lube oil | ISO VG 32 turbine grade | 340 litres | 8000 running hours |\n| Hydraulic fluid | ISO VG 46 | 45 litres | 12000 running hours |\n| Coolant | 40% glycol premix | 120 litres | 24 months |"
+      ],
+      "inputTokenCount": 922,
+      "outputTokenCount": 140,
+      "completionTime": 4.676262299995869,
+      "flaky": false,
+      "success": true,
+      "metricsData": [
+        {
+          "name": "Contextual Recall",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because sentence 1 is fully supported by node 1 in retrieval context, which directly states that the turbine casing remains above 60\u00b0C for approximately four hours after shutdown and that contact during that time can cause burns\u2014an exact match, so this is a complete and strong retrieval.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"1st node states: \\\"remain above 60 degrees C for approximately four hours after shutdown... causes burns.\\\" This supports both \\\"No.\\\" in context of safety and the full claim about casing temperature and burn risk.\",\n        \"expected_output\": \"No. The turbine casing remains above 60\\u00b0C for approximately four hours after shutdown and touching it within that period can cause burns.\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"1st node directly matches: \\\"Turbine casing surfaces... remain above 60 degrees C for approximately four hours after shutdown. Contact with casing surfaces inside this period causes burns...\\\"\",\n        \"expected_output\": \"No. The turbine casing remains above 60\\u00b0C for approximately four hours after shutdown and touching it within that period can cause burns.\"\n    }\n]"
+        },
+        {
+          "name": "Contextual Precision",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the first node in retrieval contexts is directly relevant and already provides the key evidence: 'Turbine casing surfaces exceed 300 degrees C during operation and remain above 60 degrees C for approximately **four hours** after shutdown. Contact with casing surfaces inside this period causes burns.' Since the relevant information appears immediately and there are no irrelevant nodes ranked above it, this is a perfect result.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Yes. It directly supports the answer by stating that 'Turbine casing surfaces exceed 300 degrees C during operation and remain above 60 degrees C for approximately **four hours** after shutdown. Contact with casing surfaces inside this period causes burns.' This is exactly why the expected output says not to touch it two hours after shutdown.\"\n    }\n]"
+        },
+        {
+          "name": "Faithfulness",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions, so the actual output appears fully consistent with the retrieval context\u2014great job keeping it faithful and aligned.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Truths (limit=5):\n[\n    \"The HT-400 maintenance manual covers field maintenance of the industrial gas turbine package, including the compressor section, combustion section, and auxiliary lube system.\",\n    \"The maintenance manual does not cover the generator, switchgear, or fuel skid, which are covered by separate manuals HT-400-GEN and HT-400-FS.\",\n    \"Before removing any guard or cover, the electrical supply must be isolated and locked off at the local isolator, with a personal lock attached and the key retained.\",\n    \"The lube oil system can remain pressurised for up to 20 minutes after shutdown, and no lube oil connection should be broken until the pressure gauge reads zero.\",\n    \"The combustion liner quick reference card says the new liner should be fitted with new bolts and torqued to 95 Nm.\"\n] \n \nClaims:\n[\n    \"The AI output states that the turbine casing remains above 60\u00b0C for about four hours after shutdown, so touching it two hours after shutdown can cause burns.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"The retrieval context does not mention turbine casing temperature, cooldown time, or burn risk two hours after shutdown. It only states that the lube oil system can remain pressurised for up to 20 minutes after shutdown and should not be opened until the pressure gauge reads zero.\"\n    }\n]"
+        },
+        {
+          "name": "Answer Relevancy",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the response stayed fully focused on whether the turbine casing could be touched two hours after shutdown, with no irrelevant statements. It directly addressed the user's question clearly and appropriately.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Statements:\n[\n    \"No.\",\n    \"The turbine casing remains above 60\u00b0C for about four hours after shutdown.\",\n    \"Touching it two hours after shutdown can cause burns.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        }
+      ],
+      "runDuration": 19.42899309999484,
+      "order": 6
+    },
+    {
+      "name": "test_case_7",
+      "input": "Walk me through changing a combustion liner.",
+      "actualOutput": "Shut the unit down and isolate it, then remove the combustion casing cover bolts. Support the liner, remove the final fixings, and withdraw the liner squarely to avoid damaging the transition piece seal; inspect that seal before reassembly. Install the new liner using new, non-reusable bolts, torque them to 95 Nm, and refit the cover.",
+      "expectedOutput": "Before you start Confirm shutdown and isolation. Check the manual for general safety requirements. First Remove combustion casing cover bolts. Then Support the liner later Remove final fixings and withdraw the liner squarely. Inspect the transition piece seal. Fit the new liner with new bolts. Torque to 95 Nm. Finally Refit the cover. Do not reuse combustion liner bolts. Do not lever against the transition piece.",
+      "retrievalContext": [
+        "[{'source': 'quick_reference_liner_change.md', 'source_hash': 'f5f3fa58cdf8c81b96dbb40a64bcaf17e721aeaadab90cc370a4cceaddd19ede'}]\n# HT-400 Quick Reference Card - Combustion Liner Change (Synthetic)\n\n> Laminated card for field use. Not a substitute for the maintenance manual.\n\n## Before you start\n\nConfirm shutdown and isolation. Check the manual for general safety requirements.\n\n## Steps\n\n1. Remove combustion casing cover bolts.\n2. Support the liner.\n3. Remove final fixings and withdraw the liner squarely.\n4. Inspect the transition piece seal.\n5. Fit the new liner with new bolts.\n6. Torque to 95 Nm.\n7. Refit the cover.\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n---\n\n## 1. Scope\n\nThis manual covers field maintenance of the HT-400 industrial gas turbine package,\nincluding the compressor section, combustion section, and auxiliary lube system. It\ndoes not cover the generator, the switchgear, or the fuel skid; those are covered by\nseparate manuals HT-400-GEN and HT-400-FS.\n\n---\n\n## 2. General Safety Requirements\n\nThe following apply to **every** procedure in this manual and are not repeated at\neach step.\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n---\n\n## 7. Combustion Section Procedures\n\n### 7.1 Combustion liner removal\n\n1. Confirm the unit is shut down and isolated.\n2. Remove the combustion casing cover bolts.\n3. Support the liner before removing the final fixings.\n4. Withdraw the liner squarely to avoid damaging the transition piece seal.\n5. Fit new combustion liner bolts on reassembly; these are not reusable.\n\n### 7.2 Borescope inspection\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n### 7.2 Borescope inspection\n\nInsert the borescope through the igniter port. Record any crack indication longer\nthan 6 mm, any coating loss exceeding 20% of a panel, and any distortion of the\ntransition piece. Findings above these limits require engineering review before the\nunit is returned to service.\n\n---\n\n## 8. Lube System Procedures\n\n### 8.1 Lube oil change"
+      ],
+      "inputTokenCount": 863,
+      "outputTokenCount": 167,
+      "completionTime": 7.277360000000044,
+      "flaky": false,
+      "success": true,
+      "metricsData": [
+        {
+          "name": "Contextual Recall",
+          "threshold": 0.7,
+          "success": true,
+          "score": 0.875,
+          "reason": "The score is 0.88 because nearly all expected sentences are grounded in nodes in retrieval context: sentence 1 is supported by node 1 and node 3 (shutdown/isolation and safety), sentences 2-8 are covered mainly by node 1 with sentence 3 also reinforced by node 3 (removing cover bolts, supporting the liner, withdrawing it squarely, inspecting the seal, fitting the new liner with new bolts, torquing to 95 Nm, and refitting the cover), and sentence 9 is supported by node 3 stating the bolts are not reusable. The only gap is sentence 10, which is not explicitly supported by any node in retrieval context, since no node says not to lever against the transition piece.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"1st node states: \\\"Before you start Confirm shutdown and isolation. Check the manual for general safety requirements...\\\" and 3rd node similarly says \\\"Confirm the unit is shut down and isolated...\\\"\",\n        \"expected_output\": \"Before you start Confirm shutdown and isolation. Check the manual for general safety requirements. First Remove combustion casing cover bolts. Then Support the liner later Remove final fixings and withdraw the liner squarely. Inspect the transition piece seal. Fit the new liner with new bolts. Torque to 95 Nm. Finally Refit the cover. Do not reuse combustion liner bolts. Do not lever against the transition piece.\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"1st node steps list matches: \\\"Remove combustion casing cover bolts... Support the liner... Remove final fixings and withdraw the liner squarely...\\\"; 3rd node also supports this sequence: \\\"Support the liner before removing the final fixings. Withdraw the liner squarely...\\\"\",\n        \"expected_output\": \"Before you start Confirm shutdown and isolation. Check the manual for general safety requirements. First Remove combustion casing cover bolts. Then Support the liner later Remove final fixings and withdraw the liner squarely. Inspect the transition piece seal. Fit the new liner with new bolts. Torque to 95 Nm. Finally Refit the cover. Do not reuse combustion liner bolts. Do not lever against the transition piece.\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"1st node step 4 says: \\\"Inspect the transition piece seal.\\\"\",\n        \"expected_output\": \"Before you start Confirm shutdown and isolation. Check the manual for general safety requirements. First Remove combustion casing cover bolts. Then Support the liner later Remove final fixings and withdraw the liner squarely. Inspect the transition piece seal. Fit the new liner with new bolts. Torque to 95 Nm. Finally Refit the cover. Do not reuse combustion liner bolts. Do not lever against the transition piece.\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"1st node step 5 says: \\\"Fit the new liner with new bolts.\\\"\",\n        \"expected_output\": \"Before you start Confirm shutdown and isolation. Check the manual for general safety requirements. First Remove combustion casing cover bolts. Then Support the liner later Remove final fixings and withdraw the liner squarely. Inspect the transition piece seal. Fit the new liner with new bolts. Torque to 95 Nm. Finally Refit the cover. Do not reuse combustion liner bolts. Do not lever against the transition piece.\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"1st node step 6 says: \\\"Torque to 95 Nm.\\\"\",\n        \"expected_output\": \"Before you start Confirm shutdown and isolation. Check the manual for general safety requirements. First Remove combustion casing cover bolts. Then Support the liner later Remove final fixings and withdraw the liner squarely. Inspect the transition piece seal. Fit the new liner with new bolts. Torque to 95 Nm. Finally Refit the cover. Do not reuse combustion liner bolts. Do not lever against the transition piece.\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"1st node step 7 says: \\\"Refit the cover.\\\"\",\n        \"expected_output\": \"Before you start Confirm shutdown and isolation. Check the manual for general safety requirements. First Remove combustion casing cover bolts. Then Support the liner later Remove final fixings and withdraw the liner squarely. Inspect the transition piece seal. Fit the new liner with new bolts. Torque to 95 Nm. Finally Refit the cover. Do not reuse combustion liner bolts. Do not lever against the transition piece.\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"3rd node states: \\\"Fit new combustion liner bolts on reassembly; these are not reusable.\\\"\",\n        \"expected_output\": \"Before you start Confirm shutdown and isolation. Check the manual for general safety requirements. First Remove combustion casing cover bolts. Then Support the liner later Remove final fixings and withdraw the liner squarely. Inspect the transition piece seal. Fit the new liner with new bolts. Torque to 95 Nm. Finally Refit the cover. Do not reuse combustion liner bolts. Do not lever against the transition piece.\"\n    },\n    {\n        \"verdict\": \"no\",\n        \"reason\": \"No node states not to lever against the transition piece. Closest is 3rd node: \\\"Withdraw the liner squarely to avoid damaging the transition piece seal,\\\" but that does not mention levering.\",\n        \"expected_output\": \"Before you start Confirm shutdown and isolation. Check the manual for general safety requirements. First Remove combustion casing cover bolts. Then Support the liner later Remove final fixings and withdraw the liner squarely. Inspect the transition piece seal. Fit the new liner with new bolts. Torque to 95 Nm. Finally Refit the cover. Do not reuse combustion liner bolts. Do not lever against the transition piece.\"\n    }\n]"
+        },
+        {
+          "name": "Contextual Precision",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the first node in retrieval contexts is directly relevant and contains nearly the full procedure, including \"Confirm shutdown and isolation,\" \"Remove combustion casing cover bolts,\" \"Support the liner,\" \"Remove final fixings and withdraw the liner squarely,\" \"Fit the new liner with new bolts,\" and \"Torque to 95 Nm.\" There are no irrelevant nodes ranked above relevant ones, so the ranking is perfect\u2014great job.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"This context is directly useful because it contains nearly all of the expected procedure verbatim, including 'Confirm shutdown and isolation', 'Check the manual for general safety requirements', 'Remove combustion casing cover bolts', 'Support the liner', 'Remove final fixings and withdraw the liner squarely', 'Inspect the transition piece seal', 'Fit the new liner with new bolts', 'Torque to 95 Nm', 'Refit the cover', and also the caution that 'these are not reusable' plus 'avoid damaging the transition piece seal,' which supports 'Do not reuse combustion liner bolts' and 'Do not lever against the transition piece.'\"\n    }\n]"
+        },
+        {
+          "name": "Faithfulness",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions, so the actual output appears fully consistent with the retrieval context\u2014great job.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Truths (limit=5):\n[\n    \"The quick reference card is for an HT-400 combustion liner change and is labeled as not being a substitute for the maintenance manual.\",\n    \"Before starting the combustion liner change, the unit must be confirmed shut down and isolated.\",\n    \"The liner should be supported before the final fixings are removed, and it should be withdrawn squarely to avoid damaging the transition piece seal.\",\n    \"When reassembling, a new liner is fitted using new combustion liner bolts, which are not reusable.\",\n    \"The quick reference card specifies torquing the liner fasteners to 95 Nm before refitting the cover.\"\n] \n \nClaims:\n[\n    \"The unit should be shut down and isolated, then the combustion casing cover bolts should be removed.\",\n    \"The liner should be supported, the final fixings should be removed, and the liner should be withdrawn squarely to avoid damaging the transition piece seal.\",\n    \"The transition piece seal should be inspected before reassembly.\",\n    \"The new liner should be installed using new, non-reusable bolts, the bolts should be torqued to 95 Nm, and the cover should be refitted.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"The context confirms the unit must be shut down and isolated before starting, but it does not mention removing the combustion casing cover bolts.\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"The context mentions avoiding damage to the transition piece seal during liner withdrawal, but it does not say the seal should be inspected before reassembly.\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        },
+        {
+          "name": "Answer Relevancy",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the response stayed fully focused on walking through changing a combustion liner, with no irrelevant statements. It directly addressed the request clearly and completely.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Statements:\n[\n    \"Shut the unit down and isolate it.\",\n    \"Remove the combustion casing cover bolts.\",\n    \"Support the liner.\",\n    \"Remove the final fixings.\",\n    \"Withdraw the liner squarely to avoid damaging the transition piece seal.\",\n    \"Inspect the transition piece seal before reassembly.\",\n    \"Install the new liner using new, non-reusable bolts.\",\n    \"Torque the bolts to 95 Nm.\",\n    \"Refit the cover.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        }
+      ],
+      "runDuration": 22.003216799996153,
+      "order": 7
+    },
+    {
+      "name": "test_case_8",
+      "input": "What is the exhaust diffuser bolt torque?",
+      "actualOutput": "The exhaust diffuser bolt torque is 190 Nm. Nickel anti-seize is required on the threads.",
+      "expectedOutput": "The xhaust diffuser bolt torque is 190 Nm",
+      "retrievalContext": [
+        "[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n### 2.1 Confined space\n\nThe air intake plenum and the exhaust duct are confined spaces. Entry requires a\npermit, a gas test, and a standby person outside the space.\n\n---\n\n## 3. Torque Specifications\n\nValues are for clean, dry threads unless a lubricant is specified. Over-torquing\ncompressor casing bolts distorts the casing and is not recoverable in the field.\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n---\n\n## 10. Revision History\n\n| Revision | Date | Change |\n|---|---|---|\n| D | 2024-03-02 | Initial field issue |\n| E | 2025-05-14 | Lube oil change interval revised from 6000 to 8000 hours |\n| F | 2026-01-12 | Exhaust diffuser bolt torque revised from 165 Nm to 190 Nm following field reports of joint leakage. Nickel anti-seize now mandatory. |\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n---\n\n## 1. Scope\n\nThis manual covers field maintenance of the HT-400 industrial gas turbine package,\nincluding the compressor section, combustion section, and auxiliary lube system. It\ndoes not cover the generator, the switchgear, or the fuel skid; those are covered by\nseparate manuals HT-400-GEN and HT-400-FS.\n\n---\n\n## 2. General Safety Requirements\n\nThe following apply to **every** procedure in this manual and are not repeated at\neach step.\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n| Fastener | Size | Torque | Notes |\n|---|---|---|---|\n| Compressor casing bolt | M20 | 480 Nm | Tighten in the sequence in section 6.3 |\n| Combustion liner bolt | M12 | 95 Nm | Replace on every removal |\n| Lube pump flange bolt | M10 | 45 Nm | Anti-seize on threads |\n| Bearing cap bolt | M16 | 210 Nm | Do not reuse |\n| Exhaust diffuser bolt | M16 | 190 Nm | Nickel anti-seize required |\n| Inlet guide vane pivot nut | M8 | 22 Nm | Do not exceed; alloy component |\n\n---\n\n## 4. Fluid Specifications"
+      ],
+      "inputTokenCount": 895,
+      "outputTokenCount": 102,
+      "completionTime": 6.549071100002038,
+      "flaky": false,
+      "success": true,
+      "metricsData": [
+        {
+          "name": "Contextual Recall",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because sentence 1 is fully supported by node 1 in retrieval context, which explicitly gives the exhaust diffuser bolt torque as 190 Nm; aside from the minor typo in \"xhaust,\" the match is exact and complete.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Attributed to the 1st retrieval node: it explicitly states \\\"Exhaust diffuser bolt torque revised from 165 Nm to 190 Nm...\\\" and also lists in the torque table \\\"Exhaust diffuser bolt ... 190 Nm...\\\". The sentence has a minor typo (\\\"xhaust\\\").\",\n        \"expected_output\": \"The xhaust diffuser bolt torque is 190 Nm\"\n    }\n]"
+        },
+        {
+          "name": "Contextual Precision",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the first node in the retrieval contexts is directly relevant and already contains the exact answer, stating \"Exhaust diffuser bolt | M16 | 190 Nm | Nickel anti-seize required\" and confirming that the \"Exhaust diffuser bolt torque revised from 165 Nm to 190 Nm.\" There are no irrelevant nodes ranked above or alongside it, so this is a perfect ranking.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"This context is directly useful because it explicitly states in the torque table: 'Exhaust diffuser bolt | M16 | 190 Nm | Nickel anti-seize required'. It also confirms in the revision history that the 'Exhaust diffuser bolt torque revised from 165 Nm to 190 Nm'.\"\n    }\n]"
+        },
+        {
+          "name": "Faithfulness",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions listed, so the actual output appears fully consistent with the retrieval context\u2014great job keeping it accurate and faithful.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Truths (limit=5):\n[\n    \"The manual covers field maintenance of the HT-400 industrial gas turbine package, including the compressor section, combustion section, and auxiliary lube system.\",\n    \"The manual does not cover the generator, switchgear, or fuel skid, which are covered by separate manuals HT-400-GEN and HT-400-FS.\",\n    \"The air intake plenum and the exhaust duct are identified as confined spaces, and entry requires a permit, a gas test, and a standby person outside the space.\",\n    \"Torque values are specified for clean, dry threads unless a lubricant is specified, and over-torquing compressor casing bolts distorts the casing and is not recoverable in the field.\",\n    \"Revision F, dated 2026-01-12, revised the exhaust diffuser bolt torque from 165 Nm to 190 Nm following field reports of joint leakage and made nickel anti-seize mandatory.\"\n] \n \nClaims:\n[\n    \"The exhaust diffuser bolt torque is 190 Nm.\",\n    \"Nickel anti-seize is required on the threads.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        },
+        {
+          "name": "Answer Relevancy",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the response is fully relevant to the question about the exhaust diffuser bolt torque and does not include any irrelevant information. Nice, direct answer.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Statements:\n[\n    \"The exhaust diffuser bolt torque is 190 Nm.\",\n    \"Nickel anti-seize is required on the threads.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"This may be related installation guidance, but it does not directly answer the question asking for the exhaust diffuser bolt torque.\"\n    }\n]"
+        }
+      ],
+      "runDuration": 18.04315769999812,
+      "order": 8
+    },
+    {
+      "name": "test_case_9",
+      "input": "Does this manual cover the fuel skid?",
+      "actualOutput": "No. The manual explicitly says it does not cover the fuel skid; that is covered by separate manual HT-400-FS.",
+      "expectedOutput": "The manual does not cover the fuel skid",
+      "retrievalContext": [
+        "[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n---\n\n## 1. Scope\n\nThis manual covers field maintenance of the HT-400 industrial gas turbine package,\nincluding the compressor section, combustion section, and auxiliary lube system. It\ndoes not cover the generator, the switchgear, or the fuel skid; those are covered by\nseparate manuals HT-400-GEN and HT-400-FS.\n\n---\n\n## 2. General Safety Requirements\n\nThe following apply to **every** procedure in this manual and are not repeated at\neach step.\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n# Halcyon Turbine Systems - HT-400 Field Maintenance Manual (Synthetic)\n\n> Controlled document. Revision F, issued 12 January 2026. Supersedes Revision E.\n> SYNTHETIC document created for training. All part numbers and values are invented.\n\n---\n\n## 1. Scope\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n### 7.2 Borescope inspection\n\nInsert the borescope through the igniter port. Record any crack indication longer\nthan 6 mm, any coating loss exceeding 20% of a panel, and any distortion of the\ntransition piece. Findings above these limits require engineering review before the\nunit is returned to service.\n\n---\n\n## 8. Lube System Procedures\n\n### 8.1 Lube oil change\n\n[{'source_hash': 'f5f3fa58cdf8c81b96dbb40a64bcaf17e721aeaadab90cc370a4cceaddd19ede', 'source': 'quick_reference_liner_change.md'}]\n# HT-400 Quick Reference Card - Combustion Liner Change (Synthetic)\n\n> Laminated card for field use. Not a substitute for the maintenance manual.\n\n## Before you start\n\nConfirm shutdown and isolation. Check the manual for general safety requirements.\n\n## Steps\n\n1. Remove combustion casing cover bolts.\n2. Support the liner.\n3. Remove final fixings and withdraw the liner squarely.\n4. Inspect the transition piece seal.\n5. Fit the new liner with new bolts.\n6. Torque to 95 Nm.\n7. Refit the cover."
+      ],
+      "inputTokenCount": 831,
+      "outputTokenCount": 105,
+      "completionTime": 4.313402699997823,
+      "flaky": false,
+      "success": true,
+      "metricsData": [
+        {
+          "name": "Contextual Recall",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because sentence 1 is fully supported by node 1 in retrieval context, which explicitly states that the manual does not cover the fuel skid. Great alignment.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Attributed to the 1st node: \\\"It does not cover ... the fuel skid; those are covered by separate manuals ...\\\" which directly supports \\\"The manual does not cover the fuel skid.\\\"\",\n        \"expected_output\": \"The manual does not cover the fuel skid\"\n    }\n]"
+        },
+        {
+          "name": "Contextual Precision",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the first node in the retrieval contexts is directly relevant and immediately answers the question by stating that the manual \"does not cover the generator, the switchgear, or the fuel skid.\" There are no irrelevant nodes ranked above or alongside it, so the ranking is perfectly precise.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"This context is directly useful because it explicitly states in the scope section that the manual 'does not cover the generator, the switchgear, or the fuel skid,' which supports the expected output 'The manual does not cover the fuel skid.'\"\n    }\n]"
+        },
+        {
+          "name": "Faithfulness",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions, so the actual output appears fully consistent with the retrieval context\u2014great job keeping it accurate and faithful.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Truths (limit=5):\n[\n    \"The HT-400 Field Maintenance Manual covers field maintenance of the HT-400 industrial gas turbine package.\",\n    \"The manual includes the compressor section, combustion section, and auxiliary lube system.\",\n    \"The manual does not cover the generator, switchgear, or fuel skid, which are covered by separate manuals HT-400-GEN and HT-400-FS.\",\n    \"The document is a controlled synthetic document identified as Revision F, issued on 12 January 2026, and it supersedes Revision E.\",\n    \"For borescope inspection, crack indications longer than 6 mm, coating loss exceeding 20% of a panel, or distortion of the transition piece require engineering review before returning the unit to service.\"\n] \n \nClaims:\n[\n    \"The manual explicitly says it does not cover the fuel skid and that the fuel skid is covered by separate manual HT-400-FS.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        },
+        {
+          "name": "Answer Relevancy",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the response directly addresses whether the manual covers the fuel skid and stays fully on topic with no irrelevant statements. Great job keeping it precise and relevant.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Statements:\n[\n    \"No.\",\n    \"The manual explicitly says it does not cover the fuel skid.\",\n    \"The fuel skid is covered by separate manual HT-400-FS.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"This provides additional supporting context about where the fuel skid is covered, but it is not necessary to directly answer whether this manual covers the fuel skid.\"\n    }\n]"
+        }
+      ],
+      "runDuration": 16.95982269999513,
+      "order": 9
+    },
+    {
+      "name": "test_case_10",
+      "input": "What is the generator bearing clearance?",
+      "actualOutput": "I do not know. The provided context explicitly says this manual does not cover the generator, so generator bearing clearance is not included here.",
+      "expectedOutput": "I do not know. The provided context explicitly says the HT-400 maintenance manual does not cover the generator; and no generator bearing clearance value is included",
+      "retrievalContext": [
+        "[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n---\n\n## 1. Scope\n\nThis manual covers field maintenance of the HT-400 industrial gas turbine package,\nincluding the compressor section, combustion section, and auxiliary lube system. It\ndoes not cover the generator, the switchgear, or the fuel skid; those are covered by\nseparate manuals HT-400-GEN and HT-400-FS.\n\n---\n\n## 2. General Safety Requirements\n\nThe following apply to **every** procedure in this manual and are not repeated at\neach step.\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n### 2.1 Confined space\n\nThe air intake plenum and the exhaust duct are confined spaces. Entry requires a\npermit, a gas test, and a standby person outside the space.\n\n---\n\n## 3. Torque Specifications\n\nValues are for clean, dry threads unless a lubricant is specified. Over-torquing\ncompressor casing bolts distorts the casing and is not recoverable in the field.\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n### 7.2 Borescope inspection\n\nInsert the borescope through the igniter port. Record any crack indication longer\nthan 6 mm, any coating loss exceeding 20% of a panel, and any distortion of the\ntransition piece. Findings above these limits require engineering review before the\nunit is returned to service.\n\n---\n\n## 8. Lube System Procedures\n\n### 8.1 Lube oil change\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n---\n\n## 6. Compressor Section Procedures\n\n### 6.1 Inlet filter element replacement\n\n1. Confirm the unit is shut down and isolated.\n2. Open the filter house access door.\n3. Remove the retaining clips from each element in turn.\n4. Withdraw the element and inspect the sealing face for damage.\n5. Fit the replacement element with the airflow arrow pointing downstream.\n6. Refit the retaining clips and close the access door.\n\n### 6.2 Inlet guide vane linkage adjustment"
+      ],
+      "inputTokenCount": 833,
+      "outputTokenCount": 103,
+      "completionTime": 3.671080300002359,
+      "flaky": false,
+      "success": false,
+      "metricsData": [
+        {
+          "name": "Contextual Recall",
+          "threshold": 0.7,
+          "success": false,
+          "score": 0.5,
+          "reason": "The score is 0.50 because sentence 1 is only partially grounded in the node(s) in retrieval context: node 1 supports the clause that the HT-400 maintenance manual does not cover the generator, but it does not provide the response-style statement \"I do not know,\" and there is no node showing a generator bearing clearance value. So the expected output is partly supported but not fully attributable to the retrieved context.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"no\",\n        \"reason\": \"The 1st node states scope limits and covered sections, but it does not contain the sentence \\\"I do not know.\\\" This is a response style statement, not attributable to the context.\",\n        \"expected_output\": \"I do not know. The provided context explicitly says the HT-400 maintenance manual does not cover the generator; and no generator bearing clearance value is included\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"The 1st node supports the first clause: \\\"It does not cover the generator...\\\" However, the context does not mention any generator bearing clearance value anywhere, so the sentence is only partially supported.\",\n        \"expected_output\": \"I do not know. The provided context explicitly says the HT-400 maintenance manual does not cover the generator; and no generator bearing clearance value is included\"\n    }\n]"
+        },
+        {
+          "name": "Contextual Precision",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the first node in the retrieval contexts is relevant and correctly ranked at the top: it states that the manual \"does not cover the generator, the switchgear, or the fuel skid; those are covered by separate manuals HT-400-GEN and HT-400-FS,\" which directly supports that the provided context does not contain a generator bearing clearance value. There are no irrelevant nodes ranked above relevant ones, so this is a perfect result.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"The context is remotely useful because it directly states the manual 'does not cover the generator, the switchgear, or the fuel skid; those are covered by separate manuals HT-400-GEN and HT-400-FS.' This supports the expected output that the provided context does not include a generator bearing clearance value.\"\n    }\n]"
+        },
+        {
+          "name": "Faithfulness",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions, so the actual output appears fully consistent with the retrieval context\u2014great job.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Truths (limit=5):\n[\n    \"This manual covers field maintenance of the HT-400 industrial gas turbine package, including the compressor section, combustion section, and auxiliary lube system.\",\n    \"The manual does not cover the generator, switchgear, or fuel skid, which are covered by separate manuals HT-400-GEN and HT-400-FS.\",\n    \"The air intake plenum and the exhaust duct are classified as confined spaces, and entry requires a permit, a gas test, and a standby person outside the space.\",\n    \"Torque specifications are for clean, dry threads unless a lubricant is specified, and over-torquing compressor casing bolts distorts the casing in a way that is not recoverable in the field.\",\n    \"During borescope inspection, cracks longer than 6 mm, coating loss exceeding 20% of a panel, or distortion of the transition piece must be recorded, and findings above these limits require engineering review before the unit is returned to service.\"\n] \n \nClaims:\n[\n    \"The provided context explicitly says this manual does not cover the generator, so generator bearing clearance is not included here.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        },
+        {
+          "name": "Answer Relevancy",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the response stays fully focused on answering the question about generator bearing clearance, with no irrelevant statements. Nice and directly relevant.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Statements:\n[\n    \"I do not know.\",\n    \"The provided context explicitly says this manual does not cover the generator.\",\n    \"Generator bearing clearance is not included here.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        }
+      ],
+      "runDuration": 19.16675419999956,
+      "order": 10
+    },
+    {
+      "name": "test_case_11",
+      "input": "In what order do I tighten the compressor casing bolts?",
+      "actualOutput": "Tighten the compressor casing bolts in four passes: 25%, 50%, 75%, then 100% of final torque. Use a diametrically opposite, cross-flange pattern rather than going sequentially around the casing. Complete the final pass within 30 minutes of the third pass.",
+      "expectedOutput": "Tighten in four passes: 25% of final torque; 50%; 75%; then 100%. Work diametrically opposite across the flange; not sequentially around it. The final pass\\nmust be completed within 30 minutes of the third to avoid uneven relaxation.",
+      "retrievalContext": [
+        "[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n### 6.3 Compressor casing bolt tightening sequence\n\nTighten in four passes: 25% of final torque, 50%, 75%, then 100%. Work\ndiametrically opposite across the flange, not sequentially around it. The final pass\nmust be completed within 30 minutes of the third to avoid uneven relaxation.\n\n---\n\n## 7. Combustion Section Procedures\n\n### 7.1 Combustion liner removal\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n| Fastener | Size | Torque | Notes |\n|---|---|---|---|\n| Compressor casing bolt | M20 | 480 Nm | Tighten in the sequence in section 6.3 |\n| Combustion liner bolt | M12 | 95 Nm | Replace on every removal |\n| Lube pump flange bolt | M10 | 45 Nm | Anti-seize on threads |\n| Bearing cap bolt | M16 | 210 Nm | Do not reuse |\n| Exhaust diffuser bolt | M16 | 190 Nm | Nickel anti-seize required |\n| Inlet guide vane pivot nut | M8 | 22 Nm | Do not exceed; alloy component |\n\n---\n\n## 4. Fluid Specifications\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n### 2.1 Confined space\n\nThe air intake plenum and the exhaust duct are confined spaces. Entry requires a\npermit, a gas test, and a standby person outside the space.\n\n---\n\n## 3. Torque Specifications\n\nValues are for clean, dry threads unless a lubricant is specified. Over-torquing\ncompressor casing bolts distorts the casing and is not recoverable in the field.\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n### 6.2 Inlet guide vane linkage adjustment\n\n1. Confirm the unit is shut down and isolated.\n2. Slacken the pivot nut on the linkage arm.\n3. Set the vane angle using the alignment gauge, referring to the vane schedule in\n   the commissioning record.\n4. Retighten the pivot nut to the torque given in section 3.\n5. Rotate the linkage by hand through its full travel to confirm free movement.\n\n### 6.3 Compressor casing bolt tightening sequence"
+      ],
+      "inputTokenCount": 896,
+      "outputTokenCount": 164,
+      "completionTime": 4.538033600001654,
+      "flaky": false,
+      "success": true,
+      "metricsData": [
+        {
+          "name": "Contextual Recall",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because all expected sentences are fully supported by node 1 in the retrieval context: sentence 1 covers the four-pass tightening sequence (25%, 50%, 75%, 100%), sentence 2 specifies working diametrically opposite across the flange rather than sequentially, and sentence 3 states the final pass must be completed within 30 minutes of the third. Great alignment throughout.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"1st node states: \\\"Tighten in four passes: 25% of final torque, 50%, 75%, then 100%...\\\" which matches this sentence.\",\n        \"expected_output\": \"Tighten in four passes: 25% of final torque; 50%; 75%; then 100%. Work diametrically opposite across the flange; not sequentially around it. The final pass\\\\nmust be completed within 30 minutes of the third to avoid uneven relaxation.\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"1st node states: \\\"Work diametrically opposite across the flange, not sequentially around it.\\\" directly supporting this sentence.\",\n        \"expected_output\": \"Tighten in four passes: 25% of final torque; 50%; 75%; then 100%. Work diametrically opposite across the flange; not sequentially around it. The final pass\\\\nmust be completed within 30 minutes of the third to avoid uneven relaxation.\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"1st node states: \\\"The final pass must be completed within 30 minutes of the third to avoid uneven relaxation.\\\" directly matches this sentence.\",\n        \"expected_output\": \"Tighten in four passes: 25% of final torque; 50%; 75%; then 100%. Work diametrically opposite across the flange; not sequentially around it. The final pass\\\\nmust be completed within 30 minutes of the third to avoid uneven relaxation.\"\n    }\n]"
+        },
+        {
+          "name": "Contextual Precision",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the first node in retrieval contexts is directly relevant and provides the exact procedure, including 'Tighten in four passes: 25% of final torque, 50%, 75%, then 100%. Work diametrically opposite across the flange, not sequentially around it.' No irrelevant nodes appear above any relevant ones, so the ranking is perfect.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Yes. It directly contains the needed procedure: 'Tighten in four passes: 25% of final torque, 50%, 75%, then 100%. Work diametrically opposite across the flange, not sequentially around it. The final pass must be completed within 30 minutes of the third to avoid uneven relaxation.' This matches the expected output almost verbatim.\"\n    }\n]"
+        },
+        {
+          "name": "Faithfulness",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions\u2014the actual output appears fully consistent with the retrieval context. Great job keeping it faithful and aligned.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Truths (limit=5):\n[\n    \"Compressor casing bolts must be tightened in four passes at 25%, 50%, 75%, and 100% of final torque.\",\n    \"The compressor casing bolt tightening sequence requires working diametrically opposite across the flange rather than sequentially around it.\",\n    \"The final pass for compressor casing bolts must be completed within 30 minutes of the third pass to avoid uneven relaxation.\",\n    \"The torque specification table lists the compressor casing bolt as M20 with a torque of 480 Nm, and it refers to the tightening sequence in section 6.3.\",\n    \"Torque values are for clean, dry threads unless a lubricant is specified, and over-torquing compressor casing bolts distorts the casing in a way that is not recoverable in the field.\"\n] \n \nClaims:\n[\n    \"The compressor casing bolts should be tightened in four passes: 25%, 50%, 75%, then 100% of final torque.\",\n    \"A diametrically opposite, cross-flange pattern should be used rather than going sequentially around the casing.\",\n    \"The final pass should be completed within 30 minutes of the third pass.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        },
+        {
+          "name": "Answer Relevancy",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the answer appears fully relevant to the question, with no irrelevant statements noted. It stays at the top score since it directly addresses the bolt-tightening order cleanly and appropriately.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Statements:\n[\n    \"Tighten the compressor casing bolts in four passes: 25%, 50%, 75%, then 100% of final torque.\",\n    \"Use a diametrically opposite, cross-flange pattern rather than going sequentially around the casing.\",\n    \"Complete the final pass within 30 minutes of the third pass.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"This is a timing requirement for completing the tightening procedure, not the order in which the bolts should be tightened.\"\n    }\n]"
+        }
+      ],
+      "runDuration": 19.988622400000168,
+      "order": 11
+    },
+    {
+      "name": "test_case_12",
+      "input": "Do I need a permit to enter the exhaust duct?",
+      "actualOutput": "Yes. The exhaust duct is a confined space, and entry requires a permit, a gas test, and a standby person outside the space.",
+      "expectedOutput": "yes a permit is required to enter exhaust duct given that is a confined space",
+      "retrievalContext": [
+        "[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n### 2.1 Confined space\n\nThe air intake plenum and the exhaust duct are confined spaces. Entry requires a\npermit, a gas test, and a standby person outside the space.\n\n---\n\n## 3. Torque Specifications\n\nValues are for clean, dry threads unless a lubricant is specified. Over-torquing\ncompressor casing bolts distorts the casing and is not recoverable in the field.\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n---\n\n## 1. Scope\n\nThis manual covers field maintenance of the HT-400 industrial gas turbine package,\nincluding the compressor section, combustion section, and auxiliary lube system. It\ndoes not cover the generator, the switchgear, or the fuel skid; those are covered by\nseparate manuals HT-400-GEN and HT-400-FS.\n\n---\n\n## 2. General Safety Requirements\n\nThe following apply to **every** procedure in this manual and are not repeated at\neach step.\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n- Isolate and lock off electrical supply at the local isolator before removing any\n  guard or cover. Attach a personal lock and retain the key.\n- Confirm zero energy state before starting work. A closed valve is not an\n  isolation.\n- The lube oil system remains pressurised for up to **20 minutes** after shutdown.\n  Do not break any lube oil connection until the system pressure gauge reads zero.\n- Turbine casing surfaces exceed 300 degrees C during operation and remain above\n  60 degrees C for approximately **four hours** after shutdown. Contact with casing\n  surfaces inside this period causes burns.\n- Two people are required for any lifting operation above 25 kg.\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n---\n\n## 6. Compressor Section Procedures\n\n### 6.1 Inlet filter element replacement\n\n1. Confirm the unit is shut down and isolated.\n2. Open the filter house access door.\n3. Remove the retaining clips from each element in turn.\n4. Withdraw the element and inspect the sealing face for damage.\n5. Fit the replacement element with the airflow arrow pointing downstream.\n6. Refit the retaining clips and close the access door.\n\n### 6.2 Inlet guide vane linkage adjustment"
+      ],
+      "inputTokenCount": 904,
+      "outputTokenCount": 125,
+      "completionTime": 4.4443952000001445,
+      "flaky": false,
+      "success": true,
+      "metricsData": [
+        {
+          "name": "Contextual Recall",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because sentence 1 is fully supported by node 1 in the retrieval context, which states that the exhaust duct is a confined space and that entry requires a permit\u2014an exact match, great coverage.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"1st node states: \\\"The air intake plenum and the exhaust duct are confined spaces. Entry requires a permit...\\\" This supports that a permit is required to enter the exhaust duct because it is a confined space.\",\n        \"expected_output\": \"yes a permit is required to enter exhaust duct given that is a confined space\"\n    }\n]"
+        },
+        {
+          "name": "Contextual Precision",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the first node in the retrieval contexts is directly relevant and clearly states that \"The air intake plenum and the exhaust duct are confined spaces\" and that \"Entry requires a permit,\" so the most useful information is ranked at the top. Great ranking overall.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"This is directly useful because it states that 'The air intake plenum and the exhaust duct are confined spaces' and that 'Entry requires a permit,' which supports the answer that a permit is required to enter the exhaust duct because it is a confined space.\"\n    }\n]"
+        },
+        {
+          "name": "Faithfulness",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions\u2014the actual output appears fully consistent with the retrieval context. Nice job keeping it accurate and faithful.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Truths (limit=5):\n[\n    \"This manual covers field maintenance of the HT-400 industrial gas turbine package, including the compressor section, combustion section, and auxiliary lube system.\",\n    \"The manual does not cover the generator, switchgear, or fuel skid, which are covered by separate manuals HT-400-GEN and HT-400-FS.\",\n    \"The air intake plenum and the exhaust duct are identified as confined spaces, and entry requires a permit, a gas test, and a standby person outside the space.\",\n    \"General safety requirements in the manual apply to every procedure and include isolating and locking off the electrical supply before removing any guard or cover, while confirming a zero energy state before work begins.\",\n    \"The lube oil system can remain pressurised for up to 20 minutes after shutdown, and turbine casing surfaces can stay above 60 degrees C for about four hours after shutdown.\"\n] \n \nClaims:\n[\n    \"The exhaust duct is a confined space, and entry requires a permit, a gas test, and a standby person outside the space.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        },
+        {
+          "name": "Answer Relevancy",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the response appears fully focused on whether a permit is needed to enter the exhaust duct, with no irrelevant statements. Nice job staying directly on topic.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Statements:\n[\n    \"Yes.\",\n    \"The exhaust duct is a confined space.\",\n    \"Entry requires a permit.\",\n    \"Entry requires a gas test.\",\n    \"Entry requires a standby person outside the space.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"A gas test may be part of confined space entry procedures, but it does not directly answer whether a permit is needed.\"\n    },\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"Having a standby person may be a related safety requirement, but it does not directly address whether a permit is needed.\"\n    }\n]"
+        }
+      ],
+      "runDuration": 18.052588400001696,
+      "order": 12
+    },
+    {
+      "name": "test_case_13",
+      "input": "The filter differential is reading 2.4 bar. What should I do?",
+      "actualOutput": "A 2.4 bar filter differential is above the manual\u2019s limit of 2 bar, indicating the filter is blocked. Replace the filter element at the next opportunity, and do not continue operating above 2 bar differential. If replacing it, shut down and isolate the unit first before opening the filter house.",
+      "expectedOutput": "When High filter differential could be due to Filter blocked. You should Replace element at next opportunity; do not exceed 2 bar differential",
+      "retrievalContext": [
+        "[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n---\n\n## 5. Scheduled Maintenance Intervals\n\n| Interval | Task group |\n|---|---|\n| 500 hours | Visual inspection, filter differential check |\n| 4000 hours | Borescope inspection of combustion section |\n| 8000 hours | Lube oil and filter change, vibration survey |\n| 24000 hours | Hot gas path inspection |\n| 48000 hours | Major overhaul, compressor rotor removal |\n\n---\n\n## 6. Compressor Section Procedures\n\n### 6.1 Inlet filter element replacement\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n---\n\n## 6. Compressor Section Procedures\n\n### 6.1 Inlet filter element replacement\n\n1. Confirm the unit is shut down and isolated.\n2. Open the filter house access door.\n3. Remove the retaining clips from each element in turn.\n4. Withdraw the element and inspect the sealing face for damage.\n5. Fit the replacement element with the airflow arrow pointing downstream.\n6. Refit the retaining clips and close the access door.\n\n### 6.2 Inlet guide vane linkage adjustment\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n---\n\n## 1. Scope\n\nThis manual covers field maintenance of the HT-400 industrial gas turbine package,\nincluding the compressor section, combustion section, and auxiliary lube system. It\ndoes not cover the generator, the switchgear, or the fuel skid; those are covered by\nseparate manuals HT-400-GEN and HT-400-FS.\n\n---\n\n## 2. General Safety Requirements\n\nThe following apply to **every** procedure in this manual and are not repeated at\neach step.\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\n| Symptom | Probable cause | Action |\n|---|---|---|\n| Low lube oil pressure at start | Underfilled system, or pump not primed | Check level against total system capacity; prime pump |\n| High filter differential | Filter blocked | Replace element at next opportunity; do not exceed 2 bar differential |\n| Vibration above alarm | Bearing wear, or rotor imbalance | Carry out vibration survey; do not continue above trip level |\n| Exhaust temperature spread high | Fuel nozzle fouling, or liner damage | Borescope combustion section |\n| Slow guide vane response | Hydraulic fluid contamination, or linkage binding | Check fluid condition; rotate linkage by hand |"
+      ],
+      "inputTokenCount": 941,
+      "outputTokenCount": 183,
+      "completionTime": 4.871310300004552,
+      "flaky": false,
+      "success": true,
+      "metricsData": [
+        {
+          "name": "Contextual Recall",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because sentence 1 is fully supported by node 4 in the retrieval context, which directly states: \"High filter differential | Filter blocked | Replace element at next opportunity; do not exceed 2 bar differential.\" Great alignment overall.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Supported by the 4th node's troubleshooting table: \\\"High filter differential | Filter blocked | Replace element at next opportunity; do not exceed 2 bar differential\\\"...\",\n        \"expected_output\": \"When High filter differential could be due to Filter blocked. You should Replace element at next opportunity; do not exceed 2 bar differential\"\n    }\n]"
+        },
+        {
+          "name": "Contextual Precision",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the first node in retrieval contexts is directly relevant and states: \"High filter differential | Filter blocked | Replace element at next opportunity; do not exceed 2 bar differential.\" This places the needed information right at the top, so there are no irrelevant nodes ranked above relevant ones\u2014great retrieval.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Yes. This context directly supports the expected output by stating in the troubleshooting table: 'High filter differential | Filter blocked | Replace element at next opportunity; do not exceed 2 bar differential'. That matches the answer about a 2.4 bar differential indicating a blocked filter and the action to replace the element.\"\n    }\n]"
+        },
+        {
+          "name": "Faithfulness",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions, so the actual output appears fully consistent with the retrieval context\u2014great job keeping it accurate and faithful.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Truths (limit=5):\n[\n    \"The manual covers field maintenance of the HT-400 industrial gas turbine package, including the compressor section, combustion section, and auxiliary lube system.\",\n    \"The manual does not cover the generator, switchgear, or fuel skid, because those are covered by separate manuals HT-400-GEN and HT-400-FS.\",\n    \"Scheduled maintenance includes a borescope inspection of the combustion section at 4000 hours.\",\n    \"Scheduled maintenance includes a hot gas path inspection at 24000 hours and a major overhaul with compressor rotor removal at 48000 hours.\",\n    \"The inlet filter element replacement procedure requires the unit to be shut down and isolated before the filter house access door is opened and the element is removed and replaced.\"\n] \n \nClaims:\n[\n    \"A 2.4 bar filter differential is above the manual\u2019s limit of 2 bar, indicating the filter is blocked.\",\n    \"The filter element should be replaced at the next opportunity, and the unit should not continue operating above 2 bar differential.\",\n    \"If replacing the filter element, the unit should be shut down and isolated first before opening the filter house.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"The context mentions a replacement procedure requiring shutdown and isolation before opening the filter house, but it does not state any filter differential limit of 2 bar or that 2.4 bar indicates the filter is blocked.\"\n    },\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"The context does not provide any operating limit of 2 bar differential or guidance that the unit should not continue operating above that value. It only states that replacement requires shutdown and isolation before opening the filter house.\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        },
+        {
+          "name": "Answer Relevancy",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the response stayed fully focused on the user\u2019s question about a 2.4 bar filter differential and did not include any irrelevant statements. It directly addressed the issue, so this is a strong, fully relevant answer.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Statements:\n[\n    \"A 2.4 bar filter differential is above the manual\u2019s limit of 2 bar.\",\n    \"The filter is blocked.\",\n    \"Replace the filter element at the next opportunity.\",\n    \"Do not continue operating above 2 bar differential.\",\n    \"If replacing the filter element, shut down and isolate the unit first before opening the filter house.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    }\n]"
+        }
+      ],
+      "runDuration": 20.378848200001812,
+      "order": 13
+    },
+    {
+      "name": "test_case_14",
+      "input": "How many people do I need to lift the lube pump?",
+      "actualOutput": "Two people are required if the lube pump lifting operation is above 25 kg. The manual states: \u201cTwo people are required for any lifting operation above 25 kg.\u201d",
+      "expectedOutput": "You need two people if lifting the lube pump is a lifting operation above 25 kg. The manual states: \u201cTwo people are required for any lifting operation above 25 kg.\u201d",
+      "retrievalContext": [
+        "[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n- Isolate and lock off electrical supply at the local isolator before removing any\n  guard or cover. Attach a personal lock and retain the key.\n- Confirm zero energy state before starting work. A closed valve is not an\n  isolation.\n- The lube oil system remains pressurised for up to **20 minutes** after shutdown.\n  Do not break any lube oil connection until the system pressure gauge reads zero.\n- Turbine casing surfaces exceed 300 degrees C during operation and remain above\n  60 degrees C for approximately **four hours** after shutdown. Contact with casing\n  surfaces inside this period causes burns.\n- Two people are required for any lifting operation above 25 kg.\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n### 8.2 Lube pump replacement\n\n1. Confirm the unit is shut down and the lube system has depressurised.\n2. Disconnect the suction and discharge flanges.\n3. Support the pump and remove the mounting bolts.\n4. Fit the replacement pump with new flange gaskets.\n5. Torque the flange bolts to the value in section 3, using anti-seize.\n6. Prime the pump before starting.\n\n---\n\n## 9. Fault Finding\n\n[{'source': 'ht400_maintenance_manual.md', 'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217'}]\n### 8.1 Lube oil change\n\n1. Confirm the unit is shut down.\n2. Wait for the lube system to depressurise as described in section 2 before\n   breaking any connection.\n3. Drain the reservoir and the coolers separately; the coolers retain\n   approximately 60 litres which will not drain through the reservoir point.\n4. Replace both filter elements.\n5. Refill to the total system capacity given in section 4, not the reservoir figure.\n6. Run the auxiliary lube pump for ten minutes and recheck the level.\n\n[{'source_hash': 'a03e7ba84250c278dabe167133744daf4caacd37d9dc173ee70fb9b8ca712217', 'source': 'ht400_maintenance_manual.md'}]\nLube oil capacity is the **total system** figure including the reservoir and coolers.\nThe reservoir alone holds 210 litres. Filling to the reservoir figure will leave the\nsystem underfilled and trip the low-level alarm on start.\n\n---\n\n## 5. Scheduled Maintenance Intervals"
+      ],
+      "inputTokenCount": 894,
+      "outputTokenCount": 141,
+      "completionTime": 4.069779199999175,
+      "flaky": false,
+      "success": true,
+      "metricsData": [
+        {
+          "name": "Contextual Recall",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because sentence 1 is fully supported by nodes in retrieval context: node 1 explicitly states, \"Two people are required for any lifting operation above 25 kg,\" and node 2 provides the lube pump replacement context, so the answer correctly applies the rule and quotes it exactly.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"1st node states \\\"Two people are required for any lifting operation above 25 kg...\\\" and 2nd node is specifically about \\\"8.2 Lube pump replacement,\\\" so the sentence is supported if the lube pump lift falls under that condition.\",\n        \"expected_output\": \"You need two people if lifting the lube pump is a lifting operation above 25 kg. The manual states: \\u201cTwo people are required for any lifting operation above 25 kg.\\u201d\"\n    },\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"1st node directly matches the quoted statement: \\\"Two people are required for any lifting operation above 25 kg.\\\"\",\n        \"expected_output\": \"You need two people if lifting the lube pump is a lifting operation above 25 kg. The manual states: \\u201cTwo people are required for any lifting operation above 25 kg.\\u201d\"\n    }\n]"
+        },
+        {
+          "name": "Contextual Precision",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the first node in retrieval contexts is directly relevant and contains the key information: \"Two people are required for any lifting operation above 25 kg.\" Since the relevant information is ranked first and there are no irrelevant nodes ranked above it, this is an excellent result.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Verdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": \"Yes. This context directly contains the key sentence used in the expected output: 'Two people are required for any lifting operation above 25 kg.' That supports the answer about how many people are needed to lift the lube pump.\"\n    }\n]"
+        },
+        {
+          "name": "Faithfulness",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because there are no contradictions, so the actual output appears fully consistent with the retrieval context\u2014great job keeping it faithful and aligned.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Truths (limit=5):\n[\n    \"Electrical supply must be isolated and locked off at the local isolator before removing any guard or cover, with a personal lock attached and the key retained.\",\n    \"The lube oil system can remain pressurised for up to 20 minutes after shutdown, and no lube oil connection should be broken until the system pressure gauge reads zero.\",\n    \"Turbine casing surfaces exceed 300 degrees C during operation and can remain above 60 degrees C for about four hours after shutdown, creating a burn hazard during that period.\",\n    \"For a lube pump replacement, the unit must be shut down, the lube system depressurised, the replacement pump fitted with new flange gaskets, and the pump primed before starting.\",\n    \"Lube oil capacity refers to the total system including the reservoir and coolers; the reservoir alone holds 210 litres, and filling only to that figure will underfill the system and trigger a low-level alarm on start.\"\n] \n \nClaims:\n[\n    \"The manual states that two people are required for any lifting operation above 25 kg.\",\n    \"Two people are required if the lube pump lifting operation is above 25 kg.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"The retrieval context does not mention any requirement about two people or any lifting threshold of 25 kg, so this cannot be verified from the provided facts.\"\n    },\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"The retrieval context does not state that two people are required for lube pump lifting above 25 kg. It only covers isolation, depressurisation, hot surfaces, pump replacement steps, and lube oil capacity.\"\n    }\n]"
+        },
+        {
+          "name": "Answer Relevancy",
+          "threshold": 0.7,
+          "success": true,
+          "score": 1.0,
+          "reason": "The score is 1.00 because the response stayed fully focused on answering how many people are needed to lift the lube pump, with no irrelevant statements. Nice and directly relevant.",
+          "strictMode": false,
+          "flaky": false,
+          "evaluationModel": "portkey:@azure-openai-eus2/gpt-5.4",
+          "verboseLogs": "Statements:\n[\n    \"Two people are required if the lube pump lifting operation is above 25 kg.\",\n    \"The manual states that two people are required for any lifting operation above 25 kg.\"\n] \n \nVerdicts:\n[\n    {\n        \"verdict\": \"yes\",\n        \"reason\": null\n    },\n    {\n        \"verdict\": \"idk\",\n        \"reason\": \"This states a general lifting rule from the manual rather than specifically answering how many people are needed to lift the lube pump, though it could support the answer if the pump is above 25 kg.\"\n    }\n]"
+        }
+      ],
+      "runDuration": 19.927442899999733,
+      "order": 14
+    }
+  ],
+  "conversationalTestCases": [],
+  "metricsScores": [
+    {
+      "metric": "Contextual Recall",
+      "scores": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.875,
+        1.0,
+        1.0,
+        0.5,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "passes": 14,
+      "fails": 1,
+      "errors": 0
+    },
+    {
+      "metric": "Contextual Precision",
+      "scores": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "passes": 15,
+      "fails": 0,
+      "errors": 0
+    },
+    {
+      "metric": "Faithfulness",
+      "scores": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "passes": 15,
+      "fails": 0,
+      "errors": 0
+    },
+    {
+      "metric": "Answer Relevancy",
+      "scores": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "passes": 15,
+      "fails": 0,
+      "errors": 0
+    }
+  ],
+  "prompts": [],
+  "testPassed": 14,
+  "testFailed": 1,
+  "runDuration": 285.987804700002,
+  "official": false
+}
