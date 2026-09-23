@@ -1,3 +1,4 @@
+from argparse import Namespace
 import csv
 import hashlib
 import json
@@ -5,10 +6,11 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Iterable
+from .config import Settings
 
 from sympy import evaluate
 
-from .answering import answer_question
+from .answering import agent_answer_question, answer_question
 from .evaluation import aggregate_results, build_judge, build_test_case, evaluate_case, metric_definitions
 from .models import (
     EvaluationModelRoleConfig,
@@ -16,6 +18,7 @@ from .models import (
     EvaluationRecord,
     EvaluationReport,
     EvaluationRuntimeModelConfig,
+    GroundedResponse,
     PortkeyConnectionConfig,
     RetrievedPassage,
     StartupValidationResult,
@@ -229,93 +232,75 @@ def _load_csv_evaluation_dataset(input_path: Path, max_questions: int | None):
         raise ValueError(f"Evaluation dataset contains no questions: {input_path}")
     return records, digest.hexdigest()
 
+from .tracing import evaluation_trace
 
-def _retrieved_passages(response) -> list[RetrievedPassage]:
-    return [
-        RetrievedPassage(
-            rank=index,
-            passage_id=passage.passage_id,
-            source_id=passage.source_id,
-            text=passage.text,
-        )
-        for index, passage in enumerate(response.passages, start=1)
-    ]
-
-from deepeval.metrics.g_eval import GEvalTemplate
-import textwrap
-class CustomTemplate(GEvalTemplate):
-    @staticmethod
-    def generate_evaluation_steps(parameters: str, criteria: str):
-        return textwrap.dedent(f"""
-            Evaluate {parameters} based on: {criteria}.
-            You must return strictly valid JSON. Do not include markdown codeblocks.
-            Format: {{ "steps": [ "step 1", "step 2" ] }}
-        """)
+def process_data_set(records: list[EvaluationRecord],
+                     retriever: LocalRetriever,
+                     runtime_config: EvaluationRuntimeModelConfig,
+                     settings: Settings,
+                     args: Namespace):
+    tracing_enabled = args.trace
+    portkey_api_key = settings.portkey_api_key
+    responses = []
+    for record in records:
+          with evaluation_trace(tracing_enabled, f"evaluate:{record.id}"):
+              responses.append(agent_answer_question(
+                  record,
+                  retriever,
+                  runtime_config.chat_model.model_name,
+                  runtime_config, portkey_api_key
+              ))
+    return responses            
 
 def evaluate_dataset_bulk(
-    records: list[EvaluationRecord],
-    retriever: LocalRetriever,
+    responses: list[GroundedResponse],
     runtime_config: EvaluationRuntimeModelConfig,
-    portkey_api_key: str | None = None,
-    output_path: str | Path | None = None,
-    tracing_enabled: bool = False,
+    settings: Settings,
+    args: Namespace,
 ):
-    from .tracing import evaluation_trace
     from deepeval.metrics import (
-        ContextualRelevancyMetric,
         ContextualRecallMetric,
         ContextualPrecisionMetric,
         FaithfulnessMetric,
         AnswerRelevancyMetric,
     )
-    from deepeval.metrics import GEval
-    from deepeval.test_case import LLMTestCase, SingleTurnParams
+    portkey_api_key = settings.portkey_api_key
+    output_path = str(args.output)
+    tracing_enabled = args.trace
     judge = build_judge(runtime_config, portkey_api_key)
-    faithfulness_metric = FaithfulnessMetric(threshold=0.5,
+    threshold=0.7
+    faithfulness_metric = FaithfulnessMetric(threshold=threshold,
                                               model=judge,
                                               async_mode=False,
                                               truths_extraction_limit=5)  
-    answer_relevancy_metric = AnswerRelevancyMetric(threshold=0.5, model=judge)
-    contextual_relevancy_metric = ContextualRelevancyMetric(
-        threshold=0.5,
-        model=judge,
-        include_reason=True,
-        async_mode=False,
-    )
+    answer_relevancy_metric = AnswerRelevancyMetric(threshold=threshold, model=judge )
     contextual_recall_metric = ContextualRecallMetric(
-            threshold=0.5,
+
+            threshold=threshold,
             model=judge,
             include_reason=True,
             async_mode=False,
         )
     contextual_precision_metric = ContextualPrecisionMetric(
-            threshold=0.5,
+            threshold=threshold,
             model=judge,
             include_reason=True,
             async_mode=False,
         )
 
     test_cases = []
-    for record in records:
-      with evaluation_trace(tracing_enabled, f"evaluate:{record.id}"):
-          response = answer_question(
-              record.input,
-              retriever,
-              runtime_config.chat_model.model_name,
-              runtime_config, portkey_api_key
-          )
-          test_case = build_test_case(record, response, response.passages)
-          test_cases.append(test_case)
+    for response in responses:
+      test_case = build_test_case(response.record, response, response.passages)
+      test_cases.append(test_case)
       
     from deepeval import evaluate
     from deepeval.evaluate import DisplayConfig, AsyncConfig, CacheConfig, ErrorConfig
-    metrics = [contextual_relevancy_metric, 
-                contextual_recall_metric,
+    metrics = [contextual_recall_metric,
                 contextual_precision_metric,
                 faithfulness_metric,
                 answer_relevancy_metric]
     evaluate(test_cases, metrics, error_config=ErrorConfig(ignore_errors=True),
-              display_config=DisplayConfig(results_folder=output_path, file_type="md"),
+              display_config=DisplayConfig(results_folder=output_path),
               async_config=AsyncConfig(run_async=False),
               cache_config=CacheConfig(use_cache=False, write_cache=False) )
 
@@ -398,19 +383,26 @@ def resolve_runtime_model_config(
     )
     return StartupValidationResult("valid", (), runtime_config)
 
+def save_answers(responses: list[GroundedResponse],
+    args: Namespace):
+    from datetime import datetime
+    import os
+    today_format = datetime.today().strftime('%Y-%m-%d_%H-%M-%S')
+    output_path = str(args.output)
+    response_format = """
+      # Question: {question_id}
+      Question: *{question}*
 
-def write_evaluation_report(report: EvaluationReport, output_path: Path) -> None:
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(asdict(report), indent=2), encoding="utf-8")
+      Answer: {answer}
+    """
+    report_list = []
+    for response in responses:
+        response_str = response_format.format(question_id=response.record.id, question=response.record.input, answer=response.answer)
+        report_list.append(response_str)
 
+    report = "\n\n".join([item for item in report_list])
+    if not os.path.isdir(output_path):
+        os.makedirs(output_path)
+    with open(f"{output_path}\\report_{today_format}.md", "x") as text_file:
+      text_file.write(report)
 
-def format_evaluation_report(report: EvaluationReport) -> str:
-    lines = [
-        f"Evaluation {report.run_id} ({report.dataset.get('id', 'dataset')})",
-        f"Questions: {report.counts['total']} total, {report.counts['evaluated']} evaluated, "
-        f"{report.counts['failed']} failed",
-    ]
-    for name, aggregate in report.aggregates.items():
-        score = "unavailable" if aggregate["score"] is None else f"{aggregate['score']:.3f}"
-        lines.append(f"{name}: {score} ({aggregate['eligible']}/{aggregate['total']} eligible)")
-    return "\n".join(lines)

@@ -21,6 +21,12 @@ dependencies = [
     "sentence-transformers>=6.0.1",
     "deepagents>=0.7.14",
     "langchain-graph-retriever[chroma]>=0.8.0",
+    "langgraph>=1.2.11",
+    "langchain>=1.4.0",
+    "beautifulsoup4>=4.15.0",
+    "requests>=2.34.2",
+    "ipython>=9.17.1",
+    "langchain-classic>=1.0.8",
 ]
 
 [dependency-groups]

@@ -1,3 +1,4 @@
 question_id,engineer_question,expected_output
 Q01,What torque should I use on the compressor casing bolts?,For the Compressor casing bolt the torque is 480 Nm.
-Q08,Walk me through changing a combustion liner.,## Before you start\n\nConfirm shutdown and isolation. Check the manual for general safety requirements.\n\n## Steps\n\n1. Remove combustion casing cover bolts.\n2. Support the liner.\n3. Remove final fixings and withdraw the liner squarely.\n4. Inspect the transition piece seal.\n5. Fit the new liner with new bolts.\n6. Torque to 95 Nm.\n7. Refit the cover.\n\n## Do not\n\n- Do not reuse combustion liner bolts.\n- Do not lever against the transition piece.
+Q02,How much lube oil does the system take for a full change?,To fill the system to the total capacity the recommended amount is given in section 4 as 340 litres
+Q07,Can I touch the turbine casing two hours after shutdown?,No. The turbine casing remains above 60°C for approximately four hours after shutdown and touching it within that period can cause burns.

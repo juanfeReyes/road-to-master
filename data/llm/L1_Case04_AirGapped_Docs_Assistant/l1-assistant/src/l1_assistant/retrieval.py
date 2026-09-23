@@ -110,7 +110,14 @@ class LocalRetriever:
           all_splits = text_splitter.split_documents(md_header_splits)
           return list(all_splits)
 
-    def search(self, question):
-         
-         return self._store.as_retriever().invoke(question)
+    def get_docs(self, query):
+         return self._store.as_retriever(k=4).invoke(query)
+
+    def search(self, query):
+        """Search and return information about Enfineering manuals for Air-gapped"""
+        docs = self.get_docs(query)
+        return "\n\n".join(f"[{doc.metadata}]\n{doc.page_content}" for doc in docs)
+
+    def get_search_tool(self):
+        return StructuredTool.from_function(self.search)
 

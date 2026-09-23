@@ -1,17 +1,16 @@
 question_id,engineer_question,expected_output
 Q01,What torque should I use on the compressor casing bolts?,For the Compressor casing bolt the torque is 480 Nm.
 Q02,How much lube oil does the system take for a full change?,To fill the system to the total capacity the recommended amount is given in section 4 as 340 litres
-Q03,How long after shutdown before I can break a lube oil connection?,You should wait atleast **20 minutes**
+Q03,How long after shutdown before I can break a lube oil connection?,Wait until the lube oil system has depressurised; which can take up to 20 minutes after shutdown. Do not break any lube oil connection until the system pressure gauge reads zero.
 Q04,What is the borescope inspection interval?,The borescope inspection interval is 4000 hours
 Q05,What torque for the inlet guide vane pivot nut on a unit with serial HT400-1850?,The torque for the inlet guide vane pivot nut on a unit with serial HT400-1850 should be 28 Nm.
-Q06,What torque for the inlet guide vane pivot nut on serial HT400-2450?,The torque for the inlet guide vane pivot nut on serial HT400-2450 should be retain as 22 Nm on Units at or above serial HT400-2200.
-Q07,Can I touch the turbine casing two hours after shutdown?,No! You should contact turbien casings after 4 hours. Contact with casing surfaces inside this period causes burns.
-Q08,Walk me through changing a combustion liner.,## Before you start\n\nConfirm shutdown and isolation. Check the manual for general safety requirements.\n\n## Steps\n\n1. Remove combustion casing cover bolts.\n2. Support the liner.\n3. Remove final fixings and withdraw the liner squarely.\n4. Inspect the transition piece seal.\n5. Fit the new liner with new bolts.\n6. Torque to 95 Nm.\n7. Refit the cover.\n\n## Do not\n\n- Do not reuse combustion liner bolts.\n- Do not lever against the transition piece.
+Q06,What torque for the inlet guide vane pivot nut on serial HT400-2450?,For serial HT400-2450; the inlet guide vane pivot nut torque is **22 Nm**. The revised **28 Nm** value applies only to units **below HT400-2200**.
+Q07,Can I touch the turbine casing two hours after shutdown?,No. The turbine casing remains above 60°C for approximately four hours after shutdown and touching it within that period can cause burns.
+Q08,Walk me through changing a combustion liner.,Before you start Confirm shutdown and isolation. Check the manual for general safety requirements. First Remove combustion casing cover bolts. Then Support the liner later Remove final fixings and withdraw the liner squarely. Inspect the transition piece seal. Fit the new liner with new bolts. Torque to 95 Nm. Finally Refit the cover. Do not reuse combustion liner bolts. Do not lever against the transition piece.
 Q09,What is the exhaust diffuser bolt torque?,The xhaust diffuser bolt torque is 190 Nm
-Q10,Does this manual cover the fuel skid?,The manual does not cover the fuel skid
-Q11,What is the generator bearing clearance?,The generator bearer clearance is not provided in the manuals
-Q12,In what order do I tighten the compressor casing bolts?,Tighten in four passes: 25% of final torque, 50%, 75%, then 100%. Work
-diametrically opposite across the flange, not sequentially around it. The final pass\nmust be completed within 30 minutes of the third to avoid uneven relaxation.
+Q10,Does this manual cover the fuel skid?,No; this manual does not cover the fuel skid. It only covers field maintenance of the HT-400 industrial gas turbine package.
+Q11,What is the generator bearing clearance?,I do not know. The provided context explicitly says the HT-400 maintenance manual does not cover the generator; and no generator bearing clearance value is included
+Q12,In what order do I tighten the compressor casing bolts?,Tighten in four passes: 25% of final torque; 50%; 75%; then 100%. Work diametrically opposite across the flange; not sequentially around it. The final pass\nmust be completed within 30 minutes of the third to avoid uneven relaxation.
 Q13,Do I need a permit to enter the exhaust duct?,yes a permit is required to enter exhaust duct given that is a confined space
 Q14,The filter differential is reading 2.4 bar. What should I do?,When High filter differential could be due to Filter blocked. You should Replace element at next opportunity; do not exceed 2 bar differential
-Q15,How many people do I need to lift the lube pump?,The manual does not inform how many people should lift the lube pump. Hoever if the lub pump weight above 25 kg then Two people are required for any lifting operation
+Q15,How many people do I need to lift the lube pump?,You need two people if lifting the lube pump is a lifting operation above 25 kg. The manual states: “Two people are required for any lifting operation above 25 kg.”
