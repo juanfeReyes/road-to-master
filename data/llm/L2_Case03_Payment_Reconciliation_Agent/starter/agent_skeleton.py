@@ -65,7 +65,8 @@ def validate_response(raw: dict) -> dict:
     try:
       return LedgerApiResponse(**raw)
     except ValidationError as e:
-        print(e)
+      print(e)
+      return {"errors": "\n".join([ err.get("msg") for err in e.errors() ])}
         
     
 def fetch_node(state: ReconState) -> ReconState:
