@@ -5,27 +5,38 @@ DeepDiff for comparing what you got against what you expected, pytest-asyncio fo
 the harness. Fill in the TODOs.
 """
 from pathlib import Path
-from typing import Optional, TypedDict
+from typing import Optional, TypedDict, Literal
 from langchain.tools import tool
 from langchain.chat_models import init_chat_model
 from pydantic import BaseModel, ValidationError
 import markdown_to_json
 import json
 from datetime import date
+import csv
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 PAYMENTS = DATA_DIR / "processor_payments.csv"
 POLICY = DATA_DIR / "reconciliation_policy.md"
 
 model = init_chat_model(model="", temperature=0.0)
-policy = ""
-with open(POLICY, 'r') as file:
+policy_dict = None
+
+def load_policy():
+  global policy_dict
+  with open(POLICY, 'r') as file:
     policy = file.read()
-policy_dict = json.loads(markdown_to_json(policy))
+    policy_dict = json.loads(markdown_to_json.jsonify(policy))
+    policy_dict = next(iter(policy_dict.values()))
+    
 
 def get_policy_sections(filter_strings: list):
     filtered_dict = {k: v for k, v in policy_dict.iteritems() if any(section in k for section in filter_strings)}
     return "\n".join([f"{k}\n{v}\n" for k, v in filtered_dict.iteritems()])
+
+def load_payments():
+    with open(PAYMENTS) as file:
+      reader = csv.DictReader(file)
+      return [ ReconState(**row) for row in reader ]
 
 class LedgerValidationResponse(BaseModel):
     '''A ledger response with the attempts executed, the next step based on policy and if we should retry getting another response'''
@@ -53,6 +64,11 @@ class ReconState(TypedDict, total=False):
     status: str              # reconciled | exception | awaiting_approval | escalated
     exception_class: Optional[str]
     evidence: str
+
+def choose_after_reconcile(state: ReconState) -> Literal["approval", "escalate"]:
+    if state.get("status") is "reconciled":
+        return "approval"
+    return "escalate"
 
 def validate_response(raw: dict) -> dict:
     """TODO: validate a ledger response against the documented contract.
@@ -128,13 +144,34 @@ def escalate_node(state: ReconState) -> ReconState:
 
 def build_graph():
     """TODO: wire fetch -> (retry | reconcile | escalate) -> approval."""
-    raise NotImplementedError
+    from langgraph.graph import StateGraph, START, END
+    builder =  StateGraph(ReconState)
+
+    # Nodes
+    builder.add_node("fetch_node", fetch_node)
+    builder.add_node("reconcile_node", reconcile_node)
+    builder.add_node("approval_node", approval_node)
+    builder.add_node("escalate_node", escalate_node)
+
+    #Edges
+    builder.add_edge(START, "fetch_node")
+    builder.add_edge("fetch_node", "reconcile_node")
+    builder.add_conditional_edges("reconcile_node", choose_after_reconcile, {"approval": "approval_node", "escalate": "escalate_node"})
+    builder.add_edge("approval_node", END)
+    builder.add_edge("escalate_node", END)
+
+    return builder.compile()
 
 
 def run_all():
     """TODO: run every payment through the graph and produce the reconciliation
     report. The counts must add up to the number of input payments."""
-    raise NotImplementedError
+    load_policy()
+    payments = load_payments()
+    graph = build_graph()
+
+    for payment in payments:
+        print(payment)
 
 
 if __name__ == "__main__":
