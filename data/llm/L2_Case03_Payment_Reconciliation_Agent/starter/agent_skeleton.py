@@ -13,13 +13,20 @@ import markdown_to_json
 import json
 from datetime import date
 import csv
+from langgraph.graph import StateGraph, START, END
+from pprint import pprint
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 PAYMENTS = DATA_DIR / "processor_payments.csv"
 POLICY = DATA_DIR / "reconciliation_policy.md"
 
-model = init_chat_model(model="", temperature=0.0)
-policy_dict = None
+model = init_chat_model(
+    model="llama3.1:8b",
+    model_provider="ollama",
+    temperature=0.0,
+
+)
+policy_dict = {}
 
 def load_policy():
   global policy_dict
@@ -30,8 +37,8 @@ def load_policy():
     
 
 def get_policy_sections(filter_strings: list):
-    filtered_dict = {k: v for k, v in policy_dict.iteritems() if any(section in k for section in filter_strings)}
-    return "\n".join([f"{k}\n{v}\n" for k, v in filtered_dict.iteritems()])
+    filtered_dict = {k: v for k, v in policy_dict.items() if any(section in k for section in filter_strings)}
+    return "\n".join([f"{k}\n{v}\n" for k, v in filtered_dict.items()])
 
 def load_payments():
     with open(PAYMENTS) as file:
@@ -59,32 +66,97 @@ class ReconState(TypedDict, total=False):
     amount: float
     currency: str
     settled_date: str
+    method: str
     ledger_entry: Optional[dict]
     attempts: int
     status: str              # reconciled | exception | awaiting_approval | escalated
     exception_class: Optional[str]
     evidence: str
 
-def choose_after_reconcile(state: ReconState) -> Literal["approval", "escalate"]:
-    if state.get("status") is "reconciled":
+def choose_after_reconcile(state: ReconState) -> Literal["approval", "escalate", "retry"]:
+    if state.get("status") == "escalated":
+            return "escalate"
+    if state.get("status") == "reconciled":
         return "approval"
-    return "escalate"
+    if state.get("status") == "retry":
+            return "retry"
+    return END
 
-def validate_response(raw: dict) -> dict:
-    """TODO: validate a ledger response against the documented contract.
-
-    Return a normalised entry, or raise so the caller can retry with the reason.
-    Read the contract in ledger_api.fetch_ledger_entry, then decide how much you
-    are willing to trust it. Consider what your agent should do with a response
-    that is well-formed JSON but not the shape you asked for.
-    """
+def call_ledger_api(order_ref: str):
+    """Calls ledger API using order_ref to get json"""
+    from starter.ledger_api import fetch_ledger_entry
+    from asyncio import run
     try:
-      return LedgerApiResponse(**raw)
+      api_response = run(fetch_ledger_entry(order_ref))
+      return api_response
+    except Exception as e:
+        return {"error": e}
+
+@tool
+def validate_response(raw: dict) -> dict:
+    """validate a ledger response against the documented contract"""
+    try:
+      return LedgerApiResponse.model_validate(raw)
     except ValidationError as e:
-      print(e)
-      return {"errors": "\n".join([ err.get("msg") for err in e.errors() ])}
-        
+      return {"error": "Validation Error"}
+    except TypeError as e:
+      return {"error": "Type error"}
+
+def fetch_node_agent(state: ReconState) -> ReconState:
+    """TODO: call the ledger service and validate the response.
+
+    On failure, record what went wrong and increment `attempts`. The policy sets
+    the retry and escalation behaviour - encode it here rather than in a loop
+    somewhere else, so it is testable.
+    """
+    from langchain.agents import create_agent
     
+    # structured_model = model.with_structured_output(schema=LedgerValidationResponse)
+    ledger_policy = get_policy_sections(["When the ledger service misbehaves"])
+
+    from collections.abc import Callable
+    from langchain.agents import create_agent
+    from langchain.agents.middleware import wrap_tool_call
+    from langchain.messages import ToolMessage
+    from langchain.tools.tool_node import ToolCallRequest
+    @wrap_tool_call
+    def handle_tool_errors(
+        request: ToolCallRequest,
+        handler: Callable[[ToolCallRequest], ToolMessage],
+    ) -> ToolMessage:
+        """Convert tool exceptions into ToolMessages the model can handle."""
+        try:
+            return handler(request)
+        except Exception as e:
+            return ToolMessage(
+                content=f"Tool error: Follow {ledger_policy} to determiner retry",
+                tool_call_id=request.tool_call["id"],
+            )
+    SYSTEM_PROMPT =  """
+      You are a helpfull agent to fetch and validate ledger response using payment process.
+      You follow the policy misbehave ledger api to handle errors.
+
+      Policy:
+        In case of error:
+        - Retry up to 3 times
+        - After more than 3 failures then reply reason of failure and total number of attempts
+
+      Get ledger data by calling call_ledger_api
+      Then validate the data by passing the response to validate_response 
+    """
+    tools = [call_ledger_api, validate_response]
+    agent = create_agent(model=model,
+                        tools=tools,
+                        middleware=[handle_tool_errors],
+                        system_prompt=SYSTEM_PROMPT)
+
+    result = agent.invoke({"messages":
+                           [{"role": "user", "content": f"payment to process: {state}"}]
+                          })
+    print(f"Fetch node agendt result: {result}\n")
+ 
+    return state
+
 def fetch_node(state: ReconState) -> ReconState:
     """TODO: call the ledger service and validate the response.
 
@@ -92,36 +164,39 @@ def fetch_node(state: ReconState) -> ReconState:
     the retry and escalation behaviour - encode it here rather than in a loop
     somewhere else, so it is testable.
     """
-    from ledger_api import fetch_ledger_entry
-    from asyncio import run
+    from langchain.agents import create_agent
+    from langchain.agents.structured_output import ToolStrategy
+    from typing import Union, TypedDict
 
-    MAX_RETRIES = 15
-    structured_model = model.with_structured_output(LedgerValidationResponse)
-    ledger_rules = get_policy_sections(["When the ledger service misbehaves"])
+    ledger_policy = get_policy_sections(["When the ledger service misbehaves"])
+    ledger_response = call_ledger_api(state.get("order_ref"))   
+    SYSTEM_PROMPT =  f"""
+          You are a helpfull agent to validate ledger response using payment data.
+          You follow the policy misbehave ledger api to handle errors.
+    
+          Policy: {ledger_policy}
 
-    retry_count = 0
-    should_retry = True
-    while retry_count < MAX_RETRIES and should_retry:
-        ledger_response = run(fetch_ledger_entry(state.get("order_ref")))
-        validated_leger = validate_response(ledger_response)
-        query = f"""
-              Your are grader assistant which follows the ledger service misbehaves policy
-              to analyse the validated ledger response.
+          Follow instructions:
+          1. Increase attempts by 1
+          2. Give the ledger_response to validate_response() tool. If validate_response tool return contains error field then ledger_response is not valid
+          3. Evaluate validate_response result scenarios to provide answer:
+            * When validate_response is valid THEN respond a json with payment_data, rename ledger_response as ledger_entry and status equals 'reconcile'
+            * When validate_response is invalid and Policy allows more attempts THEN respond a json with payment_data, rename ledger_response as ledger_entry, rename validate_response error as evidence and status equals 'retry'
+            * When validate_response is invalid and Policy NOT allows more attempts THEN respond a json with payment_data, rename ledger_response as ledger_entry, rename validate_response error as evidence and status equals 'escalate'
+        """
+    tools = [validate_response]
+    agent = create_agent(model=model,
+                        tools=tools,
+                        system_prompt=SYSTEM_PROMPT)
+    result = agent.invoke({"messages":
+                               [{"role": "user", "content": f"Validate ledger_response: {ledger_response} and payment data: {state}"}]
+                              })
+    # print(result["messages"][-1].content)
+    structured_model = model.with_structured_output(ReconState)
+    structured_result = structured_model.invoke(f"Extract response from message {result["messages"][-1].content}")
+    return structured_result
 
-              Policy: {ledger_rules}
-              Validated Ledger response: {validated_leger}
-
-              When validated ledger response fails return the reason of faillure and what should we do next based on Policy.
-              When validated ledger response follows policy please return the ledger response.
-            """
-        result = structured_model.invoke(query)
-        state.update(evidence=state.get("evidence")+f"\n\n{result.get("next_step")}")
-        state.update(attempts=state.get("attempts"))
-        should_retry = result.get("should_retry")
-
-    return state
-
-
+    
 def reconcile_node(state: ReconState) -> ReconState:
     """TODO: apply the matching rules and set `status` plus `exception_class`.
 
@@ -144,7 +219,6 @@ def escalate_node(state: ReconState) -> ReconState:
 
 def build_graph():
     """TODO: wire fetch -> (retry | reconcile | escalate) -> approval."""
-    from langgraph.graph import StateGraph, START, END
     builder =  StateGraph(ReconState)
 
     # Nodes
@@ -155,12 +229,15 @@ def build_graph():
 
     #Edges
     builder.add_edge(START, "fetch_node")
-    builder.add_edge("fetch_node", "reconcile_node")
-    builder.add_conditional_edges("reconcile_node", choose_after_reconcile, {"approval": "approval_node", "escalate": "escalate_node"})
+    builder.add_conditional_edges("fetch_node", 
+                                  choose_after_reconcile, 
+                                  {"reconcile": "reconcile_node",
+                                    "escalate": "escalate_node",
+                                    "retry": "fetch_node"})
+    builder.add_edge("reconcile_node", "approval_node")
     builder.add_edge("approval_node", END)
-    builder.add_edge("escalate_node", END)
 
-    return builder.compile()
+    return builder
 
 
 def run_all():
@@ -168,10 +245,10 @@ def run_all():
     report. The counts must add up to the number of input payments."""
     load_policy()
     payments = load_payments()
-    graph = build_graph()
+    graph = build_graph().compile()
 
     for payment in payments:
-        print(payment)
+        graph.invoke(payment)
 
 
 if __name__ == "__main__":
