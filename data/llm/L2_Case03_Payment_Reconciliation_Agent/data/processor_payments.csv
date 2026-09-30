@@ -1,2 +1,2 @@
 payment_id,order_ref,amount,currency,settled_date,method
-PAY-4022,ORD-70022,2100.0,GBP,2026-03-12,transfer
+PAY-4020,ORD-70020,54.99,GBP,2026-03-11,card

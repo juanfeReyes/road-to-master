@@ -15,18 +15,47 @@ from datetime import date
 import csv
 from langgraph.graph import StateGraph, START, END
 from pprint import pprint
+from portkey_ai import createHeaders, PORTKEY_GATEWAY_URL
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 PAYMENTS = DATA_DIR / "processor_payments.csv"
 POLICY = DATA_DIR / "reconciliation_policy.md"
 
-model = init_chat_model(
-    model="llama3.1:8b",
-    model_provider="ollama",
-    temperature=0.0,
-
-)
+model = None
 policy_dict = {}
+args = {}
+
+def setup_args():
+  from argparse import ArgumentParser
+  global args
+  parser = ArgumentParser()
+  parser.add_argument("--env", dest="env", default="portkey", choices=["local", "portkey"])
+  parser.add_argument("--model", dest="model", default="@azure-openai-eus2/gpt-5.4")
+  args = parser.parse_args()
+
+def setup_model():
+  global model
+
+  if args.env == "local":
+    model = init_chat_model(
+      model="llama3.1:8b",
+      model_provider="ollama",
+      temperature=0.0
+    )
+
+  PORTKEY_API_KEY = os.getenv("PORT_KEY_KEY")
+  portkey_headers = createHeaders(api_key=PORTKEY_API_KEY, provider="azure-openai-eus2")
+  model = init_chat_model(
+    model=args.model,                            # El ID del modelo que vas a consumir
+    model_provider="openai",                   # Forzar el proveedor subyacente de OpenAI
+    base_url=os.getenv("PORT_KEY_URL"),              # Endpoint de Portkey (https://api.portkey.ai/v1)
+    api_key=PORTKEY_API_KEY,     # Requerido por la interfaz física pero manejado por la virtual key
+    default_headers=portkey_headers            # Adjuntar los metadatos e instrucciones de Portkey
+  )
 
 def load_policy():
   global policy_dict
@@ -84,7 +113,7 @@ def choose_after_reconcile(state: ReconState) -> Literal["approval", "escalate",
 
 def call_ledger_api(order_ref: str):
     """Calls ledger API using order_ref to get json"""
-    from starter.ledger_api import fetch_ledger_entry
+    from ledger_api import fetch_ledger_entry
     from asyncio import run
     try:
       api_response = run(fetch_ledger_entry(order_ref))
@@ -194,6 +223,7 @@ def fetch_node(state: ReconState) -> ReconState:
     # print(result["messages"][-1].content)
     structured_model = model.with_structured_output(ReconState)
     structured_result = structured_model.invoke(f"Extract response from message {result["messages"][-1].content}")
+    pprint(structured_result)
     return structured_result
 
     
@@ -243,11 +273,14 @@ def build_graph():
 def run_all():
     """TODO: run every payment through the graph and produce the reconciliation
     report. The counts must add up to the number of input payments."""
+    setup_args()
+    setup_model()
     load_policy()
     payments = load_payments()
     graph = build_graph().compile()
 
     for payment in payments:
+        payment.update(attempts=1)
         graph.invoke(payment)
 
 
