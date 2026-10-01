@@ -19,6 +19,9 @@ from portkey_ai import createHeaders, PORTKEY_GATEWAY_URL
 from dotenv import load_dotenv
 import os
 
+from ledger_api import fetch_ledger_entry
+
+
 load_dotenv()
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
@@ -33,9 +36,10 @@ def setup_args():
   from argparse import ArgumentParser
   global args
   parser = ArgumentParser()
-  parser.add_argument("--env", dest="env", default="portkey", choices=["local", "portkey"])
-  parser.add_argument("--model", dest="model", default="@azure-openai-eus2/gpt-5.4")
-  args = parser.parse_args()
+  parser.add_argument("--env", dest="env", required=False, default="portkey", choices=["local", "portkey"])
+  parser.add_argument("--model", dest="model", required=False, default="@azure-openai-eus2/gpt-5.4")
+  arg, unknown = parser.parse_known_args()
+  args = arg
 
 def setup_model():
   global model
@@ -50,11 +54,12 @@ def setup_model():
   PORTKEY_API_KEY = os.getenv("PORT_KEY_KEY")
   portkey_headers = createHeaders(api_key=PORTKEY_API_KEY, provider="azure-openai-eus2")
   model = init_chat_model(
-    model=args.model,                            # El ID del modelo que vas a consumir
-    model_provider="openai",                   # Forzar el proveedor subyacente de OpenAI
-    base_url=os.getenv("PORT_KEY_URL"),              # Endpoint de Portkey (https://api.portkey.ai/v1)
-    api_key=PORTKEY_API_KEY,     # Requerido por la interfaz física pero manejado por la virtual key
-    default_headers=portkey_headers            # Adjuntar los metadatos e instrucciones de Portkey
+    model=args.model, 
+    model_provider="openai",
+    base_url=os.getenv("PORT_KEY_URL"),
+    api_key=PORTKEY_API_KEY,
+    default_headers=portkey_headers,
+    temperature=0.0
   )
 
 def load_policy():
@@ -64,7 +69,6 @@ def load_policy():
     policy_dict = json.loads(markdown_to_json.jsonify(policy))
     policy_dict = next(iter(policy_dict.values()))
     
-
 def get_policy_sections(filter_strings: list):
     filtered_dict = {k: v for k, v in policy_dict.items() if any(section in k for section in filter_strings)}
     return "\n".join([f"{k}\n{v}\n" for k, v in filtered_dict.items()])
@@ -89,6 +93,25 @@ class LedgerApiResponse(BaseModel):
     posted_date: date
     entry_type: str
 
+
+def choose_after_reconcile(state: ReconState) -> Literal["approval", "escalate", "retry"]:
+    if state.get("status") == "escalated":
+            return "escalate"
+    if state.get("status") == "reconciled":
+        return "approval"
+    if state.get("status") == "retry":
+            return "retry"
+    return END
+
+def call_ledger_api(order_ref: str):
+    """Calls ledger API using order_ref to get json"""
+    from asyncio import run
+    try:
+      api_response = run(fetch_ledger_entry(order_ref))
+      return api_response
+    except Exception as e:
+        return {"error": e}
+
 class ReconState(TypedDict, total=False):
     payment_id: str
     order_ref: str
@@ -102,24 +125,6 @@ class ReconState(TypedDict, total=False):
     exception_class: Optional[str]
     evidence: str
 
-def choose_after_reconcile(state: ReconState) -> Literal["approval", "escalate", "retry"]:
-    if state.get("status") == "escalated":
-            return "escalate"
-    if state.get("status") == "reconciled":
-        return "approval"
-    if state.get("status") == "retry":
-            return "retry"
-    return END
-
-def call_ledger_api(order_ref: str):
-    """Calls ledger API using order_ref to get json"""
-    from ledger_api import fetch_ledger_entry
-    from asyncio import run
-    try:
-      api_response = run(fetch_ledger_entry(order_ref))
-      return api_response
-    except Exception as e:
-        return {"error": e}
 
 @tool
 def validate_response(raw: dict) -> dict:
@@ -209,9 +214,9 @@ def fetch_node(state: ReconState) -> ReconState:
           1. Increase attempts by 1
           2. Give the ledger_response to validate_response() tool. If validate_response tool return contains error field then ledger_response is not valid
           3. Evaluate validate_response result scenarios to provide answer:
-            * When validate_response is valid THEN respond a json with payment_data, rename ledger_response as ledger_entry and status equals 'reconcile'
-            * When validate_response is invalid and Policy allows more attempts THEN respond a json with payment_data, rename ledger_response as ledger_entry, rename validate_response error as evidence and status equals 'retry'
-            * When validate_response is invalid and Policy NOT allows more attempts THEN respond a json with payment_data, rename ledger_response as ledger_entry, rename validate_response error as evidence and status equals 'escalate'
+            * When validate_response is valid THEN respond a json with ALL payment_data, rename ledger_response as ledger_entry and status equals 'reconcile'
+            * When validate_response is invalid and Policy allows more attempts THEN respond a json with ALL payment_data, rename ledger_response as ledger_entry, rename validate_response error as evidence and status equals 'retry'
+            * When validate_response is invalid and Policy NOT allows more attempts THEN respond a json with ALL payment_data, rename ledger_response as ledger_entry, rename validate_response error as evidence and status equals 'escalate'
         """
     tools = [validate_response]
     agent = create_agent(model=model,
@@ -223,7 +228,6 @@ def fetch_node(state: ReconState) -> ReconState:
     # print(result["messages"][-1].content)
     structured_model = model.with_structured_output(ReconState)
     structured_result = structured_model.invoke(f"Extract response from message {result["messages"][-1].content}")
-    pprint(structured_result)
     return structured_result
 
     
@@ -269,13 +273,16 @@ def build_graph():
 
     return builder
 
+def setup():
+    setup_args()
+    setup_model()
+    load_policy()
+
 
 def run_all():
     """TODO: run every payment through the graph and produce the reconciliation
     report. The counts must add up to the number of input payments."""
-    setup_args()
-    setup_model()
-    load_policy()
+    setup()
     payments = load_payments()
     graph = build_graph().compile()
 
