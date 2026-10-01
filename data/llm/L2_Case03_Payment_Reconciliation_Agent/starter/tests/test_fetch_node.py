@@ -122,4 +122,29 @@ def test_invalid_response_max_attempts_is_escalated():
     )
   assert DeepDiff(result, expected_fetch_node) == {}
 
+def test_ledger_not_found_response():
+  setup()
+  payment = ReconState(payment_id="PAY-4025", order_ref='ORD-70025', 
+                       amount=249.99, currency="GBP", 
+                       settled_date="2026-03-02", method="card", attempts=1)
+  expected_fetch_node = {'amount': 249.99,
+ 'attempt_history': [{'attempt': 2, 'error': 'Validation Error'}],
+ 'attempts': 2,
+ 'currency': 'GBP',
+ 'ledger_entry': {'error': 'not_found', 'order_ref': 'ORD-70025'},
+ 'method': 'card',
+ 'order_ref': 'ORD-70025',
+ 'payment_id': 'PAY-4025',
+ 'settled_date': '2026-03-02',
+ 'status': 'retry'}
+
+  checkpointer = MemorySaver()
+  graph = build_graph()
+  compiled_graph = graph.compile(checkpointer=checkpointer)
+  result = compiled_graph.nodes["fetch_node"].invoke(
+        payment,
+        config={"configurable": {"thread_id": "1"}}
+    )
+  pprint(result)
+  assert DeepDiff(result, expected_fetch_node) == {}
 
