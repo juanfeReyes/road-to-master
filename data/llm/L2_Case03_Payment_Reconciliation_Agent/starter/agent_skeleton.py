@@ -19,12 +19,12 @@ from pprint import pprint
 from portkey_ai import createHeaders
 from dotenv import load_dotenv
 import os
-from langchain_core.runnables import RunnableConfig
 from ledger_api import fetch_ledger_entry
 from langchain.agents import create_agent
 from langgraph.store.memory import InMemoryStore
 from dataclasses import dataclass
 from langgraph.runtime import Runtime
+from langgraph.types import interrupt
 
 load_dotenv()
 
@@ -91,6 +91,11 @@ def clear_escalation_file():
     with open(DATA_DIR / "ESCALATION.md", "w") as f:
         f.write("")
 
+def clear_reconciliation_file():
+    """Clear the contents of RECONCILIATION.md file."""
+    with open(DATA_DIR / "RECONCILIATION.md", "w") as f:
+        f.write("")
+
 @dataclass
 class Context:
     user_id: str
@@ -154,63 +159,8 @@ def validate_response(raw: dict) -> dict:
     except TypeError as e:
       return {"error": "Type error"}
 
-def fetch_node_agent(state: ReconState) -> ReconState:
-    """TODO: call the ledger service and validate the response.
-
-    On failure, record what went wrong and increment `attempts`. The policy sets
-    the retry and escalation behaviour - encode it here rather than in a loop
-    somewhere else, so it is testable.
-    """
-    from langchain.agents import create_agent
-    
-    # structured_model = model.with_structured_output(schema=LedgerValidationResponse)
-    ledger_policy = get_policy_sections(["When the ledger service misbehaves"])
-
-    from collections.abc import Callable
-    from langchain.agents import create_agent
-    from langchain.agents.middleware import wrap_tool_call
-    from langchain.messages import ToolMessage
-    from langchain.tools.tool_node import ToolCallRequest
-    @wrap_tool_call
-    def handle_tool_errors(
-        request: ToolCallRequest,
-        handler: Callable[[ToolCallRequest], ToolMessage],
-    ) -> ToolMessage:
-        """Convert tool exceptions into ToolMessages the model can handle."""
-        try:
-            return handler(request)
-        except Exception as e:
-            return ToolMessage(
-                content=f"Tool error: Follow {ledger_policy} to determiner retry",
-                tool_call_id=request.tool_call["id"],
-            )
-    SYSTEM_PROMPT =  """
-      You are a helpfull agent to fetch and validate ledger response using payment process.
-      You follow the policy misbehave ledger api to handle errors.
-
-      Policy:
-        In case of error:
-        - Retry up to 3 times
-        - After more than 3 failures then reply reason of failure and total number of attempts
-
-      Get ledger data by calling call_ledger_api
-      Then validate the data by passing the response to validate_response 
-    """
-    tools = [call_ledger_api, validate_response]
-    agent = create_agent(model=model,
-                        tools=tools,
-                        middleware=[handle_tool_errors],
-                        system_prompt=SYSTEM_PROMPT)
-
-    result = agent.invoke({"messages":
-                           [{"role": "user", "content": f"payment to process: {state}"}]
-                          })
-    print(f"Fetch node agendt result: {result}\n")
- 
-    return state
-
 def fetch_node(state: ReconState) -> ReconState:
-    """TODO: call the ledger service and validate the response.
+    """Call the ledger service and validate the response.
 
     On failure, record what went wrong and increment `attempts`. The policy sets
     the retry and escalation behaviour - encode it here rather than in a loop
@@ -218,7 +168,7 @@ def fetch_node(state: ReconState) -> ReconState:
     """
 
     ledger_policy = get_policy_sections(["When the ledger service misbehaves"])
-    ledger_response = call_ledger_api(state.get("order_ref"))   
+    ledger_response = call_ledger_api(state.get("order_ref"))
     SYSTEM_PROMPT =  f"""
           You are a helpfull agent to validate ledger response using payment data.
           You follow the policy misbehave ledger api to handle errors.
@@ -287,11 +237,59 @@ def reconcile_node(state: ReconState, runtime: Runtime[Context]) -> ReconState:
         update_store(result, runtime)
         settled_payments = get_settled_payments(runtime)
     return result
-    
-
 
 def approval_node(state: ReconState) -> ReconState:
-    """TODO: the human validation gate. Must genuinely halt, not log and continue."""
+    """the human validation gate. Must genuinely halt, not log and continue."""
+    # Generate summary of settlement with exception and evidence
+    
+    SYSTEM_PROMPT = f"""
+    You are a summary assistant to write a summary in text format of the payment settlement.
+    Write a short summary between 50 and 100 words following template:
+    
+    <Template>
+    
+    Title: <Payment ID> - Payment settlement summary
+
+    Reasoning: <Reasoning>
+    Exception: <Exception class>
+    Evidence: <Evidence>
+    
+    Recommendation: Should the payment settlement be approved or rejected?
+    </Template>
+    """
+    result = model.invoke([{"role": "system", "content": SYSTEM_PROMPT},
+                          {"role": "user", "content": f"Payment data: {state}"}
+                          ])
+    summary = result.content[-1]["text"]
+    answer = interrupt(f"""
+    =================================================
+    {summary}
+    =================================================
+
+    Do you approve payment settlement?
+    """)
+
+    SYSTEM_PROMPT = f"""
+    You are interpreter assistant to interpret human decision to approve or reject payment settlement.
+
+    Follow instructions:
+    1. If payment settlement is 'escalated' THEN status as 'escalated'
+    2. If payment settlement is 'reconciled' or 'exception' and human decision is approve THEN respond with payment settlement and add status as 'approved'
+    3. If payment settlement is 'reconciled' or 'exception' and human decision is reject THEN respond with payment settlement and status as 'awaiting_approval'
+
+    Respond with the payment settlement with all fields, status and user answer in markdown format.
+    """
+    result = model.invoke([{"role": "system", "content": SYSTEM_PROMPT},
+                          {"role": "user", "content": f"Payment settlement: {summary} and human decision: {answer}"}
+                          ])
+    reconciliation = result.content[-1]["text"]
+    RECONCILIATION_REPORT_FILE = DATA_DIR / "RECONCILIATION.md"
+    with open(RECONCILIATION_REPORT_FILE, "a+") as f:
+      f.write(f"\n{reconciliation}\n")
+
+    structured_model = model.with_structured_output(ReconState)
+    state = structured_model.invoke(f"Respond payment {state} as json with status updated from reconciliation report: {reconciliation}")
+
     return state
 
 
@@ -313,16 +311,16 @@ def escalate_node(state: ReconState) -> ReconState:
                           ])
     
     escalation_message = result.content
-    ESCALARTION_FILE = DATA_DIR / "ESCALATION.md"
+    ESCALATION_FILE = DATA_DIR / "ESCALATION.md"
 
-    with open(ESCALARTION_FILE, "a+") as f:
+    with open(ESCALATION_FILE, "a+") as f:
         f.write(f"\n{escalation_message}\n")
     state.update(evidence=f"Please check ESCALATION.md for details.",status="escalated")
     return state
 
 
 def build_graph():
-    """TODO: wire fetch -> (retry | reconcile | escalate) -> approval."""
+    """wire fetch -> (retry | reconcile | escalate) -> approval."""
     builder =  StateGraph(ReconState)
 
     # Nodes
@@ -354,16 +352,50 @@ def run_all():
     """run every payment through the graph and produce the reconciliation
     report. The counts must add up to the number of input payments."""
     from langgraph.checkpoint.memory import InMemorySaver
+    from langgraph.types import Command
+    import logging
+    import warnings
+    warnings.filterwarnings("ignore", message=".*v3 streaming protocol.*")
+    logging.getLogger("langgraph.pregel").setLevel(logging.ERROR)
     setup()
     payments = load_payments()
     checkpointer = InMemorySaver()
     graph = build_graph().compile(checkpointer=checkpointer, store=store)
     clear_escalation_file()
+    clear_reconciliation_file()
+    print(f"""
+      Hello {args.user}, welcome to the payment reconciliation agent!
+
+       [o_o]  
+      /|___|\\ 
+        \\ / 
+
+      I will assist you to process file {PAYMENTS} 
+      and policy {POLICY} 
+      to produce a reconciliation report in RECONCILIATION.md.
+    """)
 
     for payment in payments:
         config = {"configurable": {"thread_id": "1"}}
         payment.update(attempts=0)
-        graph.invoke(payment, config=config, context=Context(user_id=args.user))
+        stream = graph.stream_events(payment, config=config, context=Context(user_id=args.user), version="v3")
+        stream.output
+        decision = None
+        if stream.interrupted:
+            print(stream.interrupts[0].value)
+            decision = input()
+        
+        resumed = graph.stream_events(Command(resume=decision), config=config, context=Context(user_id=args.user), version="v3")
+        resumed.output
+    print(f"""
+      Reconciliation report generated in RECONCILIATION.md.
+      Please check ESCALATION.md for any escalated payments.
+      
+      [o~o]/ 
+     /|___| 
+       \\ /
+      """)
+
 
 
 if __name__ == "__main__":
