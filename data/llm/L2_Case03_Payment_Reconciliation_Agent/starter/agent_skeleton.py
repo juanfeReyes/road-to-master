@@ -70,16 +70,22 @@ def setup_model():
     temperature=0.0
   )
 
+def extract_header(text: str):
+  import re
+  m = re.search('##(.+?)\\n', text)
+  if m:
+    return m.group(1)
+
 def load_policy():
   global policy_dict
   with open(POLICY, 'r') as file:
     policy = file.read()
-    policy_dict = json.loads(markdown_to_json.jsonify(policy))
-    policy_dict = next(iter(policy_dict.values()))
+    policy_sections = ["##"+sect for sect in policy.split("##")]
+    policy_dict = {extract_header(sect) : sect for sect in policy_sections}
     
 def get_policy_sections(filter_strings: list):
     filtered_dict = {k: v for k, v in policy_dict.items() if any(section in k for section in filter_strings)}
-    return "\n".join([f"{k}\n{v}\n" for k, v in filtered_dict.items()])
+    return "\n".join([f"{v}\n" for k, v in filtered_dict.items()])
 
 def load_payments():
     with open(PAYMENTS) as file:

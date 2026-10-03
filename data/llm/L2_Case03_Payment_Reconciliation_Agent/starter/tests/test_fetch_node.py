@@ -41,15 +41,15 @@ def test_invalid_api_response():
                        amount=33.25, currency="GBP", 
                        settled_date="2026-03-12", method="card", attempts=1)
   expected_fetch_node = {'amount': 33.25,
-  'attempts': 2,
-  'currency': 'GBP',
-  'evidence': 'Validation Error',
-  'ledger_entry': {'error': 'ledger service timeout for ORD-70023'},
-  'method': 'card',
-  'order_ref': 'ORD-70023',
-  'payment_id': 'PAY-4023',
-  'settled_date': '2026-03-12',
-  'status': 'retry'}
+ 'attempt_history': [{'attempt': 2, 'error': 'Validation Error'}],
+ 'attempts': 2,
+ 'currency': 'GBP',
+ 'ledger_entry': {'error': 'ledger service timeout for ORD-70023'},
+ 'method': 'card',
+ 'order_ref': 'ORD-70023',
+ 'payment_id': 'PAY-4023',
+ 'settled_date': '2026-03-12',
+ 'status': 'retry'}
 
   checkpointer = MemorySaver()
   graph = build_graph()
@@ -58,6 +58,7 @@ def test_invalid_api_response():
         payment,
         config={"configurable": {"thread_id": "1"}}
     )
+  pprint(result)
   assert DeepDiff(result, expected_fetch_node) == {}
 
 def test_invalid_validated_response():
@@ -66,9 +67,9 @@ def test_invalid_validated_response():
                        amount=63.2, currency="GBP", 
                        settled_date="2026-03-06", method="card", attempts=1)
   expected_fetch_node = {'amount': 63.2,
+ 'attempt_history': [{'attempt': 2, 'error': 'Validation Error'}],
  'attempts': 2,
  'currency': 'GBP',
- 'evidence': 'Validation Error',
  'ledger_entry': {'data': {'entry': {'amount': 28.2,
                                      'currency': 'GBP',
                                      'entry_id': 'LED-4009',
@@ -89,6 +90,7 @@ def test_invalid_validated_response():
         payment,
         config={"configurable": {"thread_id": "1"}}
     )
+  pprint(result)
   assert DeepDiff(result, expected_fetch_node) == {}
 
 def test_invalid_response_max_attempts_is_escalated():
@@ -97,9 +99,9 @@ def test_invalid_response_max_attempts_is_escalated():
                        amount=63.2, currency="GBP", 
                        settled_date="2026-03-06", method="card", attempts=2)
   expected_fetch_node = {'amount': 63.2,
+ 'attempt_history': [{'attempt': 3, 'error': 'Validation Error'}],
  'attempts': 3,
  'currency': 'GBP',
- 'evidence': 'Validation Error',
  'ledger_entry': {'data': {'entry': {'amount': 28.2,
                                      'currency': 'GBP',
                                      'entry_id': 'LED-4009',
@@ -120,6 +122,7 @@ def test_invalid_response_max_attempts_is_escalated():
         payment,
         config={"configurable": {"thread_id": "1"}}
     )
+  pprint(result)
   assert DeepDiff(result, expected_fetch_node) == {}
 
 def test_ledger_not_found_response():
