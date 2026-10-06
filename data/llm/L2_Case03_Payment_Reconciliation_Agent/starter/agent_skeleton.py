@@ -198,6 +198,7 @@ def fetch_node(state: ReconState) -> ReconState:
                               })
     structured_model = model.with_structured_output(ReconState)
     structured_result = structured_model.invoke(f"Extract response from message {result["messages"][-1].content}")
+    
     return structured_result
 
 def update_store(result: ReconState, runtime: Runtime[Context]):
@@ -279,9 +280,9 @@ def approval_node(state: ReconState) -> ReconState:
     You are interpreter assistant to interpret human decision to approve or reject payment settlement.
 
     Follow instructions:
-    1. If payment settlement is 'escalated' THEN status as 'escalated'
-    2. If payment settlement is 'reconciled' or 'exception' and human decision is approve THEN respond with payment settlement and add status as 'approved'
-    3. If payment settlement is 'reconciled' or 'exception' and human decision is reject THEN respond with payment settlement and status as 'awaiting_approval'
+    1. If payment settlement status is 'escalated' THEN status as 'escalated' and 'exception' as None
+    2. If payment settlement status is 'reconciled' or status is 'exception' and human decision is to **Approve** THEN respond with payment settlement and add status as 'approved'
+    3. If payment settlement status is 'reconciled' or status is 'exception' and human decision is to **Reject** THEN respond with payment settlement and add status as 'awaiting_approval'
 
     Respond with the payment settlement with all fields, status and user answer in markdown format.
     """
@@ -294,9 +295,13 @@ def approval_node(state: ReconState) -> ReconState:
       f.write(f"\n{reconciliation}\n")
 
     structured_model = model.with_structured_output(ReconState)
-    state = structured_model.invoke(f"Respond payment {state} as json with status updated from reconciliation report: {reconciliation}")
+    structured_result = structured_model.invoke(f"""
+    Add status from reconciliation report: 
+    {reconciliation}
 
-    return state
+    To payment as JSON {state}
+    """)
+    return structured_result
 
 
 def escalate_node(state: ReconState) -> ReconState:
@@ -322,6 +327,8 @@ def escalate_node(state: ReconState) -> ReconState:
     with open(ESCALATION_FILE, "a+") as f:
         f.write(f"\n{escalation_message}\n")
     state.update(evidence=f"Please check ESCALATION.md for details.",status="escalated")
+    print("ESCALATE")
+    pprint(state)
     return state
 
 

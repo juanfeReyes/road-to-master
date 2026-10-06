@@ -14,6 +14,7 @@ dependencies = [
     "markdown-to-json>=2.1.2",
     "portkey-ai>=2.3.4",
     "pydantic>=2.13.5",
+    "pytest-html>=4.2.0",
     "pytest-mock>=3.16.0",
 ]
 
@@ -28,3 +29,4 @@ asyncio_mode = "auto"
 pythonpath = [
   "."
 ]
+generate_report_on_test = true
