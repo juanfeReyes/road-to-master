@@ -12,7 +12,7 @@ from langchain.chat_models import BaseChatModel, init_chat_model
 from pydantic import BaseModel, ValidationError
 import markdown_to_json
 import json
-from datetime import date
+from datetime import date, datetime
 import csv
 from langgraph.graph import StateGraph, START, END
 from pprint import pprint
@@ -59,15 +59,23 @@ def setup_model():
       temperature=0.0
     )
 
+  now = datetime.now()
+  now_str = now.strftime("%d%m%Y%H%M%S")
   PORTKEY_API_KEY = os.getenv("PORT_KEY_KEY")
-  portkey_headers = createHeaders(api_key=PORTKEY_API_KEY, provider="azure-openai-eus2")
+  portkey_headers = createHeaders(api_key=PORTKEY_API_KEY,
+                                  provider="azure-openai-eus2",
+                                  trace_id = f"{args.user}_{now_str}",
+                                  metadata={
+                                    "app_env": "l2_production",
+                                    "_user": args.user
+                                  })
   model = init_chat_model(
     model=args.model, 
     model_provider="openai",
     base_url=os.getenv("PORT_KEY_URL"),
     api_key=PORTKEY_API_KEY,
     default_headers=portkey_headers,
-    temperature=0.0
+    temperature=0.0    
   )
 
 def extract_header(text: str):
