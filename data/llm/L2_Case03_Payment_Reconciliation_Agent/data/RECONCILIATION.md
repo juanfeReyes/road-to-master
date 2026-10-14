@@ -1,22 +1,10 @@
 
-```markdown
 # Payment Settlement
 
-- **Title:** PAY-4001 - Payment settlement summary
-- **Reasoning:** Payment PAY-4001 reconciles cleanly with ledger entry FAKE-4001 for order ORD-70001. Amount and currency match exactly, settlement and posting dates align on 2026-03-02, and only one attempt was needed, indicating a straightforward settlement.
+- **Title:** PAY-4005 - Payment settlement summary
+- **Reasoning:** The payment amount and order reference match the ledger entry, and the settled and posted dates align. However, the ledger currency is missing, the payment required three attempts, and all attempts failed with validation errors before escalation.
+- **Evidence:** Payment PAY-4005 for ORD-70005 is GBP 312.75, settled on 2026-03-04 by card. Ledger entry LED-4005 shows amount 312.75 and matching order/date, but currency is null. Status is escalated with note to review ESCALATION.md.
+- **Recommendation:** Reject the payment settlement.
+- **User Answer:** reject
+- **Status:** escalated
 - **Exception:** None
-- **Evidence:** Matched on order_ref ORD-70001; payment and ledger both show 249.99 GBP; same-day settlement and posting; status is reconciled.
-- **Recommendation:** Approved.
-- **Status:** approved
-- **User Answer:** Approve please
-```
-
-## Payment Settlement
-
-- **Title:** PAY-4002 - Payment settlement summary
-- **Reasoning:** The payment matches the ledger entry on order reference, amount, currency, and settled date, so the core settlement details align correctly. However, settlement history already shows another settled payment for the same order, indicating this transaction is not unique.
-- **Exception:** Duplicate settlement
-- **Evidence:** PAY-4002 matches ledger entry FAKE-4001 for ORD-70001, GBP 249.99, posted on 2026-03-02. Existing settled payment PAY-4001 is already recorded for the same order.
-- **Recommendation:** The payment settlement should be rejected.
-- **Status:** awaiting_approval
-- **User Answer:** Reject

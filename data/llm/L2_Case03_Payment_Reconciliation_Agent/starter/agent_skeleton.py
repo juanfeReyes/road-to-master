@@ -266,7 +266,6 @@ def approval_node(state: ReconState) -> ReconState:
     Title: <Payment ID> - Payment settlement summary
 
     Reasoning: <Reasoning>
-    Exception: <Exception class>
     Evidence: <Evidence>
     
     Recommendation: Should the payment settlement be approved or rejected?
@@ -329,14 +328,12 @@ def escalate_node(state: ReconState) -> ReconState:
                           {"role": "user", "content": f"Payment data: {state}"}
                           ])
     
-    escalation_message = result.content
+    escalation_message = result.content[0]["text"]
     ESCALATION_FILE = DATA_DIR / "ESCALATION.md"
 
     with open(ESCALATION_FILE, "a+") as f:
         f.write(f"\n{escalation_message}\n")
     state.update(evidence=f"Please check ESCALATION.md for details.",status="escalated")
-    print("ESCALATE")
-    pprint(state)
     return state
 
 
