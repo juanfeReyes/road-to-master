@@ -385,26 +385,30 @@ def resolve_runtime_model_config(
     )
     return StartupValidationResult("valid", (), runtime_config)
 
-def save_answers(responses: list[GroundedResponse],
+def save_answers(
     args: Namespace):
     from datetime import datetime
     import os
-    today_format = datetime.today().strftime('%Y-%m-%d_%H-%M-%S')
+    import json
+    from pprint import pprint
+    today_format = datetime.today().strftime('%Y%m%d_%H%M%S')
     output_path = str(args.output)
-    response_format = """
-      # Question: {question_id}
-      Question: *{question}*
 
-      Answer: {answer}
-    """
-    report_list = []
-    for response in responses:
-        response_str = response_format.format(question_id=response.record.id, question=response.record.input, answer=response.answer)
-        report_list.append(response_str)
-
-    report = "\n\n".join([item for item in report_list])
-    if not os.path.isdir(output_path):
-        os.makedirs(output_path)
-    with open(f"{output_path}\\report_{today_format}.md", "x") as text_file:
-      text_file.write(report)
+    with open(f"{output_path}\\test_run_{today_format}.json") as f:
+      report_json = json.load(f)
+      test_cases = ([{
+          "question": tc["input"].replace("\\r\\n", "<br/>"),
+          "answer": tc["actualOutput"].replace("\\r\\n", "<br/>"),
+          "success": tc["success"],
+          "metrics": dict(zip([md["name"] for md in tc["metricsData"]], [md["score"] for md in tc["metricsData"]]))
+          }
+                    for tc in report_json["testCases"]])
+      header = """|question|answer|success|Contextual Recall|Contextual Precision|Faithfulness|Answer Relevancy|\n|--------|------|-------|-----------------|--------------------|------------|----------------|"""
+      rows = [f"|{r["question"]}|{r["answer"]}|{r["success"]}|{r["metrics"]["Contextual Recall"]}|{r["metrics"]["Contextual Precision"]}|{r["metrics"]["Faithfulness"]}|{r["metrics"]["Answer Relevancy"]}|" for r in test_cases]
+      
+      report = "\n".join([item for item in rows])
+      if not os.path.isdir(output_path):
+          os.makedirs(output_path)
+      with open(f"{output_path}\\report_{today_format}.md", "x") as text_file:
+        text_file.write(f"{header}\n{report}")
 

@@ -9,7 +9,7 @@ from langchain_graph_retriever.transformers import ShreddingTransformer
 
 from langchain_text_splitters import CharacterTextSplitter, RecursiveCharacterTextSplitter
 
-from .ingestion import chunk_document, discover_documents
+from .ingestion import discover_documents
 from .models import ChunkingConfig, DocumentPassage
 
 from deepagents.backends import StateBackend

@@ -106,7 +106,7 @@ def main(argv: list[str] | None = None) -> int:
             )
 
         # Write report
-        save_answers(responses, args)
+        save_answers(args)
         print(f"Report saved to: {args.output}")
         return 0
     except (OSError, ValueError, RuntimeError) as exc:

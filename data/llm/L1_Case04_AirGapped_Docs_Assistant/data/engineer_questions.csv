@@ -1,5 +1,5 @@
-question_id,engineer_question
-Q01,What torque should I use on the compressor casing bolts?
-Q02,How much lube oil does the system take for a full change?
-Q07,Can I touch the turbine casing two hours after shutdown?
-Q016,When was michael jackson born?
+question_id,engineer_question,expected_output
+Q01,What torque should I use on the compressor casing bolts?,For the Compressor casing bolt the torque is 480 Nm.
+Q02,How much lube oil does the system take for a full change?,To fill the system to the total capacity the recommended amount is given in section 4 as 340 litres
+Q08,Walk me through changing a combustion liner.,Before you start Confirm shutdown and isolation. Check the manual for general safety requirements. First Remove combustion casing cover bolts. Then Support the liner later Remove final fixings and withdraw the liner squarely. Inspect the transition piece seal. Fit the new liner with new bolts. Torque to 95 Nm. Finally Refit the cover. Do not reuse combustion liner bolts. Do not lever against the transition piece.
+Q10,Does this manual cover the fuel skid?,No; this manual does not cover the fuel skid. It only covers field maintenance of the HT-400 industrial gas turbine package.

@@ -102,7 +102,7 @@ uv run l1-assistant evaluate `
   --output .\var\reports\recursive_portkey\
 ```
 
-### Section-Aware Chunking strategy  
+### Markdown-section Chunking strategy  
 
 Semantic chunking uses `langchain-experimental` and a local embedding model:
 
@@ -116,7 +116,7 @@ uv run l1-assistant evaluate `
   --chat-model llama3.2:3b `
   --judge-model gemma:7b `
   --embedding-model bge-m3 `
-  --output .\var\reports\section_local\
+  --output .\var\reports\markdown_section_local\
 ```
 
 #### Portkey  
@@ -130,7 +130,7 @@ uv run l1-assistant evaluate `
   --judge-model @azure-openai-eus2/gpt-5.4 `
   --embedding-model bge-m3 `
   --portkey-url https://portkeygateway.perficient.com/v1 `
-  --output .\var\reports\section_portkey\
+  --output .\var\reports\markdown_section_local\
 ```
 
 Reports record the effective strategy, splitter settings, embedding model,
