@@ -2,7 +2,6 @@ import argparse
 import sys
 from pathlib import Path
 
-from .answering import answer_question
 from .chunking import config_from_args
 from .config import Settings
 from .pipeline import (
@@ -28,6 +27,7 @@ def build_parser() -> argparse.ArgumentParser:
         command.add_argument("--output", type=Path, required=True)
         command.add_argument("--metrics", default="generator,retrieval")
         command.add_argument("--model-source", choices=("local", "portkey"), default="local")
+        command.add_argument("--judge-model-source", choices=("local", "portkey"), default="local")
         command.add_argument("--chat-model", default="llama3.2:3b")
         command.add_argument("--judge-model", default="gemma:7b")
         command.add_argument("--portkey-url", default=None)
@@ -74,10 +74,11 @@ def main(argv: list[str] | None = None) -> int:
         records, dataset_hash = load_evaluation_dataset(dataset_path, args.max_questions)
         # 1. Index documents
         retriever.build(settings.data_dir, getattr(args, "chunking_strategy", "section"), chunking=chunking)
-        
+
         runtime_validation = resolve_runtime_model_config(
             settings,
             args.model_source,
+            args.judge_model_source,
             args.chat_model,
             args.judge_model,
             args.portkey_url,

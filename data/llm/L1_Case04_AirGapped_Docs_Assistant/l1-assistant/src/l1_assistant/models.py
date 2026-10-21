@@ -128,6 +128,7 @@ class PortkeyConnectionConfig:
 @dataclass(frozen=True)
 class EvaluationRuntimeModelConfig:
     model_source: EvaluationModelSource
+    judge_model_source: EvaluationModelSource
     chat_model: EvaluationModelRoleConfig
     judge_model: EvaluationModelRoleConfig
     chunking_strategy: ChunkingStrategy = "section"

@@ -6,11 +6,12 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Iterable
+
+from l1_assistant.answering import agent_answer_question
 from .config import Settings
 
 from sympy import evaluate
 
-from .answering import agent_answer_question, answer_question
 from .evaluation import aggregate_results, build_judge, build_test_case, evaluate_case, metric_definitions
 from .models import (
     EvaluationModelRoleConfig,
@@ -76,30 +77,6 @@ def default_report_path(report_dir: Path = Path("var/reports")) -> Path:
     return report_dir / f"question-report-{timestamp}.csv"
 
 
-def evaluate_questions(
-    questions: Iterable[QuestionRow],
-    retriever: LocalRetriever,
-    chat_model: str,
-) -> list[EvaluationResult]:
-    results = []
-    for question in questions:
-        try:
-            response = answer_question(question.question, retriever, chat_model)
-            results.append(EvaluationResult(
-                id=question.id,
-                question=question.question,
-                answer=response.answer,
-                sources="; ".join(response.sources),
-                score=response.score,
-                score_reason=response.score_reason,
-            ))
-        except (OSError, ValueError, RuntimeError, ConnectionError) as exc:
-            results.append(EvaluationResult(
-                id=question.id,
-                question=question.question,
-                error=str(exc),
-            ))
-    return results
 
 
 def write_report(results: Iterable[EvaluationResult], output_path: Path) -> None:
@@ -266,30 +243,14 @@ def evaluate_dataset_bulk(
     )
     portkey_api_key = settings.portkey_api_key
     output_path = str(args.output)
-    tracing_enabled = args.trace
     judge = build_judge(runtime_config, portkey_api_key)
     threshold=0.7
     faithfulness_metric = FaithfulnessMetric(threshold=threshold,
                                               model=judge,
                                               async_mode=False,
                                               truths_extraction_limit=5)  
-    answer_relevancy_metric = AnswerRelevancyMetric(threshold=threshold, model=judge, flaky=True )
-    contextual_recall_metric = ContextualRecallMetric(
-
-            threshold=threshold,
-            model=judge,
-            include_reason=True,
-            async_mode=False,
-            flaky=True
-        )
-    contextual_precision_metric = ContextualPrecisionMetric(
-            threshold=threshold,
-            model=judge,
-            include_reason=True,
-            async_mode=False,
-            flaky=True
-        )
-
+    answer_relevancy_metric = AnswerRelevancyMetric(threshold=threshold, model=judge )
+    
     test_cases = []
     for response in responses:
       test_case = build_test_case(response.record, response, response.passages)
@@ -297,9 +258,7 @@ def evaluate_dataset_bulk(
       
     from deepeval import evaluate
     from deepeval.evaluate import DisplayConfig, AsyncConfig, CacheConfig, ErrorConfig
-    metrics = [contextual_recall_metric,
-                contextual_precision_metric,
-                faithfulness_metric,
+    metrics = [faithfulness_metric,
                 answer_relevancy_metric]
     evaluate(test_cases, metrics, error_config=ErrorConfig(ignore_errors=True),
               display_config=DisplayConfig(results_folder=output_path),
@@ -309,6 +268,7 @@ def evaluate_dataset_bulk(
 def resolve_runtime_model_config(
     settings,
     model_source: str | None = None,
+    judge_model_source: str | None = None,
     chat_model: str | None = None,
     judge_model: str | None = None,
     portkey_url: str | None = None,
@@ -316,6 +276,7 @@ def resolve_runtime_model_config(
     chunking_config=None,
 ) -> StartupValidationResult:
     source_value = (model_source or settings.model_source or "local").strip().lower()
+    judge_model_source_value = (judge_model_source or settings.judge_model_source or "local").strip().lower()
     messages: list[str] = []
     if source_value not in {"local", "portkey"}:
         return StartupValidationResult("invalid", (f"Unsupported model source: {source_value}",))
@@ -343,7 +304,7 @@ def resolve_runtime_model_config(
             messages.append("Semantic chunking requires an embedding model.")
 
     portkey_config = None
-    if source_value == "portkey":
+    if source_value == "portkey" or judge_model_source_value == "portkey":
         resolved_url = (portkey_url or settings.portkey_url or "").strip()
         if not resolved_url:
             messages.append("Portkey model source requires a gateway URL.")
@@ -362,6 +323,11 @@ def resolve_runtime_model_config(
     runtime_config = EvaluationRuntimeModelConfig(
         model_source=EvaluationModelSource(
             source=source_value,
+            is_default=not bool(model_source),
+            selection_origin=source_origin,
+        ),
+        judge_model_source=EvaluationModelSource(
+            source=judge_model_source_value,
             is_default=not bool(model_source),
             selection_origin=source_origin,
         ),
@@ -391,24 +357,38 @@ def save_answers(
     import os
     import json
     from pprint import pprint
+    from statistics import mean
     today_format = datetime.today().strftime('%Y%m%d_%H%M%S')
     output_path = str(args.output)
 
     with open(f"{output_path}\\test_run_{today_format}.json") as f:
       report_json = json.load(f)
       test_cases = ([{
-          "question": tc["input"].replace("\\r\\n", "<br/>"),
-          "answer": tc["actualOutput"].replace("\\r\\n", "<br/>"),
+          "question": tc["input"].replace("\r\n", "<br/>").replace("\n", "<br/>"),
+          "answer": tc["actualOutput"].replace("\r\n", "<br/>").replace("\n", "<br/>"),
           "success": tc["success"],
-          "metrics": dict(zip([md["name"] for md in tc["metricsData"]], [md["score"] for md in tc["metricsData"]]))
+          "reason": [md.get("reason", False) or "" for md in tc["metricsData"] if md["name"] == "Answer Relevancy"][0].replace("\r\n", "<br/>").replace("\n", "<br/>"),
+          "latency": tc["completionTime"],
+          "metrics": dict(zip([md["name"] for md in tc["metricsData"]], [md.get("score", False) or 0 for md in tc["metricsData"]]))
           }
                     for tc in report_json["testCases"]])
-      header = """|question|answer|success|Contextual Recall|Contextual Precision|Faithfulness|Answer Relevancy|\n|--------|------|-------|-----------------|--------------------|------------|----------------|"""
-      rows = [f"|{r["question"]}|{r["answer"]}|{r["success"]}|{r["metrics"]["Contextual Recall"]}|{r["metrics"]["Contextual Precision"]}|{r["metrics"]["Faithfulness"]}|{r["metrics"]["Answer Relevancy"]}|" for r in test_cases]
+
+      success_value = f"{len([tc for tc in  test_cases if tc["success"] == True])}/{len(test_cases)}"
+      faithfulness_value = mean([tc["metrics"]["Faithfulness"] for tc in test_cases])
+      relevancy_value = mean([tc["metrics"]["Answer Relevancy"] for tc in test_cases])
+      latency = mean([tc["latency"] for tc in test_cases])
+      summary = f"""
+|sucess|Faithfulness|Answer Relevancy|Latency (s)|
+|---|---|---|---|
+| {success_value} | {faithfulness_value} | {relevancy_value} | {latency} |
+      """
+      
+      header = """|question|answer|reason|success|Faithfulness|Answer Relevancy|Latency|\n|--------|------|-------|-------|------------|----------------|----------------|"""
+      rows = [f"|{r["question"]}|{r["answer"]}|{r["reason"]}|{r["success"]}|{r["metrics"]["Faithfulness"]}|{r["metrics"]["Answer Relevancy"]}|{r["latency"]}|" for r in test_cases]
       
       report = "\n".join([item for item in rows])
       if not os.path.isdir(output_path):
           os.makedirs(output_path)
       with open(f"{output_path}\\report_{today_format}.md", "x") as text_file:
-        text_file.write(f"{header}\n{report}")
+        text_file.write(f"# Summary\n{summary}\n\n# Questions\n{header}\n{report}")
 

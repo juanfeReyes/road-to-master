@@ -245,7 +245,8 @@ def aggregate_results(results: list[QuestionEvaluation], definitions: list[Metri
 
 
 def build_judge(runtime_config: EvaluationRuntimeModelConfig, portkey_api_key: str | None = None):
-    if runtime_config.model_source.source == "portkey":
+    if runtime_config.judge_model_source.source == "portkey":
+        print("Loading Portkey Judge")
         if runtime_config.portkey is None or not portkey_api_key:
             raise RuntimeError("Portkey judge configuration is incomplete.")
         return PortkeyJudge(

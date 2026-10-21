@@ -116,7 +116,7 @@ class LocalRetriever:
     def search(self, query):
         """Search and return information about Enfineering manuals for Air-gapped"""
         docs = self.get_docs(query)
-        return "\n\n".join(f"[{doc.metadata}]\n{doc.page_content}" for doc in docs)
+        return "\n\n".join(f"[source: {doc.metadata}]\n{doc.page_content}" for doc in docs)
 
     def get_search_tool(self):
         return StructuredTool.from_function(self.search)

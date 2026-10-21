@@ -47,7 +47,9 @@ uv run l1-assistant evaluate `
   --chunking-strategy fixed --chunk-size 500 --chunk-overlap 100 `
   --model-source local `
   --chat-model llama3.2:3b `
-  --judge-model gemma:7b `
+  --judge-model-source portkey `
+  --judge-model @azure-openai-eus2/gpt-5.4 `
+  --portkey-url https://portkeygateway.perficient.com/v1 `
   --embedding-model bge-m3 `
   --output .\var\reports\fixed-local\
 ```
@@ -60,6 +62,7 @@ uv run l1-assistant evaluate `
   --chunking-strategy fixed --chunk-size 500 --chunk-overlap 100 `
   --model-source portkey `
   --chat-model @azure-openai-eus2/gpt-5.4 `
+  --judge-model-source portkey `
   --judge-model @azure-openai-eus2/gpt-5.4 `
   --embedding-model bge-m3 `
   --portkey-url https://portkeygateway.perficient.com/v1 `
@@ -82,7 +85,9 @@ uv run l1-assistant evaluate `
   --separators "`n`n|`n| |" `
   --model-source local `
   --chat-model llama3.2:3b `
-  --judge-model gemma:7b `
+  --judge-model-source portkey `
+  --judge-model @azure-openai-eus2/gpt-5.4 `
+  --portkey-url https://portkeygateway.perficient.com/v1 `
   --embedding-model bge-m3 `
   --output .\var\reports\recursive_local\
 ```
@@ -96,6 +101,7 @@ uv run l1-assistant evaluate `
   --separators "`n`n|`n| |" `
   --model-source portkey `
   --chat-model @azure-openai-eus2/gpt-5.4 `
+  --judge-model-source portkey `
   --judge-model @azure-openai-eus2/gpt-5.4 `
   --embedding-model bge-m3 `
   --portkey-url https://portkeygateway.perficient.com/v1 `
@@ -114,7 +120,9 @@ uv run l1-assistant evaluate `
   --chunking-strategy section --chunk-size 500 --chunk-overlap 100 `
   --model-source local `
   --chat-model llama3.2:3b `
-  --judge-model gemma:7b `
+  --judge-model-source portkey `
+  --judge-model @azure-openai-eus2/gpt-5.4 `
+  --portkey-url https://portkeygateway.perficient.com/v1 `
   --embedding-model bge-m3 `
   --output .\var\reports\markdown_section_local\
 ```
@@ -127,10 +135,11 @@ uv run l1-assistant evaluate `
   --chunking-strategy section --chunk-size 500 --chunk-overlap 100 `
   --model-source portkey `
   --chat-model @azure-openai-eus2/gpt-5.4 `
+  --judge-model-source portkey `
   --judge-model @azure-openai-eus2/gpt-5.4 `
   --embedding-model bge-m3 `
   --portkey-url https://portkeygateway.perficient.com/v1 `
-  --output .\var\reports\markdown_section_local\
+  --output .\var\reports\markdown_section_portkey\
 ```
 
 Reports record the effective strategy, splitter settings, embedding model,
