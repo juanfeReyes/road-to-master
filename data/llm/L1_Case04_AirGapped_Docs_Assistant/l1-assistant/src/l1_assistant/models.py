@@ -34,7 +34,7 @@ class ChunkingConfig:
     strategy: ChunkingStrategy = "section"
     chunk_size: int = 800
     chunk_overlap: int = 100
-    separators: tuple[str, ...] = ("\n\n", "\n", " ", "")
+    separators: str = ("\n\n", "\n", " ", "")
     breakpoint_threshold_type: str = "percentile"
     breakpoint_threshold_amount: float = 95.0
     embedding_model: str | None = None
@@ -77,11 +77,9 @@ class UserQuestion:
 
 @dataclass
 class GroundedResponse:
+    record: EvaluationRecord
     answer: str
-    sources: list[str]
     passages: list[DocumentPassage]
-    score: float | None = None
-    score_reason: str = "",
     latency: float | None = None
     input_tokens: int | None = None
     output_tokens: int | None = None
@@ -130,6 +128,7 @@ class PortkeyConnectionConfig:
 @dataclass(frozen=True)
 class EvaluationRuntimeModelConfig:
     model_source: EvaluationModelSource
+    judge_model_source: EvaluationModelSource
     chat_model: EvaluationModelRoleConfig
     judge_model: EvaluationModelRoleConfig
     chunking_strategy: ChunkingStrategy = "section"

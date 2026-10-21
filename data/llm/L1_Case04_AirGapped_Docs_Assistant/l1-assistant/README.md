@@ -26,16 +26,14 @@ Provision the configured local embedding and chat model artifacts before disconn
 from the network:
 
 ```powershell
-uv run l1-assistant index --data-dir ..\data --db-dir .\var\chroma
-uv run l1-assistant ask "What safety checks are required before changing the liner?" --data-dir ..\data --db-dir .\var\chroma
-uv run l1-assistant pipeline --questions ..\data\engineer_questions.csv --data-dir ..\data --db-dir .\var\chroma
+ollama pull llama3.2:3b
+ollama pull gemma:7b
+ollama pull bge-m3
 ```
 
-Answers include source filenames and an evidence-support score from `0.00` to `1.00`.
-Questions without supporting passages are explicitly declined. Set `L1_EMBEDDING_MODEL`,
-`L1_CHAT_MODEL`, `L1_DATA_DIR`, and `L1_DB_DIR` to configure local paths/models.
-The pipeline prints one result per question and saves a timestamped CSV under
-`var/reports/`. Use `--output path\to\report.csv` for a deterministic output path.
+```powershell
+uv run l1-assistant pipeline --questions ..\data\engineer_questions.csv --data-dir ..\data --db-dir .\var\chroma --output .\var\reports\questions\
+```
 
 ## Evaluation chunking strategies
 
@@ -45,10 +43,13 @@ The pipeline prints one result per question and saves a timestamped CSV under
 
 ```powershell
 uv run l1-assistant evaluate `
+  --data-dir ..\data --db-dir .\var\chroma `
   --chunking-strategy fixed --chunk-size 500 --chunk-overlap 100 `
   --model-source local `
   --chat-model llama3.2:3b `
-  --judge-model gemma:7b `
+  --judge-model-source portkey `
+  --judge-model @azure-openai-eus2/gpt-5.4 `
+  --portkey-url https://portkeygateway.perficient.com/v1 `
   --embedding-model bge-m3 `
   --output .\var\reports\fixed-local\
 ```
@@ -57,12 +58,15 @@ uv run l1-assistant evaluate `
 
 ```powershell
 uv run l1-assistant evaluate `
+  --data-dir ..\data --db-dir .\var\chroma `
   --chunking-strategy fixed --chunk-size 500 --chunk-overlap 100 `
   --model-source portkey `
   --chat-model @azure-openai-eus2/gpt-5.4 `
+  --judge-model-source portkey `
   --judge-model @azure-openai-eus2/gpt-5.4 `
+  --embedding-model bge-m3 `
   --portkey-url https://portkeygateway.perficient.com/v1 `
-  --output .\var\reports\recursive-portkey\
+  --output .\var\reports\fixed-portkey\
 ```
 
 ### Recursive Chunking strategy
@@ -76,11 +80,14 @@ pipe-separated `--separators`:
 
 ```powershell
 uv run l1-assistant evaluate `
-  --chunking-strategy recursive --chunk-size 800 --chunk-overlap 100 `
+  --data-dir ..\data --db-dir .\var\chroma `
+  --chunking-strategy recursive --chunk-size 500 --chunk-overlap 100 `
   --separators "`n`n|`n| |" `
   --model-source local `
   --chat-model llama3.2:3b `
-  --judge-model gemma:7b `
+  --judge-model-source portkey `
+  --judge-model @azure-openai-eus2/gpt-5.4 `
+  --portkey-url https://portkeygateway.perficient.com/v1 `
   --embedding-model bge-m3 `
   --output .\var\reports\recursive_local\
 ```
@@ -89,16 +96,19 @@ uv run l1-assistant evaluate `
 
 ```powershell
 uv run l1-assistant evaluate `
-  --chunking-strategy recursive --chunk-size 800 --chunk-overlap 100 `
+  --data-dir ..\data --db-dir .\var\chroma `
+  --chunking-strategy recursive --chunk-size 500 --chunk-overlap 100 `
   --separators "`n`n|`n| |" `
   --model-source portkey `
   --chat-model @azure-openai-eus2/gpt-5.4 `
+  --judge-model-source portkey `
   --judge-model @azure-openai-eus2/gpt-5.4 `
+  --embedding-model bge-m3 `
   --portkey-url https://portkeygateway.perficient.com/v1 `
   --output .\var\reports\recursive_portkey\
 ```
 
-### Semantic Chunking strategy  
+### Markdown-section Chunking strategy  
 
 Semantic chunking uses `langchain-experimental` and a local embedding model:
 
@@ -106,29 +116,30 @@ Semantic chunking uses `langchain-experimental` and a local embedding model:
 
 ```powershell
 uv run l1-assistant evaluate `
-  --chunking-strategy semantic `
-  --breakpoint-threshold-type percentile `
-  --breakpoint-threshold-amount 95 `
+  --data-dir ..\data --db-dir .\var\chroma `
+  --chunking-strategy section --chunk-size 500 --chunk-overlap 100 `
   --model-source local `
   --chat-model llama3.2:3b `
-  --judge-model gemma:7b `
-  --embedding-model mxbai-embed-large `
-  --output .\var\reports\semantic_local\
+  --judge-model-source portkey `
+  --judge-model @azure-openai-eus2/gpt-5.4 `
+  --portkey-url https://portkeygateway.perficient.com/v1 `
+  --embedding-model bge-m3 `
+  --output .\var\reports\markdown_section_local\
 ```
 
 #### Portkey  
 
 ```powershell
 uv run l1-assistant evaluate `
-  --chunking-strategy semantic `
-  --breakpoint-threshold-type percentile `
-  --breakpoint-threshold-amount 85 `
+  --data-dir ..\data --db-dir .\var\chroma `
+  --chunking-strategy section --chunk-size 500 --chunk-overlap 100 `
   --model-source portkey `
   --chat-model @azure-openai-eus2/gpt-5.4 `
+  --judge-model-source portkey `
   --judge-model @azure-openai-eus2/gpt-5.4 `
-  --embedding-model mxbai-embed-large `
+  --embedding-model bge-m3 `
   --portkey-url https://portkeygateway.perficient.com/v1 `
-  --output .\var\reports\semantic_portkey\
+  --output .\var\reports\markdown_section_portkey\
 ```
 
 Reports record the effective strategy, splitter settings, embedding model,

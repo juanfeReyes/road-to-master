@@ -118,13 +118,13 @@ def metric_definitions(groups: Iterable[str], thresholds: dict[str, float] | Non
 
 
 def build_test_case(record: EvaluationRecord, response: GroundedResponse,
-                    retrieval_context: list[RetrievedPassage]):
+                    retrieval_context: list[Document]):
     if LLMTestCase is None:
         raise RuntimeError("DeepEval is not installed.")
     values = {
         "input": record.input,
         "actual_output": response.answer,
-        "retrieval_context": [passage.text for passage in retrieval_context],
+        "retrieval_context": [passage.page_content for passage in retrieval_context],
         "completion_time": response.latency,
         "input_token_count": response.input_tokens,
         "output_token_count": response.output_tokens,
@@ -245,7 +245,8 @@ def aggregate_results(results: list[QuestionEvaluation], definitions: list[Metri
 
 
 def build_judge(runtime_config: EvaluationRuntimeModelConfig, portkey_api_key: str | None = None):
-    if runtime_config.model_source.source == "portkey":
+    if runtime_config.judge_model_source.source == "portkey":
+        print("Loading Portkey Judge")
         if runtime_config.portkey is None or not portkey_api_key:
             raise RuntimeError("Portkey judge configuration is incomplete.")
         return PortkeyJudge(

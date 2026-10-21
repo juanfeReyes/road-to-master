@@ -1,3 +1,4 @@
+from argparse import Namespace
 import csv
 import hashlib
 import json
@@ -6,9 +7,11 @@ from datetime import datetime
 from pathlib import Path
 from typing import Iterable
 
+from l1_assistant.answering import agent_answer_question
+from .config import Settings
+
 from sympy import evaluate
 
-from .answering import answer_question, answer_question_for_evaluation
 from .evaluation import aggregate_results, build_judge, build_test_case, evaluate_case, metric_definitions
 from .models import (
     EvaluationModelRoleConfig,
@@ -16,11 +19,13 @@ from .models import (
     EvaluationRecord,
     EvaluationReport,
     EvaluationRuntimeModelConfig,
+    GroundedResponse,
     PortkeyConnectionConfig,
     RetrievedPassage,
     StartupValidationResult,
 )
 from .retrieval import LocalRetriever
+from langchain_core.documents import Document
 
 
 REPORT_FIELDS = ("id", "question", "answer", "sources", "score", "score_reason", "error")
@@ -72,30 +77,6 @@ def default_report_path(report_dir: Path = Path("var/reports")) -> Path:
     return report_dir / f"question-report-{timestamp}.csv"
 
 
-def evaluate_questions(
-    questions: Iterable[QuestionRow],
-    retriever: LocalRetriever,
-    chat_model: str,
-) -> list[EvaluationResult]:
-    results = []
-    for question in questions:
-        try:
-            response = answer_question(question.question, retriever, chat_model)
-            results.append(EvaluationResult(
-                id=question.id,
-                question=question.question,
-                answer=response.answer,
-                sources="; ".join(response.sources),
-                score=response.score,
-                score_reason=response.score_reason,
-            ))
-        except (OSError, ValueError, RuntimeError, ConnectionError) as exc:
-            results.append(EvaluationResult(
-                id=question.id,
-                question=question.question,
-                error=str(exc),
-            ))
-    return results
 
 
 def write_report(results: Iterable[EvaluationResult], output_path: Path) -> None:
@@ -228,140 +209,66 @@ def _load_csv_evaluation_dataset(input_path: Path, max_questions: int | None):
         raise ValueError(f"Evaluation dataset contains no questions: {input_path}")
     return records, digest.hexdigest()
 
+from .tracing import evaluation_trace
 
-def _retrieved_passages(response) -> list[RetrievedPassage]:
-    return [
-        RetrievedPassage(
-            rank=index,
-            passage_id=passage.passage_id,
-            source_id=passage.source_id,
-            text=passage.text,
-        )
-        for index, passage in enumerate(response.passages, start=1)
-    ]
-
-from deepeval.metrics.g_eval import GEvalTemplate
-import textwrap
-class CustomTemplate(GEvalTemplate):
-    @staticmethod
-    def generate_evaluation_steps(parameters: str, criteria: str):
-        return textwrap.dedent(f"""
-            Evaluate {parameters} based on: {criteria}.
-            You must return strictly valid JSON. Do not include markdown codeblocks.
-            Format: {{ "steps": [ "step 1", "step 2" ] }}
-        """)
+def process_data_set(records: list[EvaluationRecord],
+                     retriever: LocalRetriever,
+                     runtime_config: EvaluationRuntimeModelConfig,
+                     settings: Settings,
+                     args: Namespace):
+    tracing_enabled = args.trace
+    portkey_api_key = settings.portkey_api_key
+    responses = []
+    for record in records:
+          with evaluation_trace(tracing_enabled, f"evaluate:{record.id}"):
+              responses.append(agent_answer_question(
+                  record,
+                  retriever,
+                  runtime_config.chat_model.model_name,
+                  runtime_config, portkey_api_key
+              ))
+    return responses            
 
 def evaluate_dataset_bulk(
-    records: list[EvaluationRecord],
-    retriever: LocalRetriever,
+    responses: list[GroundedResponse],
     runtime_config: EvaluationRuntimeModelConfig,
-    portkey_api_key: str | None = None,
-    output_path: str | Path | None = None,
-    thresholds: dict[str, float] | None = None,
-    tracing_enabled: bool = False,
+    settings: Settings,
+    args: Namespace,
 ):
-    from .tracing import evaluation_trace
     from deepeval.metrics import (
-        ContextualRelevancyMetric,
         ContextualRecallMetric,
         ContextualPrecisionMetric,
         FaithfulnessMetric,
         AnswerRelevancyMetric,
     )
-    from deepeval.metrics import GEval
-    from deepeval.test_case import LLMTestCase, SingleTurnParams
+    portkey_api_key = settings.portkey_api_key
+    output_path = str(args.output)
     judge = build_judge(runtime_config, portkey_api_key)
-    faithfulness_metric = FaithfulnessMetric(threshold=0.5,
+    threshold=0.7
+    faithfulness_metric = FaithfulnessMetric(threshold=threshold,
                                               model=judge,
                                               async_mode=False,
                                               truths_extraction_limit=5)  
-    answer_relevancy_metric = AnswerRelevancyMetric(threshold=0.5, model=judge)
-    contextual_relevancy_metric = ContextualRelevancyMetric(
-        threshold=0.5,
-        model=judge,
-        include_reason=True,
-        async_mode=False,
-    )
-    contextual_recall_metric = ContextualRecallMetric(
-            threshold=0.5,
-            model=judge,
-            include_reason=True,
-            async_mode=False,
-        )
-    contextual_precision_metric = ContextualPrecisionMetric(
-            threshold=0.5,
-            model=judge,
-            include_reason=True,
-            async_mode=False,
-        )
-
+    answer_relevancy_metric = AnswerRelevancyMetric(threshold=threshold, model=judge )
+    
     test_cases = []
-    for record in records:
-      try:
-          with evaluation_trace(tracing_enabled, f"evaluate:{record.id}"):
-              print(f"Evaluating question {record.input}...")
-              response = answer_question_for_evaluation(
-                  record.input,
-                  retriever,
-                  runtime_config.chat_model.model_name,
-                  runtime_config, portkey_api_key
-              )
-              test_case = build_test_case(record, response, _retrieved_passages(response))
-              test_cases.append(test_case)
-      except (OSError, RuntimeError, ValueError, ConnectionError) as exc:
-          print(f"Failed to evaluate question {record.input}: {exc}")
-
+    for response in responses:
+      test_case = build_test_case(response.record, response, response.passages)
+      test_cases.append(test_case)
+      
     from deepeval import evaluate
     from deepeval.evaluate import DisplayConfig, AsyncConfig, CacheConfig, ErrorConfig
-    metrics = [contextual_relevancy_metric, 
-                contextual_recall_metric,
-                contextual_precision_metric,
-                faithfulness_metric,
+    metrics = [faithfulness_metric,
                 answer_relevancy_metric]
     evaluate(test_cases, metrics, error_config=ErrorConfig(ignore_errors=True),
-              display_config=DisplayConfig(results_folder=output_path, file_type="md"),
+              display_config=DisplayConfig(results_folder=output_path),
               async_config=AsyncConfig(run_async=False),
               cache_config=CacheConfig(use_cache=False, write_cache=False) )
-
-
-def evaluate_dataset(
-    records: list[EvaluationRecord],
-    retriever: LocalRetriever,
-    runtime_config: EvaluationRuntimeModelConfig,
-    portkey_api_key: str | None = None,
-    groups: Iterable[str] = ("generator", "retrieval"),
-    thresholds: dict[str, float] | None = None,
-    tracing_enabled: bool = False,
-):
-    from .tracing import evaluation_trace
-
-    definitions = metric_definitions(groups, thresholds)
-    judge = build_judge(runtime_config, portkey_api_key)
-    results = []
-    for record in records:
-        try:
-            with evaluation_trace(tracing_enabled, f"evaluate:{record.id}"):
-                print(f"Evaluating question {record.input}...")
-                response = answer_question_for_evaluation(
-                    record.input,
-                    retriever,
-                    runtime_config.chat_model.model_name,
-                    runtime_config, portkey_api_key
-                )
-                results.append(evaluate_case(
-                    record, response.answer, _retrieved_passages(response), judge, definitions
-                ))
-        except (OSError, RuntimeError, ValueError, ConnectionError) as exc:
-            from .models import QuestionEvaluation
-            results.append(QuestionEvaluation(
-                id=record.id, input=record.input, status="failed", error=str(exc)
-            ))
-    return definitions, results, aggregate_results(results, definitions)
-
 
 def resolve_runtime_model_config(
     settings,
     model_source: str | None = None,
+    judge_model_source: str | None = None,
     chat_model: str | None = None,
     judge_model: str | None = None,
     portkey_url: str | None = None,
@@ -369,6 +276,7 @@ def resolve_runtime_model_config(
     chunking_config=None,
 ) -> StartupValidationResult:
     source_value = (model_source or settings.model_source or "local").strip().lower()
+    judge_model_source_value = (judge_model_source or settings.judge_model_source or "local").strip().lower()
     messages: list[str] = []
     if source_value not in {"local", "portkey"}:
         return StartupValidationResult("invalid", (f"Unsupported model source: {source_value}",))
@@ -396,7 +304,7 @@ def resolve_runtime_model_config(
             messages.append("Semantic chunking requires an embedding model.")
 
     portkey_config = None
-    if source_value == "portkey":
+    if source_value == "portkey" or judge_model_source_value == "portkey":
         resolved_url = (portkey_url or settings.portkey_url or "").strip()
         if not resolved_url:
             messages.append("Portkey model source requires a gateway URL.")
@@ -415,6 +323,11 @@ def resolve_runtime_model_config(
     runtime_config = EvaluationRuntimeModelConfig(
         model_source=EvaluationModelSource(
             source=source_value,
+            is_default=not bool(model_source),
+            selection_origin=source_origin,
+        ),
+        judge_model_source=EvaluationModelSource(
+            source=judge_model_source_value,
             is_default=not bool(model_source),
             selection_origin=source_origin,
         ),
@@ -438,19 +351,44 @@ def resolve_runtime_model_config(
     )
     return StartupValidationResult("valid", (), runtime_config)
 
+def save_answers(
+    args: Namespace):
+    from datetime import datetime
+    import os
+    import json
+    from pprint import pprint
+    from statistics import mean
+    today_format = datetime.today().strftime('%Y%m%d_%H%M%S')
+    output_path = str(args.output)
 
-def write_evaluation_report(report: EvaluationReport, output_path: Path) -> None:
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(asdict(report), indent=2), encoding="utf-8")
+    with open(f"{output_path}\\test_run_{today_format}.json") as f:
+      report_json = json.load(f)
+      test_cases = ([{
+          "question": tc["input"].replace("\r\n", "<br/>").replace("\n", "<br/>"),
+          "answer": tc["actualOutput"].replace("\r\n", "<br/>").replace("\n", "<br/>"),
+          "success": tc["success"],
+          "reason": [md.get("reason", False) or "" for md in tc["metricsData"] if md["name"] == "Answer Relevancy"][0].replace("\r\n", "<br/>").replace("\n", "<br/>"),
+          "latency": tc["completionTime"],
+          "metrics": dict(zip([md["name"] for md in tc["metricsData"]], [md.get("score", False) or 0 for md in tc["metricsData"]]))
+          }
+                    for tc in report_json["testCases"]])
 
+      success_value = f"{len([tc for tc in  test_cases if tc["success"] == True])}/{len(test_cases)}"
+      faithfulness_value = mean([tc["metrics"]["Faithfulness"] for tc in test_cases])
+      relevancy_value = mean([tc["metrics"]["Answer Relevancy"] for tc in test_cases])
+      latency = mean([tc["latency"] for tc in test_cases])
+      summary = f"""
+|sucess|Faithfulness|Answer Relevancy|Latency (s)|
+|---|---|---|---|
+| {success_value} | {faithfulness_value} | {relevancy_value} | {latency} |
+      """
+      
+      header = """|question|answer|reason|success|Faithfulness|Answer Relevancy|Latency|\n|--------|------|-------|-------|------------|----------------|----------------|"""
+      rows = [f"|{r["question"]}|{r["answer"]}|{r["reason"]}|{r["success"]}|{r["metrics"]["Faithfulness"]}|{r["metrics"]["Answer Relevancy"]}|{r["latency"]}|" for r in test_cases]
+      
+      report = "\n".join([item for item in rows])
+      if not os.path.isdir(output_path):
+          os.makedirs(output_path)
+      with open(f"{output_path}\\report_{today_format}.md", "x") as text_file:
+        text_file.write(f"# Summary\n{summary}\n\n# Questions\n{header}\n{report}")
 
-def format_evaluation_report(report: EvaluationReport) -> str:
-    lines = [
-        f"Evaluation {report.run_id} ({report.dataset.get('id', 'dataset')})",
-        f"Questions: {report.counts['total']} total, {report.counts['evaluated']} evaluated, "
-        f"{report.counts['failed']} failed",
-    ]
-    for name, aggregate in report.aggregates.items():
-        score = "unavailable" if aggregate["score"] is None else f"{aggregate['score']:.3f}"
-        lines.append(f"{name}: {score} ({aggregate['eligible']}/{aggregate['total']} eligible)")
-    return "\n".join(lines)
