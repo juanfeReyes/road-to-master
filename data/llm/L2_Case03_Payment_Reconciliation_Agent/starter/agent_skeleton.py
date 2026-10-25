@@ -169,9 +169,9 @@ def validate_response(raw: dict) -> dict:
     try:
       return LedgerApiResponse.model_validate(raw)
     except ValidationError as e:
-      return {"error": "Validation Error"}
+      return {"error": "Validation Error", "exception": e}
     except TypeError as e:
-      return {"error": "Type error"}
+      return {"error": "Type error", "exception": e}
 
 def fetch_node(state: ReconState) -> ReconState:
     """Call the ledger service and validate the response.
@@ -253,50 +253,50 @@ def reconcile_node(state: ReconState, runtime: Runtime[Context]) -> ReconState:
         settled_payments = get_settled_payments(runtime)
     return result
 
+@tool
+def human_interrupt(summary: str):
+    """Request input from the user"""
+    return interrupt(f"""
+==================================================
+Payment was not reconciled by the agent :(
+
+Summary:
+{summary}
+
+Do you reconcile?
+==================================================
+    """)
+
 def approval_node(state: ReconState) -> ReconState:
     """the human validation gate. Must genuinely halt, not log and continue."""
     # Generate summary of settlement with exception and evidence
-    
-    SYSTEM_PROMPT = f"""
-    You are a summary assistant to write a summary in text format of the payment settlement.
-    Write a short summary between 50 and 100 words following template:
-    
-    <Template>
-    
-    Title: <Payment ID> - Payment settlement summary
-
-    Reasoning: <Reasoning>
-    Evidence: <Evidence>
-    
-    Recommendation: Should the payment settlement be approved or rejected?
-    </Template>
-    """
-    result = model.invoke([{"role": "system", "content": SYSTEM_PROMPT},
-                          {"role": "user", "content": f"Payment data: {state}"}
-                          ])
-    summary = result.content[-1]["text"]
-    answer = interrupt(f"""
-    =================================================
-    {summary}
-    =================================================
-
-    Do you approve payment settlement?
-    """)
 
     SYSTEM_PROMPT = f"""
-    You are interpreter assistant to interpret human decision to approve or reject payment settlement.
+        You are a reviewer assistant to check the ledger_payment state and return a summary of the state in markdown using the followingi template and capable of requesting input from user if neccesary.
 
-    Follow instructions:
-    1. If payment settlement status is 'escalated' THEN status as 'escalated' and 'exception' as None
-    2. If payment settlement status is 'reconciled' or status is 'exception' and human decision is to **Approve** THEN respond with payment settlement and add status as 'approved'
-    3. If payment settlement status is 'reconciled' or status is 'exception' and human decision is to **Reject** THEN respond with payment settlement and add status as 'awaiting_approval'
+        Call human_interrupt tool to request user decission if the ledger_payment status is not reconciled by sending a partial summary to the user and storing the user response in the final summary in markdown format
+        
+        <Template>
+        
+        Title: <Payment ID> - Payment settlement summary
+    
+        Reasoning: <Reasoning>
+        Evidence: <Evidence>
+        
+        Recommendation: Should the payment settlement be approved or rejected?
+        User decision: <optional_if_tool_called>
+        </Template>
+        """
 
-    Respond with the payment settlement with all fields, status and user answer in markdown format.
-    """
-    result = model.invoke([{"role": "system", "content": SYSTEM_PROMPT},
-                          {"role": "user", "content": f"Payment settlement: {summary} and human decision: {answer}"}
-                          ])
-    reconciliation = result.content[-1]["text"]
+    tools = [human_interrupt]
+    agent = create_agent(model=model,
+                        tools=tools,
+                        system_prompt=SYSTEM_PROMPT)
+    result = agent.invoke({"messages":
+                                   [{"role": "user", "content": f"Create summary and request user input if necessary for ledger_payment: {state}"}]
+                                  })
+    
+    reconciliation = result["messages"][-1].content[-1]['text']
     RECONCILIATION_REPORT_FILE = DATA_DIR / "RECONCILIATION.md"
     with open(RECONCILIATION_REPORT_FILE, "a+") as f:
       f.write(f"\n{reconciliation}\n")
@@ -402,9 +402,12 @@ def run_all():
         if stream.interrupted:
             print(stream.interrupts[0].value)
             decision = input()
+
+            resumed = graph.stream_events(Command(resume=decision), config=config, context=Context(user_id=args.user), version="v3")
+            resumed.output
         
-        resumed = graph.stream_events(Command(resume=decision), config=config, context=Context(user_id=args.user), version="v3")
-        resumed.output
+        
+        print(f"Payment {payment.get('payment_id')} processed")
     print(f"""
       Reconciliation report generated in RECONCILIATION.md.
       Please check ESCALATION.md for any escalated payments.

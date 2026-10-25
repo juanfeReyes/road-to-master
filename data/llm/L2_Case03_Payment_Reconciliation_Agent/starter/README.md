@@ -12,3 +12,10 @@ uv run pytest -s tests/test_fetch_node.py::test_valid_response
 ```sh
 uv run pytest --html=report.html
 ```
+
+# Run Agent
+
+```sh
+v run .\agent_skeleton.py
+
+```
