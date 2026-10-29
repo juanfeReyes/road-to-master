@@ -1,0 +1,32 @@
+[project]
+name = "starter"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "asyncio>=4.0.0",
+    "dotenv>=0.9.9",
+    "langchain>=1.4.2",
+    "langchain-ollama>=1.1.0",
+    "langchain-openai>=1.6.7",
+    "langgraph>=1.2.12",
+    "markdown-to-json>=2.1.2",
+    "portkey-ai>=2.3.4",
+    "pydantic>=2.13.5",
+    "pytest-html>=4.2.0",
+    "pytest-mock>=3.16.0",
+]
+
+[dependency-groups]
+dev = [
+    "deepdiff>=9.1.0",
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = [
+  "."
+]
+generate_report_on_test = true

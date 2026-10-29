@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title id="head-title">report.html</title>
+      <link href="assets\style.css" rel="stylesheet" type="text/css"/>
+  </head>
+  <body>
+    <h1 id="title">report.html</h1>
+    <p>Report generated on 29-Oct-2026 at 17:10:38 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
+        v4.2.0</p>
+    <div id="environment-header">
+      <h2>Environment</h2>
+    </div>
+    <table id="environment"></table>
+    <!-- TEMPLATES -->
+      <template id="template_environment_row">
+      <tr>
+        <td></td>
+        <td></td>
+      </tr>
+    </template>
+    <template id="template_results-table__body--empty">
+      <tbody class="results-table-row">
+        <tr id="not-found-message">
+          <td colspan="4">No results found. Check the filters.</td>
+        </tr>
+      </tbody>
+    </template>
+    <template id="template_results-table__tbody">
+      <tbody class="results-table-row">
+        <tr class="collapsible">
+        </tr>
+        <tr class="extras-row">
+          <td class="extra" colspan="4">
+            <div class="extraHTML"></div>
+            <div class="media">
+              <div class="media-container">
+                  <div class="media-container__nav--left">&lt;</div>
+                  <div class="media-container__viewport">
+                    <img src="" />
+                    <video controls>
+                      <source src="" type="video/mp4">
+                    </video>
+                  </div>
+                  <div class="media-container__nav--right">&gt;</div>
+                </div>
+                <div class="media__name"></div>
+                <div class="media__counter"></div>
+            </div>
+            <div class="logwrapper">
+              <div class="logexpander"></div>
+              <div class="log"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </template>
+    <!-- END TEMPLATES -->
+    <div class="summary">
+      <div class="summary__data">
+        <h2>Summary</h2>
+        <div class="additional-summary prefix">
+        </div>
+        <p class="run-count">21 tests took 00:03:09.</p>
+        <p class="filter">(Un)check the boxes to filter the results.</p>
+        <div class="summary__reload">
+          <div class="summary__reload__button hidden" onclick="location.reload()">
+            <div>There are still tests running. <br />Reload this page to get the latest results!</div>
+          </div>
+        </div>
+        <div class="summary__spacer"></div>
+        <div class="controls">
+          <div class="filters">
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="failed" disabled>
+            <span class="failed">0 Failed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="passed" >
+            <span class="passed">21 Passed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="skipped" disabled>
+            <span class="skipped">0 Skipped,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xfailed" disabled>
+            <span class="xfailed">0 Expected failures,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xpassed" disabled>
+            <span class="xpassed">0 Unexpected passes,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="error" disabled>
+            <span class="error">0 Errors,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="rerun" disabled>
+            <span class="rerun">0 Reruns</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="retried" disabled>
+            <span class="retried">0 Retried,</span>
+          </div>
+          <div class="collapse">
+            <button id="show_all_details">Show all details</button>&nbsp;/&nbsp;<button id="hide_all_details">Hide all details</button>
+          </div>
+        </div>
+      </div>
+      <div class="additional-summary summary">
+      </div>
+      <div class="additional-summary postfix">
+      </div>
+    </div>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable" data-column-type="result">Result</th>
+          <th class="sortable" data-column-type="testId">Test</th>
+          <th class="sortable" data-column-type="duration">Duration</th>
+          <th>Links</th>
+        </tr>
+      </thead>
+    </table>
+  <footer>
+    <div id="data-container" data-jsonblob="{&#34;environment&#34;: {&#34;Python&#34;: &#34;3.14.7&#34;, &#34;Platform&#34;: &#34;Windows-11-10.0.26200-SP0&#34;, &#34;Packages&#34;: {&#34;pytest&#34;: &#34;9.1.1&#34;, &#34;pluggy&#34;: &#34;1.6.0&#34;}, &#34;Plugins&#34;: {&#34;anyio&#34;: &#34;4.15.1&#34;, &#34;langsmith&#34;: &#34;0.14.1&#34;, &#34;html&#34;: &#34;4.2.0&#34;, &#34;metadata&#34;: &#34;3.1.1&#34;, &#34;mock&#34;: &#34;3.16.0&#34;}}, &#34;tests&#34;: {&#34;tests/test_agent_loop.py::test_reconciled_payment_approved_then_approved&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_agent_loop.py::test_reconciled_payment_approved_then_approved&#34;, &#34;duration&#34;: &#34;00:00:14&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_agent_loop.py::test_reconciled_payment_approved_then_approved&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:14&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 249.99,\n &amp;#x27;attempt_history&amp;#x27;: [],\n &amp;#x27;attempts&amp;#x27;: 3,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;evidence&amp;#x27;: &amp;#x27;Matched on order_ref ORD-70001. Payment amount 249.99 equals &amp;#x27;\n             &amp;#x27;ledger amount 249.99 within 0.02 tolerance. Currency matches as &amp;#x27;\n             &amp;#x27;GBP. Ledger posted on 2026-03-02, same day as settlement date &amp;#x27;\n             &amp;#x27;2026-03-02, which is within the 3 calendar day timing window. No &amp;#x27;\n             &amp;#x27;duplicate settlement found in settled payment history.&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;amount&amp;#x27;: 249.99,\n                  &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n                  &amp;#x27;entry_id&amp;#x27;: &amp;#x27;FAKE-4001&amp;#x27;,\n                  &amp;#x27;entry_type&amp;#x27;: &amp;#x27;sale&amp;#x27;,\n                  &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n                  &amp;#x27;posted_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4001&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;approved&amp;#x27;}\n&#34;}], &#34;tests/test_agent_loop.py::test_amount_tolerance_payment_rejected_then_awaiting_approved&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_agent_loop.py::test_amount_tolerance_payment_rejected_then_awaiting_approved&#34;, &#34;duration&#34;: &#34;00:00:17&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_agent_loop.py::test_amount_tolerance_payment_rejected_then_awaiting_approved&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:17&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 249.99,\n &amp;#x27;attempt_history&amp;#x27;: [{&amp;#x27;evidence&amp;#x27;: &amp;#x27;Payment ID: PAY-4001; Order reference: &amp;#x27;\n                                  &amp;#x27;ORD-70001; Payment amount: 249.99 GBP; &amp;#x27;\n                                  &amp;#x27;Ledger entry ID: FAKE-4001; Ledger amount: &amp;#x27;\n                                  &amp;#x27;249.70 GBP; Amount difference: 0.29 GBP; &amp;#x27;\n                                  &amp;#x27;Allowed tolerance: 0.02 GBP; Settled date: &amp;#x27;\n                                  &amp;#x27;2026-03-02; Ledger posted date: 2026-03-02; &amp;#x27;\n                                  &amp;#x27;Method: card; Attempts: 3; Status: &amp;#x27;\n                                  &amp;#x27;exception; Exception class: Amount &amp;#x27;\n                                  &amp;#x27;mismatch; No duplicate settlement indicated &amp;#x27;\n                                  &amp;#x27;in settlement history&amp;#x27;,\n                      &amp;#x27;exception_class&amp;#x27;: &amp;#x27;Amount mismatch&amp;#x27;,\n                      &amp;#x27;reasoning&amp;#x27;: &amp;#x27;Payment PAY-4001 is not reconciled. The &amp;#x27;\n                                   &amp;#x27;payment matches the ledger entry on order &amp;#x27;\n                                   &amp;#x27;reference ORD-70001, the currency matches &amp;#x27;\n                                   &amp;#x27;(GBP), and the settlement date matches the &amp;#x27;\n                                   &amp;#x27;ledger posted date (2026-03-02). However, &amp;#x27;\n                                   &amp;#x27;the payment amount is 249.99 GBP while the &amp;#x27;\n                                   &amp;#x27;ledger entry amount is 249.70 GBP, &amp;#x27;\n                                   &amp;#x27;creating a difference of 0.29, which &amp;#x27;\n                                   &amp;#x27;exceeds the allowed tolerance of 0.02. The &amp;#x27;\n                                   &amp;#x27;ledger payment status is exception with &amp;#x27;\n                                   &amp;#x27;exception class Amount mismatch, so the &amp;#x27;\n                                   &amp;#x27;settlement should not be treated as &amp;#x27;\n                                   &amp;#x27;reconciled.&amp;#x27;,\n                      &amp;#x27;recommendation&amp;#x27;: &amp;#x27;Reject the payment settlement.&amp;#x27;,\n                      &amp;#x27;source&amp;#x27;: &amp;#x27;reconciliation_report&amp;#x27;,\n                      &amp;#x27;status&amp;#x27;: &amp;#x27;exception&amp;#x27;,\n                      &amp;#x27;title&amp;#x27;: &amp;#x27;PAY-4001 - Payment settlement summary&amp;#x27;,\n                      &amp;#x27;user_decision&amp;#x27;: &amp;#x27;Reject&amp;#x27;}],\n &amp;#x27;attempts&amp;#x27;: 3,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;evidence&amp;#x27;: &amp;#x27;Matched payment to ledger entry on order_ref ORD-70001. Currency &amp;#x27;\n             &amp;#x27;matches: GBP = GBP. Amount differs by 0.29 (249.99 vs 249.70), &amp;#x27;\n             &amp;#x27;which exceeds the allowed tolerance of 0.02, so it does not &amp;#x27;\n             &amp;#x27;reconcile. Posting date 2026-03-02 is the same as settled date &amp;#x27;\n             &amp;#x27;2026-03-02, so timing is not an issue. No duplicate settlement &amp;#x27;\n             &amp;#x27;indicated in settled payment history.&amp;#x27;,\n &amp;#x27;exception_class&amp;#x27;: &amp;#x27;Amount mismatch&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;amount&amp;#x27;: 249.7,\n                  &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n                  &amp;#x27;entry_id&amp;#x27;: &amp;#x27;FAKE-4001&amp;#x27;,\n                  &amp;#x27;entry_type&amp;#x27;: &amp;#x27;sale&amp;#x27;,\n                  &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n                  &amp;#x27;posted_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4001&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;exception&amp;#x27;}\n&#34;}], &#34;tests/test_agent_loop.py::test_currency_match_payment_rejected_then_awaiting_approved&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_agent_loop.py::test_currency_match_payment_rejected_then_awaiting_approved&#34;, &#34;duration&#34;: &#34;00:00:15&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_agent_loop.py::test_currency_match_payment_rejected_then_awaiting_approved&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:15&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 249.99,\n &amp;#x27;attempt_history&amp;#x27;: [{&amp;#x27;evidence&amp;#x27;: &amp;#x27;Payment PAY-4001 matches ledger entry &amp;#x27;\n                                  &amp;#x27;FAKE-4001 on order_ref ORD-70001. Amounts &amp;#x27;\n                                  &amp;#x27;reconcile exactly at 249.99, which is &amp;#x27;\n                                  &amp;#x27;within the 0.02 tolerance. Posting date &amp;#x27;\n                                  &amp;#x27;2026-03-02 is the same as settled date &amp;#x27;\n                                  &amp;#x27;2026-03-02, so there is no timing issue. &amp;#x27;\n                                  &amp;#x27;However, currencies differ: payment is GBP &amp;#x27;\n                                  &amp;#x27;while ledger entry is COL. Under the &amp;#x27;\n                                  &amp;#x27;matching policy, currencies must be &amp;#x27;\n                                  &amp;#x27;identical, so this does not reconcile.&amp;#x27;,\n                      &amp;#x27;reasoning&amp;#x27;: &amp;#x27;The payment cannot be considered &amp;#x27;\n                                   &amp;#x27;reconciled. Although the payment and &amp;#x27;\n                                   &amp;#x27;ledger entry match on order reference, &amp;#x27;\n                                   &amp;#x27;amount, and date, the currencies do not &amp;#x27;\n                                   &amp;#x27;match. The payment is recorded in GBP, &amp;#x27;\n                                   &amp;#x27;while the ledger entry is recorded in COL. &amp;#x27;\n                                   &amp;#x27;Per the stated matching policy, currencies &amp;#x27;\n                                   &amp;#x27;must be identical for reconciliation. &amp;#x27;\n                                   &amp;#x27;Since the current ledger_payment status is &amp;#x27;\n                                   &amp;#x27;`exception` and the exception class is &amp;#x27;\n                                   &amp;#x27;`Currency mismatch`, the settlement should &amp;#x27;\n                                   &amp;#x27;not be approved.&amp;#x27;,\n                      &amp;#x27;recommendation&amp;#x27;: &amp;#x27;Reject the payment settlement.&amp;#x27;,\n                      &amp;#x27;title&amp;#x27;: &amp;#x27;PAY-4001 - Payment settlement summary&amp;#x27;,\n                      &amp;#x27;user_decision&amp;#x27;: &amp;#x27;Reject&amp;#x27;}],\n &amp;#x27;attempts&amp;#x27;: 3,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;evidence&amp;#x27;: &amp;#x27;Payment PAY-4001 matches ledger entry FAKE-4001 on order_ref &amp;#x27;\n             &amp;#x27;ORD-70001. Amounts reconcile exactly at 249.99, which is within &amp;#x27;\n             &amp;#x27;the 0.02 tolerance. Posting date 2026-03-02 is the same as &amp;#x27;\n             &amp;#x27;settled date 2026-03-02, so there is no timing issue. However, &amp;#x27;\n             &amp;#x27;currencies differ: payment is GBP while ledger entry is COL. &amp;#x27;\n             &amp;#x27;Under the matching policy, currencies must be identical, so this &amp;#x27;\n             &amp;#x27;does not reconcile.&amp;#x27;,\n &amp;#x27;exception_class&amp;#x27;: &amp;#x27;Currency mismatch&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;amount&amp;#x27;: 249.99,\n                  &amp;#x27;currency&amp;#x27;: &amp;#x27;COL&amp;#x27;,\n                  &amp;#x27;entry_id&amp;#x27;: &amp;#x27;FAKE-4001&amp;#x27;,\n                  &amp;#x27;entry_type&amp;#x27;: &amp;#x27;sale&amp;#x27;,\n                  &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n                  &amp;#x27;posted_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4001&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;rejected&amp;#x27;}\n&#34;}], &#34;tests/test_agent_loop.py::test_ledger_not_found_payment_rejected_then_escalated&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_agent_loop.py::test_ledger_not_found_payment_rejected_then_escalated&#34;, &#34;duration&#34;: &#34;00:00:28&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_agent_loop.py::test_ledger_not_found_payment_rejected_then_escalated&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:28&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 249.99,\n &amp;#x27;attempt_history&amp;#x27;: [{&amp;#x27;attempt&amp;#x27;: 1,\n                      &amp;#x27;error&amp;#x27;: &amp;#x27;Validation Error: 5 validation errors for &amp;#x27;\n                               &amp;#x27;LedgerApiResponse - entry_id: Field required; &amp;#x27;\n                               &amp;#x27;amount: Field required; currency: Field &amp;#x27;\n                               &amp;#x27;required; posted_date: Field required; &amp;#x27;\n                               &amp;#x27;entry_type: Field required&amp;#x27;},\n                     {&amp;#x27;attempt&amp;#x27;: 2,\n                      &amp;#x27;error&amp;#x27;: &amp;#x27;Validation Error: 5 validation errors for &amp;#x27;\n                               &amp;#x27;LedgerApiResponse - entry_id: Field required; &amp;#x27;\n                               &amp;#x27;amount: Field required; currency: Field &amp;#x27;\n                               &amp;#x27;required; posted_date: Field required; &amp;#x27;\n                               &amp;#x27;entry_type: Field required&amp;#x27;},\n                     {&amp;#x27;attempt&amp;#x27;: 3,\n                      &amp;#x27;error&amp;#x27;: &amp;#x27;Validation Error: 5 validation errors for &amp;#x27;\n                               &amp;#x27;LedgerApiResponse - entry_id: Field required; &amp;#x27;\n                               &amp;#x27;amount: Field required; currency: Field &amp;#x27;\n                               &amp;#x27;required; posted_date: Field required; &amp;#x27;\n                               &amp;#x27;entry_type: Field required&amp;#x27;}],\n &amp;#x27;attempts&amp;#x27;: 3,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;evidence&amp;#x27;: &amp;#x27;Please check ESCALATION.md for details.&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;error&amp;#x27;: &amp;#x27;not_found&amp;#x27;, &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4001&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;rejected&amp;#x27;}\n&#34;}], &#34;tests/test_agent_loop.py::test_duplicated_reconcile_payment_approved_then_awaiting_approved&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_agent_loop.py::test_duplicated_reconcile_payment_approved_then_awaiting_approved&#34;, &#34;duration&#34;: &#34;00:00:28&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_agent_loop.py::test_duplicated_reconcile_payment_approved_then_awaiting_approved&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:28&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 249.99,\n &amp;#x27;attempt_history&amp;#x27;: [{&amp;#x27;action&amp;#x27;: &amp;#x27;reconciliation_report_added&amp;#x27;,\n                      &amp;#x27;reasoning&amp;#x27;: &amp;#x27;The payment is not reconciled because its &amp;#x27;\n                                   &amp;#x27;status is exception, specifically &amp;#x27;\n                                   &amp;#x27;classified as Duplicate settlement. &amp;#x27;\n                                   &amp;#x27;Although the payment aligns with the &amp;#x27;\n                                   &amp;#x27;ledger entry on key reconciliation checks, &amp;#x27;\n                                   &amp;#x27;there is already a settled payment &amp;#x27;\n                                   &amp;#x27;(PAY-4001) recorded for the same order &amp;#x27;\n                                   &amp;#x27;reference ORD-70001. Since only one &amp;#x27;\n                                   &amp;#x27;payment is expected for that order, this &amp;#x27;\n                                   &amp;#x27;creates a duplicate settlement risk and &amp;#x27;\n                                   &amp;#x27;supports rejection.&amp;#x27;,\n                      &amp;#x27;recommendation&amp;#x27;: &amp;#x27;Reject the payment settlement&amp;#x27;,\n                      &amp;#x27;title&amp;#x27;: &amp;#x27;PAY-4002 - Payment settlement summary&amp;#x27;,\n                      &amp;#x27;user_decision&amp;#x27;: &amp;#x27;Reject&amp;#x27;}],\n &amp;#x27;attempts&amp;#x27;: 1,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;evidence&amp;#x27;: &amp;#x27;Payment matches ledger entry on order_ref ORD-70001: amount &amp;#x27;\n             &amp;#x27;249.99 equals ledger amount 249.99 within 0.02 tolerance, &amp;#x27;\n             &amp;#x27;currency matches GBP, and ledger posted on 2026-03-02 which is &amp;#x27;\n             &amp;#x27;within 3 calendar days of settlement date 2026-03-02. However, &amp;#x27;\n             &amp;#x27;settled payment history already contains payment_id PAY-4001 for &amp;#x27;\n             &amp;#x27;the same order_ref ORD-70001, so this indicates more than one &amp;#x27;\n             &amp;#x27;payment against the same order where only one is expected.&amp;#x27;,\n &amp;#x27;exception_class&amp;#x27;: &amp;#x27;Duplicate settlement&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;amount&amp;#x27;: 249.99,\n                  &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n                  &amp;#x27;entry_id&amp;#x27;: &amp;#x27;FAKE-4001&amp;#x27;,\n                  &amp;#x27;entry_type&amp;#x27;: &amp;#x27;sale&amp;#x27;,\n                  &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n                  &amp;#x27;posted_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4002&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;rejected&amp;#x27;}\n&#34;}], &#34;tests/test_agent_loop.py::test_escalated_payment_approved_then_approved&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_agent_loop.py::test_escalated_payment_approved_then_approved&#34;, &#34;duration&#34;: &#34;00:00:28&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_agent_loop.py::test_escalated_payment_approved_then_approved&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:28&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 249.99,\n &amp;#x27;attempt_history&amp;#x27;: [{&amp;#x27;attempt&amp;#x27;: 1,\n                      &amp;#x27;error&amp;#x27;: &amp;#x27;Validation Error: currency field required; &amp;#x27;\n                               &amp;#x27;posted_date invalid date or datetime, month &amp;#x27;\n                               &amp;#x27;value is outside expected range of 1-12&amp;#x27;},\n                     {&amp;#x27;attempt&amp;#x27;: 2,\n                      &amp;#x27;error&amp;#x27;: &amp;#x27;Validation Error: currency field required; &amp;#x27;\n                               &amp;#x27;posted_date invalid date or datetime, month &amp;#x27;\n                               &amp;#x27;value is outside expected range of 1-12&amp;#x27;},\n                     {&amp;#x27;attempt&amp;#x27;: 3,\n                      &amp;#x27;error&amp;#x27;: &amp;#x27;Validation Error: currency field required; &amp;#x27;\n                               &amp;#x27;posted_date invalid date or datetime, month &amp;#x27;\n                               &amp;#x27;value is outside expected range of 1-12&amp;#x27;}],\n &amp;#x27;attempts&amp;#x27;: 3,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;evidence&amp;#x27;: &amp;#x27;Please check ESCALATION.md for details.&amp;#x27;,\n &amp;#x27;exception_class&amp;#x27;: &amp;#x27;Validation Error&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;amount&amp;#x27;: 249.7,\n                  &amp;#x27;entry_id&amp;#x27;: &amp;#x27;FAKE-4001&amp;#x27;,\n                  &amp;#x27;entry_type&amp;#x27;: &amp;#x27;sale&amp;#x27;,\n                  &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n                  &amp;#x27;posted_date&amp;#x27;: &amp;#x27;2026-15-02&amp;#x27;},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4001&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;escalated&amp;#x27;}\n&#34;}], &#34;tests/test_escalate_node.py::test_add_escalation_report&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_escalate_node.py::test_add_escalation_report&#34;, &#34;duration&#34;: &#34;00:00:03&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_escalate_node.py::test_add_escalation_report&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:03&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;tests/test_escalate_node.py::test_append_escalation_report&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_escalate_node.py::test_append_escalation_report&#34;, &#34;duration&#34;: &#34;00:00:07&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_escalate_node.py::test_append_escalation_report&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:07&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;tests/test_fetch_node.py::test_valid_response&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_fetch_node.py::test_valid_response&#34;, &#34;duration&#34;: &#34;00:00:04&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_fetch_node.py::test_valid_response&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:04&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}], &#34;tests/test_fetch_node.py::test_invalid_api_response&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_fetch_node.py::test_invalid_api_response&#34;, &#34;duration&#34;: &#34;00:00:05&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_fetch_node.py::test_invalid_api_response&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:05&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 33.25,\n &amp;#x27;attempt_history&amp;#x27;: [{&amp;#x27;attempt&amp;#x27;: 2,\n                      &amp;#x27;error&amp;#x27;: &amp;#x27;Validation Error: 6 validation errors for &amp;#x27;\n                               &amp;#x27;LedgerApiResponse - missing required fields: &amp;#x27;\n                               &amp;#x27;entry_id, order_ref, amount, currency, &amp;#x27;\n                               &amp;#x27;posted_date, entry_type&amp;#x27;}],\n &amp;#x27;attempts&amp;#x27;: 2,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;error&amp;#x27;: &amp;#x27;ledger service timeout for ORD-70023&amp;#x27;},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70023&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4023&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-12&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;retry&amp;#x27;}\n&#34;}], &#34;tests/test_fetch_node.py::test_invalid_validated_response&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_fetch_node.py::test_invalid_validated_response&#34;, &#34;duration&#34;: &#34;00:00:06&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_fetch_node.py::test_invalid_validated_response&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:06&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 63.2,\n &amp;#x27;attempt_history&amp;#x27;: [{&amp;#x27;attempt&amp;#x27;: 2,\n                      &amp;#x27;error&amp;#x27;: &amp;#x27;Validation Error: 6 validation errors for &amp;#x27;\n                               &amp;#x27;LedgerApiResponse; missing required fields at &amp;#x27;\n                               &amp;#x27;top level: entry_id, order_ref, amount, &amp;#x27;\n                               &amp;#x27;currency, posted_date, entry_type&amp;#x27;}],\n &amp;#x27;attempts&amp;#x27;: 2,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;data&amp;#x27;: {&amp;#x27;entry&amp;#x27;: {&amp;#x27;amount&amp;#x27;: 28.2,\n                                     &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n                                     &amp;#x27;entry_id&amp;#x27;: &amp;#x27;LED-4009&amp;#x27;,\n                                     &amp;#x27;entry_type&amp;#x27;: &amp;#x27;sale&amp;#x27;,\n                                     &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70009&amp;#x27;,\n                                     &amp;#x27;posted_date&amp;#x27;: &amp;#x27;2026-03-06&amp;#x27;}},\n                  &amp;#x27;meta&amp;#x27;: {&amp;#x27;schema&amp;#x27;: &amp;#x27;v2&amp;#x27;}},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70009&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4009&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-06&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;retry&amp;#x27;}\n&#34;}], &#34;tests/test_fetch_node.py::test_invalid_response_max_attempts_is_escalated&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_fetch_node.py::test_invalid_response_max_attempts_is_escalated&#34;, &#34;duration&#34;: &#34;00:00:06&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_fetch_node.py::test_invalid_response_max_attempts_is_escalated&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:06&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 63.2,\n &amp;#x27;attempt_history&amp;#x27;: [{&amp;#x27;attempt&amp;#x27;: 3,\n                      &amp;#x27;error&amp;#x27;: &amp;#x27;Validation Error: ledger_response does not &amp;#x27;\n                               &amp;#x27;match expected shape; missing required &amp;#x27;\n                               &amp;#x27;top-level fields entry_id, order_ref, amount, &amp;#x27;\n                               &amp;#x27;currency, posted_date, entry_type. Returned &amp;#x27;\n                               &amp;#x27;nested data.entry structure instead.&amp;#x27;}],\n &amp;#x27;attempts&amp;#x27;: 3,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;data&amp;#x27;: {&amp;#x27;entry&amp;#x27;: {&amp;#x27;amount&amp;#x27;: 28.2,\n                                     &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n                                     &amp;#x27;entry_id&amp;#x27;: &amp;#x27;LED-4009&amp;#x27;,\n                                     &amp;#x27;entry_type&amp;#x27;: &amp;#x27;sale&amp;#x27;,\n                                     &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70009&amp;#x27;,\n                                     &amp;#x27;posted_date&amp;#x27;: &amp;#x27;2026-03-06&amp;#x27;}},\n                  &amp;#x27;meta&amp;#x27;: {&amp;#x27;schema&amp;#x27;: &amp;#x27;v2&amp;#x27;}},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70009&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4009&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-06&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;escalate&amp;#x27;}\n&#34;}], &#34;tests/test_fetch_node.py::test_ledger_not_found_response&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_fetch_node.py::test_ledger_not_found_response&#34;, &#34;duration&#34;: &#34;00:00:04&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_fetch_node.py::test_ledger_not_found_response&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:04&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 249.99,\n &amp;#x27;attempt_history&amp;#x27;: [{&amp;#x27;attempt&amp;#x27;: 2,\n                      &amp;#x27;error&amp;#x27;: &amp;#x27;Validation Error: 5 validation errors for &amp;#x27;\n                               &amp;#x27;LedgerApiResponse - missing required fields: &amp;#x27;\n                               &amp;#x27;entry_id, amount, currency, posted_date, &amp;#x27;\n                               &amp;#x27;entry_type&amp;#x27;}],\n &amp;#x27;attempts&amp;#x27;: 2,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;error&amp;#x27;: &amp;#x27;not_found&amp;#x27;, &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70025&amp;#x27;},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70025&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4025&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;retry&amp;#x27;}\n&#34;}], &#34;tests/test_reconcile_node.py::test_reconcile_record&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_reconcile_node.py::test_reconcile_record&#34;, &#34;duration&#34;: &#34;00:00:02&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_reconcile_node.py::test_reconcile_record&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:02&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 249.99,\n &amp;#x27;attempt_history&amp;#x27;: [],\n &amp;#x27;attempts&amp;#x27;: 2,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;evidence&amp;#x27;: &amp;#x27;Matched on order_ref ORD-70001. Payment amount 249.99 equals &amp;#x27;\n             &amp;#x27;ledger amount 249.99 within 0.02 tolerance. Currency matches: &amp;#x27;\n             &amp;#x27;GBP. Ledger posted_date 2026-03-02 is the same as settled_date &amp;#x27;\n             &amp;#x27;2026-03-02, so timing is valid. No duplicate settlement found in &amp;#x27;\n             &amp;#x27;settled payment history.&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;amount&amp;#x27;: 249.99,\n                  &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n                  &amp;#x27;entry_id&amp;#x27;: &amp;#x27;LED-4001&amp;#x27;,\n                  &amp;#x27;entry_type&amp;#x27;: &amp;#x27;sale&amp;#x27;,\n                  &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n                  &amp;#x27;posted_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4001&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;reconciled&amp;#x27;}\n&#34;}], &#34;tests/test_reconcile_node.py::test_amount_tolerance_failed_record&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_reconcile_node.py::test_amount_tolerance_failed_record&#34;, &#34;duration&#34;: &#34;00:00:03&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_reconcile_node.py::test_amount_tolerance_failed_record&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:03&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 249.8,\n &amp;#x27;attempt_history&amp;#x27;: [],\n &amp;#x27;attempts&amp;#x27;: 2,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;evidence&amp;#x27;: &amp;#x27;Matched payment to ledger on order_ref ORD-70001. Currency &amp;#x27;\n             &amp;#x27;matches: GBP = GBP. Amounts do not reconcile: payment 249.80 vs &amp;#x27;\n             &amp;#x27;ledger 249.99, absolute difference 0.19, which exceeds the &amp;#x27;\n             &amp;#x27;allowed tolerance of 0.02. Posting date 2026-03-02 equals &amp;#x27;\n             &amp;#x27;settled date 2026-03-02, so timing is not an issue. No duplicate &amp;#x27;\n             &amp;#x27;settlement indicated in settled payment history.&amp;#x27;,\n &amp;#x27;exception_class&amp;#x27;: &amp;#x27;Amount mismatch&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;amount&amp;#x27;: 249.99,\n                  &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n                  &amp;#x27;entry_id&amp;#x27;: &amp;#x27;LED-4001&amp;#x27;,\n                  &amp;#x27;entry_type&amp;#x27;: &amp;#x27;sale&amp;#x27;,\n                  &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n                  &amp;#x27;posted_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4001&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;exception&amp;#x27;}\n&#34;}], &#34;tests/test_reconcile_node.py::test_currency_match_failed_record&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_reconcile_node.py::test_currency_match_failed_record&#34;, &#34;duration&#34;: &#34;00:00:03&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_reconcile_node.py::test_currency_match_failed_record&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:03&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 249.99,\n &amp;#x27;attempt_history&amp;#x27;: [],\n &amp;#x27;attempts&amp;#x27;: 2,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;USD&amp;#x27;,\n &amp;#x27;evidence&amp;#x27;: &amp;#x27;Matched on order_ref ORD-70001. Amounts reconcile within &amp;#x27;\n             &amp;#x27;tolerance: payment 249.99 vs ledger 249.99, difference 0.00. &amp;#x27;\n             &amp;#x27;Posting timing also reconciles: settled_date 2026-03-02 and &amp;#x27;\n             &amp;#x27;posted_date 2026-03-02 are within 3 calendar days. However, &amp;#x27;\n             &amp;#x27;currencies differ: payment currency USD vs ledger currency GBP. &amp;#x27;\n             &amp;#x27;Per policy, currencies must be identical for reconciliation, so &amp;#x27;\n             &amp;#x27;this is an exception.&amp;#x27;,\n &amp;#x27;exception_class&amp;#x27;: &amp;#x27;Currency mismatch&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;amount&amp;#x27;: 249.99,\n                  &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n                  &amp;#x27;entry_id&amp;#x27;: &amp;#x27;LED-4001&amp;#x27;,\n                  &amp;#x27;entry_type&amp;#x27;: &amp;#x27;sale&amp;#x27;,\n                  &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n                  &amp;#x27;posted_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4001&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;exception&amp;#x27;}\n&#34;}], &#34;tests/test_reconcile_node.py::test_ledger_not_found_record&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_reconcile_node.py::test_ledger_not_found_record&#34;, &#34;duration&#34;: &#34;00:00:02&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_reconcile_node.py::test_ledger_not_found_record&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:02&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 249.99,\n &amp;#x27;attempt_history&amp;#x27;: [{&amp;#x27;attempt&amp;#x27;: 2, &amp;#x27;error&amp;#x27;: &amp;#x27;Validation Error&amp;#x27;}],\n &amp;#x27;attempts&amp;#x27;: 2,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;evidence&amp;#x27;: &amp;#x27;No ledger entry was found for order_ref ORD-70025, so the &amp;#x27;\n             &amp;#x27;payment cannot be matched. History of settled payments is empty, &amp;#x27;\n             &amp;#x27;so there is no evidence of a duplicate settlement. Amount, &amp;#x27;\n             &amp;#x27;currency, and timing checks cannot be completed because the &amp;#x27;\n             &amp;#x27;ledger entry is missing.&amp;#x27;,\n &amp;#x27;exception_class&amp;#x27;: &amp;#x27;Unmatched payment&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;error&amp;#x27;: &amp;#x27;not_found&amp;#x27;, &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70025&amp;#x27;},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70025&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4025&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;exception&amp;#x27;}\n&#34;}], &#34;tests/test_reconcile_node.py::test_duplicated_reconcile_record&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_reconcile_node.py::test_duplicated_reconcile_record&#34;, &#34;duration&#34;: &#34;00:00:05&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_reconcile_node.py::test_duplicated_reconcile_record&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:05&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 55.21,\n &amp;#x27;attempt_history&amp;#x27;: [],\n &amp;#x27;attempts&amp;#x27;: 2,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;evidence&amp;#x27;: &amp;#x27;Ledger entry matches on order_ref ORD-70001. Amount reconciles &amp;#x27;\n             &amp;#x27;exactly: payment 55.21 vs ledger 55.21, difference 0.00 within &amp;#x27;\n             &amp;#x27;0.02 tolerance. Currency matches: GBP = GBP. Posting timing &amp;#x27;\n             &amp;#x27;reconciles: settled_date 2026-03-02 and posted_date 2026-03-02 &amp;#x27;\n             &amp;#x27;are the same day, within 3 calendar days. However, settled &amp;#x27;\n             &amp;#x27;payment history already contains payment PAY-4001 for the same &amp;#x27;\n             &amp;#x27;order_ref ORD-70001, so this payment represents more than one &amp;#x27;\n             &amp;#x27;settlement against the same order where only one is expected.&amp;#x27;,\n &amp;#x27;exception_class&amp;#x27;: &amp;#x27;Duplicate settlement&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;amount&amp;#x27;: 55.21,\n                  &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n                  &amp;#x27;entry_id&amp;#x27;: &amp;#x27;LED-4001&amp;#x27;,\n                  &amp;#x27;entry_type&amp;#x27;: &amp;#x27;sale&amp;#x27;,\n                  &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n                  &amp;#x27;posted_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70001&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4002&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;exception&amp;#x27;}\n&#34;}], &#34;tests/test_reconcile_node.py::test_negative_amount_should_&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_reconcile_node.py::test_negative_amount_should_&#34;, &#34;duration&#34;: &#34;00:00:03&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_reconcile_node.py::test_negative_amount_should_&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:03&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: -120.0,\n &amp;#x27;attempt_history&amp;#x27;: [],\n &amp;#x27;attempts&amp;#x27;: 2,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;evidence&amp;#x27;: &amp;#x27;Matched on order_ref ORD-70017. Payment amount -120.0 matches &amp;#x27;\n             &amp;#x27;ledger amount -120.0 within tolerance 0.02 (difference 0.00). &amp;#x27;\n             &amp;#x27;Currency matches: GBP. Ledger posted on 2026-03-02, same day as &amp;#x27;\n             &amp;#x27;settlement date 2026-03-02, which is within the 3-calendar-day &amp;#x27;\n             &amp;#x27;timing window. Negative payment is a refund and ledger entry &amp;#x27;\n             &amp;#x27;type is refund, so this is a normal reconciled refund.&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;amount&amp;#x27;: -120.0,\n                  &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n                  &amp;#x27;entry_id&amp;#x27;: &amp;#x27;LED-4017&amp;#x27;,\n                  &amp;#x27;entry_type&amp;#x27;: &amp;#x27;refund&amp;#x27;,\n                  &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70017&amp;#x27;,\n                  &amp;#x27;posted_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70017&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4017&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;reconciled&amp;#x27;}\n&#34;}], &#34;tests/test_reconcile_node.py::test_negative_amount_only_in_payment_should_exception&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_reconcile_node.py::test_negative_amount_only_in_payment_should_exception&#34;, &#34;duration&#34;: &#34;00:00:04&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_reconcile_node.py::test_negative_amount_only_in_payment_should_exception&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:04&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;----------------------------- Captured stdout call -----------------------------\n{&amp;#x27;amount&amp;#x27;: 120.0,\n &amp;#x27;attempt_history&amp;#x27;: [],\n &amp;#x27;attempts&amp;#x27;: 2,\n &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n &amp;#x27;evidence&amp;#x27;: &amp;#x27;Matched on order_ref ORD-70017 and currency GBP matches. &amp;#x27;\n             &amp;#x27;However, payment amount is 120.0 while ledger amount is -120.0, &amp;#x27;\n             &amp;#x27;an absolute difference of 240.0, which exceeds the 0.02 &amp;#x27;\n             &amp;#x27;tolerance. Although the ledger entry is typed as refund, the &amp;#x27;\n             &amp;#x27;payment is not negative; refunds reconcile normally only when &amp;#x27;\n             &amp;#x27;they appear as negative payments with a matching refund ledger &amp;#x27;\n             &amp;#x27;entry. Posted date 2026-03-02 is the same as settled date &amp;#x27;\n             &amp;#x27;2026-03-02, so timing is not the issue.&amp;#x27;,\n &amp;#x27;exception_class&amp;#x27;: &amp;#x27;Amount mismatch&amp;#x27;,\n &amp;#x27;ledger_entry&amp;#x27;: {&amp;#x27;amount&amp;#x27;: -120.0,\n                  &amp;#x27;currency&amp;#x27;: &amp;#x27;GBP&amp;#x27;,\n                  &amp;#x27;entry_id&amp;#x27;: &amp;#x27;LED-4017&amp;#x27;,\n                  &amp;#x27;entry_type&amp;#x27;: &amp;#x27;refund&amp;#x27;,\n                  &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70017&amp;#x27;,\n                  &amp;#x27;posted_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;},\n &amp;#x27;method&amp;#x27;: &amp;#x27;card&amp;#x27;,\n &amp;#x27;order_ref&amp;#x27;: &amp;#x27;ORD-70017&amp;#x27;,\n &amp;#x27;payment_id&amp;#x27;: &amp;#x27;PAY-4017&amp;#x27;,\n &amp;#x27;settled_date&amp;#x27;: &amp;#x27;2026-03-02&amp;#x27;,\n &amp;#x27;status&amp;#x27;: &amp;#x27;exception&amp;#x27;}\n&#34;}], &#34;tests/test_utils.py::test_get_policy&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;tests/test_utils.py::test_get_policy&#34;, &#34;duration&#34;: &#34;1 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;tests/test_utils.py::test_get_policy&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;1 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}]}, &#34;renderCollapsed&#34;: [&#34;passed&#34;], &#34;initialSort&#34;: &#34;result&#34;, &#34;title&#34;: &#34;report.html&#34;}"></div>
+    <script>
+      (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+const { getCollapsedCategory, setCollapsedIds } = require('./storage.js')
+
+class DataManager {
+    setManager(data) {
+        const collapsedCategories = [...getCollapsedCategory(data.renderCollapsed)]
+        const collapsedIds = []
+        const tests = Object.values(data.tests).flat().map((test, index) => {
+            const collapsed = collapsedCategories.includes(test.result.toLowerCase())
+            const id = `test_${index}`
+            if (collapsed) {
+                collapsedIds.push(id)
+            }
+            return {
+                ...test,
+                id,
+                collapsed,
+            }
+        })
+        const dataBlob = { ...data, tests }
+        this.data = { ...dataBlob }
+        this.renderData = { ...dataBlob }
+        setCollapsedIds(collapsedIds)
+    }
+
+    get allData() {
+        return { ...this.data }
+    }
+
+    resetRender() {
+        this.renderData = { ...this.data }
+    }
+
+    setRender(data) {
+        this.renderData.tests = [...data]
+    }
+
+    toggleCollapsedItem(id) {
+        this.renderData.tests = this.renderData.tests.map((test) =>
+            test.id === id ? { ...test, collapsed: !test.collapsed } : test,
+        )
+    }
+
+    set allCollapsed(collapsed) {
+        this.renderData = { ...this.renderData, tests: [...this.renderData.tests.map((test) => (
+            { ...test, collapsed }
+        ))] }
+    }
+
+    get testSubset() {
+        return [...this.renderData.tests]
+    }
+
+    get environment() {
+        return this.renderData.environment
+    }
+
+    get initialSort() {
+        return this.data.initialSort
+    }
+}
+
+module.exports = {
+    manager: new DataManager(),
+}
+
+},{"./storage.js":8}],2:[function(require,module,exports){
+const mediaViewer = require('./mediaviewer.js')
+const templateEnvRow = document.getElementById('template_environment_row')
+const templateResult = document.getElementById('template_results-table__tbody')
+
+function htmlToElements(html) {
+    const temp = document.createElement('template')
+    temp.innerHTML = html
+    return temp.content.childNodes
+}
+
+const find = (selector, elem) => {
+    if (!elem) {
+        elem = document
+    }
+    return elem.querySelector(selector)
+}
+
+const findAll = (selector, elem) => {
+    if (!elem) {
+        elem = document
+    }
+    return [...elem.querySelectorAll(selector)]
+}
+
+const dom = {
+    getStaticRow: (key, value) => {
+        const envRow = templateEnvRow.content.cloneNode(true)
+        const isObj = typeof value === 'object' && value !== null
+        const values = isObj ? Object.keys(value).map((k) => `${k}: ${value[k]}`) : null
+
+        const valuesElement = htmlToElements(
+            values ? `<ul>${values.map((val) => `<li>${val}</li>`).join('')}<ul>` : `<div>${value}</div>`)[0]
+        const td = findAll('td', envRow)
+        td[0].textContent = key
+        td[1].appendChild(valuesElement)
+
+        return envRow
+    },
+    getResultTBody: ({ testId, id, log, extras, resultsTableRow, tableHtml, result, collapsed }) => {
+        const resultBody = templateResult.content.cloneNode(true)
+        resultBody.querySelector('tbody').classList.add(result.toLowerCase())
+        resultBody.querySelector('tbody').id = testId
+        resultBody.querySelector('.collapsible').dataset.id = id
+
+        resultsTableRow.forEach((html) => {
+            const t = document.createElement('template')
+            t.innerHTML = html
+            resultBody.querySelector('.collapsible').appendChild(t.content)
+        })
+
+        if (log) {
+            // Wrap lines starting with "E" with span.error to color those lines red
+            const wrappedLog = log.replace(/^E.*$/gm, (match) => `<span class="error">${match}</span>`)
+            resultBody.querySelector('.log').innerHTML = wrappedLog
+        } else {
+            resultBody.querySelector('.log').remove()
+        }
+
+        if (collapsed) {
+            resultBody.querySelector('.collapsible > .col-result')?.classList.add('collapsed')
+            resultBody.querySelector('.extras-row').classList.add('hidden')
+        } else {
+            resultBody.querySelector('.collapsible > .col-result')?.classList.remove('collapsed')
+        }
+
+        const media = []
+        extras?.forEach(({ name, format_type, content }) => {
+            if (['image', 'video'].includes(format_type)) {
+                media.push({ path: content, name, format_type })
+            }
+
+            if (format_type === 'html') {
+                resultBody.querySelector('.extraHTML').insertAdjacentHTML('beforeend', `<div>${content}</div>`)
+            }
+        })
+        mediaViewer.setup(resultBody, media)
+
+        // Add custom html from the pytest_html_results_table_html hook
+        tableHtml?.forEach((item) => {
+            resultBody.querySelector('td[class="extra"]').insertAdjacentHTML('beforeend', item)
+        })
+
+        return resultBody
+    },
+}
+
+module.exports = {
+    dom,
+    htmlToElements,
+    find,
+    findAll,
+}
+
+},{"./mediaviewer.js":6}],3:[function(require,module,exports){
+const { manager } = require('./datamanager.js')
+const { doSort } = require('./sort.js')
+const storageModule = require('./storage.js')
+
+const getFilteredSubSet = (filter) =>
+    manager.allData.tests.filter(({ result }) => filter.includes(result.toLowerCase()))
+
+const doInitFilter = () => {
+    const currentFilter = storageModule.getVisible()
+    const filteredSubset = getFilteredSubSet(currentFilter)
+    manager.setRender(filteredSubset)
+}
+
+const doFilter = (type, show) => {
+    if (show) {
+        storageModule.showCategory(type)
+    } else {
+        storageModule.hideCategory(type)
+    }
+
+    const currentFilter = storageModule.getVisible()
+    const filteredSubset = getFilteredSubSet(currentFilter)
+    manager.setRender(filteredSubset)
+
+    const sortColumn = storageModule.getSort()
+    doSort(sortColumn, true)
+}
+
+module.exports = {
+    doFilter,
+    doInitFilter,
+}
+
+},{"./datamanager.js":1,"./sort.js":7,"./storage.js":8}],4:[function(require,module,exports){
+const { redraw, bindEvents, renderStatic } = require('./main.js')
+const { doInitFilter } = require('./filter.js')
+const { doInitSort } = require('./sort.js')
+const { manager } = require('./datamanager.js')
+const data = JSON.parse(document.getElementById('data-container').dataset.jsonblob)
+
+function init() {
+    manager.setManager(data)
+    doInitFilter()
+    doInitSort()
+    renderStatic()
+    redraw()
+    bindEvents()
+}
+
+init()
+
+},{"./datamanager.js":1,"./filter.js":3,"./main.js":5,"./sort.js":7}],5:[function(require,module,exports){
+const { dom, find, findAll } = require('./dom.js')
+const { manager } = require('./datamanager.js')
+const { doSort } = require('./sort.js')
+const { doFilter } = require('./filter.js')
+const {
+    getVisible,
+    getCollapsedIds,
+    setCollapsedIds,
+    getSort,
+    getSortDirection,
+    possibleFilters,
+} = require('./storage.js')
+
+const removeChildren = (node) => {
+    while (node.firstChild) {
+        node.removeChild(node.firstChild)
+    }
+}
+
+const renderStatic = () => {
+    const renderEnvironmentTable = () => {
+        const environment = manager.environment
+        const rows = Object.keys(environment).map((key) => dom.getStaticRow(key, environment[key]))
+        const table = document.getElementById('environment')
+        removeChildren(table)
+        rows.forEach((row) => table.appendChild(row))
+    }
+    renderEnvironmentTable()
+}
+
+const addItemToggleListener = (elem) => {
+    elem.addEventListener('click', ({ target }) => {
+        const id = target.parentElement.dataset.id
+        manager.toggleCollapsedItem(id)
+
+        const collapsedIds = getCollapsedIds()
+        if (collapsedIds.includes(id)) {
+            const updated = collapsedIds.filter((item) => item !== id)
+            setCollapsedIds(updated)
+        } else {
+            collapsedIds.push(id)
+            setCollapsedIds(collapsedIds)
+        }
+        redraw()
+    })
+}
+
+const renderContent = (tests) => {
+    const sortAttr = getSort(manager.initialSort)
+    const sortAsc = JSON.parse(getSortDirection())
+    const rows = tests.map(dom.getResultTBody)
+    const table = document.getElementById('results-table')
+    const tableHeader = document.getElementById('results-table-head')
+
+    const newTable = document.createElement('table')
+    newTable.id = 'results-table'
+
+    // remove all sorting classes and set the relevant
+    findAll('.sortable', tableHeader).forEach((elem) => elem.classList.remove('asc', 'desc'))
+    tableHeader.querySelector(`.sortable[data-column-type="${sortAttr}"]`)?.classList.add(sortAsc ? 'desc' : 'asc')
+    newTable.appendChild(tableHeader)
+
+    if (!rows.length) {
+        const emptyTable = document.getElementById('template_results-table__body--empty').content.cloneNode(true)
+        newTable.appendChild(emptyTable)
+    } else {
+        rows.forEach((row) => {
+            if (!!row) {
+                findAll('.collapsible td:not(.col-links', row).forEach(addItemToggleListener)
+                find('.logexpander', row).addEventListener('click',
+                    (evt) => evt.target.parentNode.classList.toggle('expanded'),
+                )
+                newTable.appendChild(row)
+            }
+        })
+    }
+
+    table.replaceWith(newTable)
+}
+
+const renderDerived = () => {
+    const currentFilter = getVisible()
+    possibleFilters.forEach((result) => {
+        const input = document.querySelector(`input[data-test-result="${result}"]`)
+        input.checked = currentFilter.includes(result)
+    })
+}
+
+const bindEvents = () => {
+    const filterColumn = (evt) => {
+        const { target: element } = evt
+        const { testResult } = element.dataset
+
+        doFilter(testResult, element.checked)
+        const collapsedIds = getCollapsedIds()
+        const updated = manager.renderData.tests.map((test) => {
+            return {
+                ...test,
+                collapsed: collapsedIds.includes(test.id),
+            }
+        })
+        manager.setRender(updated)
+        redraw()
+    }
+
+    const header = document.getElementById('environment-header')
+    header.addEventListener('click', () => {
+        const table = document.getElementById('environment')
+        table.classList.toggle('hidden')
+        header.classList.toggle('collapsed')
+    })
+
+    findAll('input[name="filter_checkbox"]').forEach((elem) => {
+        elem.addEventListener('click', filterColumn)
+    })
+
+    findAll('.sortable').forEach((elem) => {
+        elem.addEventListener('click', (evt) => {
+            const { target: element } = evt
+            const { columnType } = element.dataset
+            doSort(columnType)
+            redraw()
+        })
+    })
+
+    document.getElementById('show_all_details').addEventListener('click', () => {
+        manager.allCollapsed = false
+        setCollapsedIds([])
+        redraw()
+    })
+    document.getElementById('hide_all_details').addEventListener('click', () => {
+        manager.allCollapsed = true
+        const allIds = manager.renderData.tests.map((test) => test.id)
+        setCollapsedIds(allIds)
+        redraw()
+    })
+}
+
+const redraw = () => {
+    const { testSubset } = manager
+
+    renderContent(testSubset)
+    renderDerived()
+}
+
+module.exports = {
+    redraw,
+    bindEvents,
+    renderStatic,
+}
+
+},{"./datamanager.js":1,"./dom.js":2,"./filter.js":3,"./sort.js":7,"./storage.js":8}],6:[function(require,module,exports){
+class MediaViewer {
+    constructor(assets) {
+        this.assets = assets
+        this.index = 0
+    }
+
+    nextActive() {
+        this.index = this.index === this.assets.length - 1 ? 0 : this.index + 1
+        return [this.activeFile, this.index]
+    }
+
+    prevActive() {
+        this.index = this.index === 0 ? this.assets.length - 1 : this.index -1
+        return [this.activeFile, this.index]
+    }
+
+    get currentIndex() {
+        return this.index
+    }
+
+    get activeFile() {
+        return this.assets[this.index]
+    }
+}
+
+
+const setup = (resultBody, assets) => {
+    if (!assets.length) {
+        resultBody.querySelector('.media').classList.add('hidden')
+        return
+    }
+
+    const mediaViewer = new MediaViewer(assets)
+    const container = resultBody.querySelector('.media-container')
+    const leftArrow = resultBody.querySelector('.media-container__nav--left')
+    const rightArrow = resultBody.querySelector('.media-container__nav--right')
+    const mediaName = resultBody.querySelector('.media__name')
+    const counter = resultBody.querySelector('.media__counter')
+    const imageEl = resultBody.querySelector('img')
+    const sourceEl = resultBody.querySelector('source')
+    const videoEl = resultBody.querySelector('video')
+
+    const setImg = (media, index) => {
+        if (media?.format_type === 'image') {
+            imageEl.src = media.path
+
+            imageEl.classList.remove('hidden')
+            videoEl.classList.add('hidden')
+        } else if (media?.format_type === 'video') {
+            sourceEl.src = media.path
+
+            videoEl.classList.remove('hidden')
+            imageEl.classList.add('hidden')
+        }
+
+        mediaName.innerText = media?.name
+        counter.innerText = `${index + 1} / ${assets.length}`
+    }
+    setImg(mediaViewer.activeFile, mediaViewer.currentIndex)
+
+    const moveLeft = () => {
+        const [media, index] = mediaViewer.prevActive()
+        setImg(media, index)
+    }
+    const doRight = () => {
+        const [media, index] = mediaViewer.nextActive()
+        setImg(media, index)
+    }
+    const openImg = () => {
+        window.open(mediaViewer.activeFile.path, '_blank')
+    }
+    if (assets.length === 1) {
+        container.classList.add('media-container--fullscreen')
+    } else {
+        leftArrow.addEventListener('click', moveLeft)
+        rightArrow.addEventListener('click', doRight)
+    }
+    imageEl.addEventListener('click', openImg)
+}
+
+module.exports = {
+    setup,
+}
+
+},{}],7:[function(require,module,exports){
+const { manager } = require('./datamanager.js')
+const storageModule = require('./storage.js')
+
+const genericSort = (list, key, ascending, customOrder) => {
+    let sorted
+    if (customOrder) {
+        sorted = list.sort((a, b) => {
+            const aValue = a.result.toLowerCase()
+            const bValue = b.result.toLowerCase()
+
+            const aIndex = customOrder.findIndex((item) => item.toLowerCase() === aValue)
+            const bIndex = customOrder.findIndex((item) => item.toLowerCase() === bValue)
+
+            // Compare the indices to determine the sort order
+            return aIndex - bIndex
+        })
+    } else {
+        sorted = list.sort((a, b) => a[key] === b[key] ? 0 : a[key] > b[key] ? 1 : -1)
+    }
+
+    if (ascending) {
+        sorted.reverse()
+    }
+    return sorted
+}
+
+const durationSort = (list, ascending) => {
+    const parseDuration = (duration) => {
+        if (duration.includes(':')) {
+            // If it's in the format "HH:mm:ss"
+            const [hours, minutes, seconds] = duration.split(':').map(Number)
+            return (hours * 3600 + minutes * 60 + seconds) * 1000
+        } else {
+            // If it's in the format "nnn ms"
+            return parseInt(duration)
+        }
+    }
+    const sorted = list.sort((a, b) => parseDuration(a['duration']) - parseDuration(b['duration']))
+    if (ascending) {
+        sorted.reverse()
+    }
+    return sorted
+}
+
+const doInitSort = () => {
+    const type = storageModule.getSort(manager.initialSort)
+    const ascending = storageModule.getSortDirection()
+    const list = manager.testSubset
+    const initialOrder = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed', 'Skipped', 'Passed']
+
+    storageModule.setSort(type)
+    storageModule.setSortDirection(ascending)
+
+    if (type?.toLowerCase() === 'original') {
+        manager.setRender(list)
+    } else {
+        let sortedList
+        switch (type) {
+        case 'duration':
+            sortedList = durationSort(list, ascending)
+            break
+        case 'result':
+            sortedList = genericSort(list, type, ascending, initialOrder)
+            break
+        default:
+            sortedList = genericSort(list, type, ascending)
+            break
+        }
+        manager.setRender(sortedList)
+    }
+}
+
+const doSort = (type, skipDirection) => {
+    const newSortType = storageModule.getSort(manager.initialSort) !== type
+    const currentAsc = storageModule.getSortDirection()
+    let ascending
+    if (skipDirection) {
+        ascending = currentAsc
+    } else {
+        ascending = newSortType ? false : !currentAsc
+    }
+    storageModule.setSort(type)
+    storageModule.setSortDirection(ascending)
+
+    const list = manager.testSubset
+    const sortedList = type === 'duration' ? durationSort(list, ascending) : genericSort(list, type, ascending)
+    manager.setRender(sortedList)
+}
+
+module.exports = {
+    doInitSort,
+    doSort,
+}
+
+},{"./datamanager.js":1,"./storage.js":8}],8:[function(require,module,exports){
+const possibleFilters = [
+    'passed',
+    'skipped',
+    'failed',
+    'error',
+    'xfailed',
+    'xpassed',
+    'rerun',
+]
+
+const getVisible = () => {
+    const url = new URL(window.location.href)
+    const settings = new URLSearchParams(url.search).get('visible')
+    const lower = (item) => {
+        const lowerItem = item.toLowerCase()
+        if (possibleFilters.includes(lowerItem)) {
+            return lowerItem
+        }
+        return null
+    }
+    return settings === null ?
+        possibleFilters :
+        [...new Set(settings?.split(',').map(lower).filter((item) => item))]
+}
+
+const hideCategory = (categoryToHide) => {
+    const url = new URL(window.location.href)
+    const visibleParams = new URLSearchParams(url.search).get('visible')
+    const currentVisible = visibleParams ? visibleParams.split(',') : [...possibleFilters]
+    const settings = [...new Set(currentVisible)].filter((f) => f !== categoryToHide).join(',')
+
+    url.searchParams.set('visible', settings)
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const showCategory = (categoryToShow) => {
+    if (typeof window === 'undefined') {
+        return
+    }
+    const url = new URL(window.location.href)
+    const currentVisible = new URLSearchParams(url.search).get('visible')?.split(',').filter(Boolean) ||
+        [...possibleFilters]
+    const settings = [...new Set([categoryToShow, ...currentVisible])]
+    const noFilter = possibleFilters.length === settings.length || !settings.length
+
+    noFilter ? url.searchParams.delete('visible') : url.searchParams.set('visible', settings.join(','))
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const getSort = (initialSort) => {
+    const url = new URL(window.location.href)
+    let sort = new URLSearchParams(url.search).get('sort')
+    if (!sort) {
+        sort = initialSort || 'result'
+    }
+    return sort
+}
+
+const setSort = (type) => {
+    const url = new URL(window.location.href)
+    url.searchParams.set('sort', type)
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const getCollapsedCategory = (renderCollapsed) => {
+    let categories
+    if (typeof window !== 'undefined') {
+        const url = new URL(window.location.href)
+        const collapsedItems = new URLSearchParams(url.search).get('collapsed')
+        switch (true) {
+        case !renderCollapsed && collapsedItems === null:
+            categories = ['passed']
+            break
+        case collapsedItems?.length === 0 || /^["']{2}$/.test(collapsedItems):
+            categories = []
+            break
+        case /^all$/.test(collapsedItems) || collapsedItems === null && /^all$/.test(renderCollapsed):
+            categories = [...possibleFilters]
+            break
+        default:
+            categories = collapsedItems?.split(',').map((item) => item.toLowerCase()) || renderCollapsed
+            break
+        }
+    } else {
+        categories = []
+    }
+    return categories
+}
+
+const getSortDirection = () => JSON.parse(sessionStorage.getItem('sortAsc')) || false
+const setSortDirection = (ascending) => sessionStorage.setItem('sortAsc', ascending)
+
+const getCollapsedIds = () => JSON.parse(sessionStorage.getItem('collapsedIds')) || []
+const setCollapsedIds = (list) => sessionStorage.setItem('collapsedIds', JSON.stringify(list))
+
+module.exports = {
+    getVisible,
+    hideCategory,
+    showCategory,
+    getCollapsedIds,
+    setCollapsedIds,
+    getSort,
+    setSort,
+    getSortDirection,
+    setSortDirection,
+    getCollapsedCategory,
+    possibleFilters,
+}
+
+},{}]},{},[4]);
+    </script>
+  </footer>
+  </body>
+</html>
