@@ -16,6 +16,6 @@ uv run pytest --html=report.html
 # Run Agent
 
 ```sh
-v run .\agent_skeleton.py
+uv run .\agent_skeleton.py
 
 ```

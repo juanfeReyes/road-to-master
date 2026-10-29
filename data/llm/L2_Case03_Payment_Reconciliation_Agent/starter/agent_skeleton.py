@@ -327,8 +327,7 @@ def escalate_node(state: ReconState) -> ReconState:
     result = model.invoke([{"role": "system", "content": SYSTEM_PROMPT},
                           {"role": "user", "content": f"Payment data: {state}"}
                           ])
-    
-    escalation_message = result.content[0]["text"]
+    escalation_message = result.content
     ESCALATION_FILE = DATA_DIR / "ESCALATION.md"
 
     with open(ESCALATION_FILE, "a+") as f:
